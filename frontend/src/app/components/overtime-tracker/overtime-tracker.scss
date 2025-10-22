@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+.overtime-tracker {
+  background: var(--color-surface);
+  padding: $spacing-8;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-md);
+
+  .tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-6;
+    flex-wrap: wrap;
+    gap: $spacing-4;
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-semibold;
+      color: var(--color-text);
+    }
+
+    .total {
+      display: flex;
+      gap: $spacing-3;
+      align-items: center;
+
+      .label { font-size: $font-size-sm; color: var(--color-text-muted); }
+      .value { font-size: $font-size-2xl; font-weight: $font-weight-bold; color: var(--color-warning); }
+    }
+  }
+
+  .overtime-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      text-align: left;
+      padding: $spacing-4;
+      border-bottom: $border-width solid var(--color-border);
+    }
+
+    th {
+      font-weight: $font-weight-semibold;
+      color: var(--color-text-muted);
+      font-size: $font-size-sm;
+      text-transform: uppercase;
+    }
+
+    td strong {
+      color: var(--color-warning);
+      font-weight: $font-weight-bold;
+    }
+  }
+}

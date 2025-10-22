@@ -1,1 +1,28 @@
-<p>overtime-tracker works!</p>
+<div class="overtime-tracker">
+  <div class="tracker-header">
+    <h2>Überstunden Tracking</h2>
+    <div class="total">
+      <span class="label">Gesamt Überstunden:</span>
+      <span class="value">{{ getTotalOvertime() }}h</span>
+    </div>
+  </div>
+
+  <table class="overtime-table">
+    <thead>
+      <tr>
+        <th>Mitarbeiter</th>
+        <th>Datum</th>
+        <th>Stunden</th>
+        <th>Grund</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of overtimeEntries">
+        <td>{{ entry.employee }}</td>
+        <td>{{ entry.date | date:'dd.MM.yyyy' }}</td>
+        <td><strong>{{ entry.hours }}h</strong></td>
+        <td>{{ entry.reason }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

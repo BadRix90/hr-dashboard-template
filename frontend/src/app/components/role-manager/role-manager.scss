@@ -1,0 +1,50 @@
+@use 'variables' as *;
+
+.role-manager {
+  background: var(--color-surface);
+  padding: $spacing-8;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-md);
+
+  h2 {
+    margin-bottom: $spacing-6;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+
+  .permissions-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      text-align: left;
+      padding: $spacing-4;
+      border-bottom: $border-width solid var(--color-border);
+    }
+
+    th {
+      font-weight: $font-weight-semibold;
+      color: var(--color-text-muted);
+      font-size: $font-size-sm;
+      text-transform: uppercase;
+      background: var(--color-gray-50);
+    }
+
+    td {
+      color: var(--color-text);
+
+      strong { font-weight: $font-weight-semibold; }
+
+      input[type="checkbox"] {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    tr:hover {
+      background: var(--color-gray-50);
+    }
+  }
+}

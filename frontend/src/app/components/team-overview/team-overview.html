@@ -1,1 +1,36 @@
-<p>team-overview works!</p>
+<div class="team-overview">
+  <div class="overview-header">
+    <h2>Team Übersicht</h2>
+    <div class="summary">
+      <div class="summary-item">
+        <span class="label">Gesamt Stunden:</span>
+        <span class="value">{{ getTotalHours() }}h</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Überstunden:</span>
+        <span class="value">{{ getTotalOvertime() }}h</span>
+      </div>
+    </div>
+  </div>
+
+  <table class="team-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Gearbeitete Stunden</th>
+        <th>Überstunden</th>
+        <th>Urlaub genommen</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let member of team">
+        <td>{{ member.name }}</td>
+        <td>{{ member.hoursWorked }}h</td>
+        <td>{{ member.overtimeHours }}h</td>
+        <td>{{ member.vacationDays }} Tage</td>
+        <td><span class="badge" [class]="member.status">{{ member.status }}</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

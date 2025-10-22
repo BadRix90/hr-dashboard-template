@@ -1,1 +1,40 @@
-<p>role-manager works!</p>
+<div class="role-manager">
+  <h2>Rollen & Berechtigungen</h2>
+  
+  <table class="permissions-table">
+    <thead>
+      <tr>
+        <th>Rolle</th>
+        <th>Zeit bearbeiten</th>
+        <th>Urlaub genehmigen</th>
+        <th>User verwalten</th>
+        <th>Reports ansehen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of roles">
+        <td><strong>{{ role.role }}</strong></td>
+        <td>
+          <input type="checkbox" 
+            [checked]="role.canEditTime" 
+            (change)="togglePermission(role.role, 'canEditTime')">
+        </td>
+        <td>
+          <input type="checkbox" 
+            [checked]="role.canApproveVacation" 
+            (change)="togglePermission(role.role, 'canApproveVacation')">
+        </td>
+        <td>
+          <input type="checkbox" 
+            [checked]="role.canManageUsers" 
+            (change)="togglePermission(role.role, 'canManageUsers')">
+        </td>
+        <td>
+          <input type="checkbox" 
+            [checked]="role.canViewReports" 
+            (change)="togglePermission(role.role, 'canViewReports')">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

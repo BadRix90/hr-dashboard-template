@@ -1,0 +1,22 @@
+@use 'variables' as *;
+
+.page-content {
+  padding: $spacing-6;
+
+  h1 {
+    margin-bottom: $spacing-6;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: $spacing-6;
+    margin-bottom: $spacing-6;
+  }
+
+  .full-width-section {
+    margin-bottom: $spacing-6;
+  }
+}

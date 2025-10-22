@@ -1,0 +1,89 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  background: var(--color-bg);
+}
+
+.login-container {
+  flex: 1;
+  @include flex-center;
+  padding: $spacing-8;
+
+  @include mobile-only {
+    padding: $spacing-4;
+  }
+}
+
+.login-card {
+  @include card-base;
+  padding: $spacing-8;
+  width: 100%;
+  max-width: 420px;
+
+  @include mobile-only {
+    padding: $spacing-6;
+  }
+}
+
+.login-header {
+  margin-bottom: $spacing-8;
+
+  h1 {
+    @include heading-lg;
+    color: var(--color-text);
+    margin: 0 0 $spacing-2 0;
+  }
+
+  p {
+    @include body-base;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+
+    label {
+      @include body-sm;
+      font-weight: $font-weight-semibold;
+      color: var(--color-text);
+    }
+
+    input {
+      @include input-base;
+
+      &.error {
+        border-color: var(--color-error);
+      }
+    }
+
+    .error-message {
+      @include body-sm;
+      color: var(--color-error);
+    }
+  }
+
+  .error-banner {
+    @include card-base;
+    background: rgba(238, 0, 0, 0.05);
+    border: 1px solid var(--color-error);
+    padding: $spacing-4;
+    @include body-sm;
+    color: var(--color-error);
+  }
+
+  .btn-primary {
+    @include button-primary;
+  }
+}

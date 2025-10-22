@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class VacationRequest(models.Model):
     STATUS_CHOICES = [
@@ -14,7 +14,7 @@ class VacationRequest(models.Model):
         ('sonderurlaub', 'Sonderurlaub'),
     ]
     
-    employee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vacation_requests')
+    employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='vacation_requests')
     start_date = models.DateField()
     end_date = models.DateField()
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='urlaub')

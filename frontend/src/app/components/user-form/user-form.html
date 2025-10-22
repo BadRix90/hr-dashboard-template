@@ -1,6 +1,6 @@
 <div class="user-form">
   <h2>Neuer Mitarbeiter</h2>
-  
+
   <form [formGroup]="userForm" (ngSubmit)="submitForm()">
     <div class="form-group">
       <label for="name">Name:</label>
@@ -20,7 +20,9 @@
     <div class="form-group">
       <label for="role">Rolle:</label>
       <select id="role" formControlName="role">
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        <option *ngFor="let role of roles" [value]="role">
+          {{ getRoleLabel(role) }}
+        </option>
       </select>
     </div>
 

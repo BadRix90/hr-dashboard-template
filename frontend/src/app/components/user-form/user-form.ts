@@ -15,7 +15,16 @@ export class UserFormComponent {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
 
-  roles: UserRole[] = ['Admin', 'Manager', 'Mitarbeiter'];
+  roles: UserRole[] = ['admin', 'manager', 'employee'];
+
+getRoleLabel(role: UserRole): string {
+  const labels = {
+    'admin': 'Administrator',
+    'manager': 'Manager',
+    'employee': 'Mitarbeiter'
+  };
+  return labels[role];
+}
   
   userForm: FormGroup = this.fb.group({
     name: ['', Validators.required],

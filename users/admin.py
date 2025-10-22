@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import UserProfile
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import User
 
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'role', 'department', 'vacation_days', 'is_active', 'hire_date']
-    list_filter = ['role', 'is_active', 'department']
-    search_fields = ['user__username', 'user__email', 'department']
-    readonly_fields = ['created_at', 'updated_at']
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    list_display = ['username', 'email', 'role', 'department', 'is_staff']
+    list_filter = ['role', 'is_staff', 'is_active']
+    fieldsets = BaseUserAdmin.fieldsets + (
+        ('HR Information', {'fields': ('role', 'department', 'vacation_days', 'phone', 'hire_date')}),
+    )
+    add_fieldsets = BaseUserAdmin.add_fieldsets + (
+        ('HR Information', {'fields': ('role', 'department', 'vacation_days')}),
+    )

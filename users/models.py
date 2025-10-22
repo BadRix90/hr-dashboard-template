@@ -1,21 +1,27 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
 
-class UserProfile(models.Model):
+class User(AbstractUser):
     ROLE_CHOICES = [
-        ('Admin', 'Admin'),
-        ('Manager', 'Manager'),
-        ('Mitarbeiter', 'Mitarbeiter'),
+        ('admin', 'Administrator'),
+        ('manager', 'Manager'),
+        ('employee', 'Mitarbeiter'),
     ]
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Mitarbeiter')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='employee')
     department = models.CharField(max_length=100, blank=True)
-    hire_date = models.DateField(null=True, blank=True)
     vacation_days = models.IntegerField(default=30)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    phone = models.CharField(max_length=20, blank=True)
+    hire_date = models.DateField(null=True, blank=True)
+    
+    def is_admin(self):
+        return self.role == 'admin'
+    
+    def is_manager(self):
+        return self.role in ['admin', 'manager']
+    
+    class Meta:
+        ordering = ['username']
     
     def __str__(self):
-        return f"{self.user.username} - {self.role}"
+        return f"{self.username} ({self.get_role_display()})"

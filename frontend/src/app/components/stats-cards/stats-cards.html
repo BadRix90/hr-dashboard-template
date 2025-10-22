@@ -1,0 +1,22 @@
+<div class="stats-grid">
+  @for (stat of stats; track stat.title) {
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-title">{{ stat.title }}</span>
+        <lucide-icon [img]="stat.icon" [size]="20" class="stat-icon"></lucide-icon>
+      </div>
+      
+      <div class="stat-body">
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-change" [class.positive]="stat.trend === 'up'" [class.negative]="stat.trend === 'down'">
+          @if (stat.trend === 'up') {
+            <lucide-icon [img]="icons.arrowUp" [size]="14"></lucide-icon>
+          } @else if (stat.trend === 'down') {
+            <lucide-icon [img]="icons.arrowDown" [size]="14"></lucide-icon>
+          }
+          <span>{{ stat.change }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,43 @@
+<div class="time-entry-list">
+  <div class="list-header">
+    <h3>Zeiteinträge</h3>
+    <div class="total-hours">
+      Gesamt: <strong>{{ getTotalHours() }}</strong>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading">Lade Einträge...</div>
+  } @else if (timeEntries.length === 0) {
+    <div class="empty-state">
+      <p>📋 Noch keine Zeiteinträge vorhanden</p>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Projekt</th>
+            <th>Start</th>
+            <th>Ende</th>
+            <th>Dauer</th>
+            <th>Beschreibung</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of timeEntries; track entry.id) {
+            <tr>
+              <td>{{ formatDate(entry.start_time) }}</td>
+              <td><strong>{{ entry.project_name }}</strong></td>
+              <td>{{ formatTime(entry.start_time) }}</td>
+              <td>{{ entry.end_time ? formatTime(entry.end_time) : '—' }}</td>
+              <td>{{ formatDuration(entry.duration_minutes) }}</td>
+              <td class="description">{{ entry.description || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,324 @@
+// ============================================
+// IMPORT VARIABLES
+// ============================================
+@use 'variables' as *;
+
+// ============================================
+// RESPONSIVE BREAKPOINTS
+// ============================================
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+@mixin wide-up {
+  @media (min-width: $breakpoint-wide) {
+    @content;
+  }
+}
+
+// ============================================
+// CONTAINER
+// ============================================
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-4;
+  padding-right: $spacing-4;
+
+  @include tablet-up {
+    padding-left: $spacing-6;
+    padding-right: $spacing-6;
+  }
+
+  @include desktop-up {
+    padding-left: $spacing-8;
+    padding-right: $spacing-8;
+  }
+}
+
+// ============================================
+// FLEXBOX UTILITIES
+// ============================================
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// ============================================
+// TYPOGRAPHY
+// ============================================
+@mixin heading-xl {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.02em;
+
+  @include mobile-only {
+    font-size: $font-size-3xl;
+  }
+}
+
+@mixin heading-lg {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.01em;
+
+  @include mobile-only {
+    font-size: $font-size-2xl;
+  }
+}
+
+@mixin heading-md {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+
+  @include mobile-only {
+    font-size: $font-size-xl;
+  }
+}
+
+@mixin heading-sm {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+
+  @include mobile-only {
+    font-size: $font-size-lg;
+  }
+}
+
+@mixin body-lg {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-relaxed;
+}
+
+@mixin body-base {
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+}
+
+@mixin body-sm {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+}
+
+// ============================================
+// BUTTONS
+// ============================================
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background: var(--color-gray-100);
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background: var(--color-gray-200);
+  }
+}
+
+@mixin button-outline {
+  @include button-base;
+  background: transparent;
+  color: var(--color-primary);
+  border: $border-width-thick solid var(--color-primary);
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-light);
+  }
+}
+
+@mixin button-danger {
+  @include button-base;
+  background: var(--color-error);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background: #DC2626;
+    transform: translateY(-1px);
+  }
+}
+
+// ============================================
+// CARDS
+// ============================================
+@mixin card-base {
+  background: var(--color-surface);
+  border: $border-width solid var(--color-border);
+  border-radius: $radius-lg;
+  box-shadow: var(--shadow-sm);
+}
+
+@mixin card-hover {
+  @include card-base;
+  transition: all $transition-base;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--color-gray-300);
+  }
+}
+
+// ============================================
+// FORMS
+// ============================================
+@mixin input-base {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: $border-width solid var(--color-border);
+  border-radius: $radius-base;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+  }
+
+  &:disabled {
+    background: var(--color-gray-100);
+    cursor: not-allowed;
+  }
+}
+
+@mixin select-base {
+  @include input-base;
+  appearance: none;
+  padding-right: $spacing-10;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right $spacing-3 center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+// ============================================
+// UTILITIES
+// ============================================
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@mixin scrollbar-custom {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-gray-100);
+    border-radius: $radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-gray-400);
+    border-radius: $radius-full;
+
+    &:hover {
+      background: var(--color-gray-500);
+    }
+  }
+}

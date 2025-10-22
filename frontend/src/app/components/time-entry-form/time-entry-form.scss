@@ -1,0 +1,73 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.time-entry-form {
+  @include card-base;
+  padding: $spacing-6;
+  height: 100%;
+
+  h3 {
+    @include heading-md;
+    margin: 0 0 $spacing-6 0;
+    color: var(--color-text);
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  label {
+    @include body-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+
+  input, select, textarea {
+    @include input-base;
+  }
+
+  select {
+    @include select-base;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-4;
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+  }
+}
+
+.duration-display {
+  @include card-base;
+  padding: $spacing-4;
+  background: var(--color-primary-light);
+  border-left: 3px solid var(--color-primary);
+  
+  strong {
+    @include body-base;
+    font-weight: $font-weight-semibold;
+    color: var(--color-primary);
+  }
+}
+
+.btn-submit {
+  @include button-primary;
+  margin-top: $spacing-2;
+}

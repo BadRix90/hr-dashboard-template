@@ -1,0 +1,76 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.timer-container {
+  @include card-base;
+  padding: $spacing-6;
+  height: 100%;
+
+  h2 {
+    @include heading-md;
+    margin: 0 0 $spacing-6 0;
+    color: var(--color-text);
+  }
+}
+
+.timer-controls {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+}
+
+.project-select {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  label {
+    @include body-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+
+  select {
+    @include select-base;
+  }
+}
+
+.timer-actions {
+  display: flex;
+  gap: $spacing-3;
+
+  button {
+    flex: 1;
+  }
+
+  .btn-start {
+    @include button-primary;
+    background: var(--color-success);
+
+    &:hover:not(:disabled) {
+      background: #0066D9;
+    }
+  }
+
+  .btn-stop {
+    @include button-danger;
+  }
+}
+
+.active-timer {
+  @include card-base;
+  padding: $spacing-4;
+  background: var(--color-primary-light);
+  border-left: 3px solid var(--color-primary);
+
+  p {
+    @include body-sm;
+    margin: $spacing-1 0;
+    color: var(--color-text);
+
+    strong {
+      font-weight: $font-weight-semibold;
+      color: var(--color-primary);
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-card {
+  @include card-base;
+  padding: $spacing-5;
+  transition: all $transition-base;
+  border: 1px solid var(--color-border);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+.stat-header {
+  @include flex-between;
+  margin-bottom: $spacing-4;
+
+  .stat-title {
+    @include body-sm;
+    color: var(--color-text-muted);
+    font-weight: $font-weight-medium;
+  }
+
+  .stat-icon {
+    color: var(--color-gray-400);
+  }
+}
+
+.stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.stat-value {
+  @include heading-lg;
+  font-family: $font-family-mono;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.stat-change {
+  @include flex-center;
+  gap: $spacing-1;
+  justify-content: flex-start;
+  @include body-sm;
+  color: var(--color-text-muted);
+
+  lucide-icon {
+    color: inherit;
+  }
+
+  &.positive {
+    color: var(--color-success);
+
+    lucide-icon {
+      color: var(--color-success);
+    }
+  }
+
+  &.negative {
+    color: var(--color-error);
+
+    lucide-icon {
+      color: var(--color-error);
+    }
+  }
+}

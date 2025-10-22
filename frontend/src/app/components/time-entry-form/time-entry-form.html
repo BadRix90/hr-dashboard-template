@@ -1,0 +1,65 @@
+<div class="time-entry-form">
+  <h3>Manuelle Zeitbuchung</h3>
+
+  <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Projekt -->
+    <div class="form-group">
+      <label for="project">Projekt *</label>
+      <select id="project" formControlName="project">
+        <option [value]="null">Projekt wählen...</option>
+        @for (project of projects; track project.id) {
+          <option [value]="project.id">{{ project.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Start -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="startDate">Startdatum *</label>
+        <input type="date" id="startDate" formControlName="startDate">
+      </div>
+      <div class="form-group">
+        <label for="startTime">Startzeit *</label>
+        <input type="time" id="startTime" formControlName="startTime">
+      </div>
+    </div>
+
+    <!-- Ende -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="endDate">Enddatum *</label>
+        <input type="date" id="endDate" formControlName="endDate">
+      </div>
+      <div class="form-group">
+        <label for="endTime">Endzeit *</label>
+        <input type="time" id="endTime" formControlName="endTime">
+      </div>
+    </div>
+
+    <!-- Dauer Anzeige -->
+    <div class="duration-display">
+      <strong>Dauer:</strong> {{ getDuration() }}
+    </div>
+
+    <!-- Beschreibung -->
+    <div class="form-group">
+      <label for="description">Beschreibung</label>
+      <textarea 
+        id="description" 
+        formControlName="description" 
+        rows="3"
+        placeholder="Was wurde gemacht?">
+      </textarea>
+    </div>
+
+    <!-- Submit -->
+    <button 
+      type="submit" 
+      class="btn-submit"
+      [disabled]="entryForm.invalid">
+      Speichern
+    </button>
+  </form>
+</div>

@@ -1,0 +1,120 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.time-entry-list {
+  @include card-base;
+  padding: $spacing-6;
+
+  @include mobile-only {
+    padding: $spacing-4;
+  }
+}
+
+.list-header {
+  @include flex-between;
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-4;
+  border-bottom: 1px solid var(--color-border);
+
+  @include mobile-only {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-3;
+  }
+
+  h3 {
+    @include heading-md;
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .total-hours {
+    @include body-base;
+    color: var(--color-text-muted);
+
+    strong {
+      @include heading-sm;
+      color: var(--color-primary);
+      font-weight: $font-weight-bold;
+      font-family: $font-family-mono;
+    }
+  }
+}
+
+.loading, .empty-state {
+  @include flex-center;
+  padding: $spacing-12;
+  color: var(--color-text-muted);
+
+  @include mobile-only {
+    padding: $spacing-8;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  @include scrollbar-custom;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background: var(--color-bg);
+
+    th {
+      @include body-sm;
+      font-weight: $font-weight-semibold;
+      color: var(--color-text-muted);
+      text-align: left;
+      padding: $spacing-3 $spacing-4;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--color-border);
+      transition: background $transition-fast;
+
+      &:hover {
+        background: var(--color-gray-50);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        @include body-sm;
+        padding: $spacing-4;
+        color: var(--color-text);
+
+        strong {
+          font-weight: $font-weight-semibold;
+          color: var(--color-primary);
+        }
+
+        &.description {
+          color: var(--color-text-muted);
+          font-style: italic;
+          max-width: 250px;
+          @include truncate;
+
+          @include mobile-only {
+            max-width: 150px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include mobile-only {
+  table {
+    th, td {
+      padding: $spacing-2 $spacing-3;
+    }
+  }
+}

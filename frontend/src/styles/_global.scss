@@ -1,0 +1,257 @@
+// ============================================
+// IMPORTS
+// ============================================
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================
+// RESET & BASE
+// ============================================
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: var(--color-text);
+  background: var(--color-bg-secondary);
+  min-height: 100vh;
+}
+
+// ============================================
+// TYPOGRAPHY BASE
+// ============================================
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: var(--color-text);
+}
+
+h1 { @include heading-xl; }
+h2 { @include heading-lg; }
+h3 { @include heading-md; }
+h4 { @include heading-sm; }
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+strong, b {
+  font-weight: $font-weight-semibold;
+}
+
+// ============================================
+// BUTTONS & FORMS RESET
+// ============================================
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+// ============================================
+// LAYOUT UTILITIES
+// ============================================
+.container {
+  @include container;
+}
+
+.section {
+  padding: $spacing-12 0;
+
+  @include mobile-only {
+    padding: $spacing-8 0;
+  }
+}
+
+.card {
+  @include card-base;
+  padding: $spacing-6;
+
+  @include mobile-only {
+    padding: $spacing-4;
+  }
+}
+
+.card-hover {
+  @include card-hover;
+  padding: $spacing-6;
+
+  @include mobile-only {
+    padding: $spacing-4;
+  }
+}
+
+// ============================================
+// FLEX UTILITIES
+// ============================================
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-column {
+  @include flex-column;
+}
+
+.gap-2 { gap: $spacing-2; }
+.gap-4 { gap: $spacing-4; }
+.gap-6 { gap: $spacing-6; }
+.gap-8 { gap: $spacing-8; }
+
+// ============================================
+// SPACING UTILITIES
+// ============================================
+.mt-2 { margin-top: $spacing-2; }
+.mt-4 { margin-top: $spacing-4; }
+.mt-6 { margin-top: $spacing-6; }
+.mt-8 { margin-top: $spacing-8; }
+.mt-12 { margin-top: $spacing-12; }
+
+.mb-2 { margin-bottom: $spacing-2; }
+.mb-4 { margin-bottom: $spacing-4; }
+.mb-6 { margin-bottom: $spacing-6; }
+.mb-8 { margin-bottom: $spacing-8; }
+.mb-12 { margin-bottom: $spacing-12; }
+
+.pt-4 { padding-top: $spacing-4; }
+.pt-8 { padding-top: $spacing-8; }
+.pb-4 { padding-bottom: $spacing-4; }
+.pb-8 { padding-bottom: $spacing-8; }
+
+// ============================================
+// TEXT UTILITIES
+// ============================================
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.text-muted { color: var(--color-text-muted); }
+.text-primary { color: var(--color-primary); }
+.text-success { color: var(--color-success); }
+.text-error { color: var(--color-error); }
+
+.text-sm { @include body-sm; }
+.text-base { @include body-base; }
+.text-lg { @include body-lg; }
+
+.font-medium { font-weight: $font-weight-medium; }
+.font-semibold { font-weight: $font-weight-semibold; }
+.font-bold { font-weight: $font-weight-bold; }
+
+.truncate { @include truncate; }
+
+// ============================================
+// VISIBILITY UTILITIES
+// ============================================
+.sr-only {
+  @include visually-hidden;
+}
+
+@include mobile-only {
+  .hide-mobile { display: none !important; }
+}
+
+@include tablet-up {
+  .show-mobile { display: none !important; }
+}
+
+// ============================================
+// STATUS BADGES
+// ============================================
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-full;
+  white-space: nowrap;
+}
+
+.badge-primary {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.badge-success {
+  background: #D1FAE5;
+  color: var(--color-success);
+}
+
+.badge-warning {
+  background: #FEF3C7;
+  color: var(--color-warning);
+}
+
+.badge-error {
+  background: #FEE2E2;
+  color: var(--color-error);
+}
+
+// ============================================
+// LOADING STATE
+// ============================================
+.loading {
+  @include flex-center;
+  padding: $spacing-8;
+  color: var(--color-text-muted);
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-gray-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ============================================
+// SCROLLBAR STYLING
+// ============================================
+* {
+  @include scrollbar-custom;
+}

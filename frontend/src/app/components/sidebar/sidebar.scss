@@ -1,0 +1,219 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// Backdrop (mobile only)
+.sidebar-backdrop {
+  display: none;
+
+  @include mobile-only {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: $z-modal-backdrop;
+    animation: fadeIn $transition-base;
+  }
+
+  @include tablet-up {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// Sidebar
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: var(--color-primary);
+  border-right: 1px solid var(--color-gray-800);
+  display: flex;
+  flex-direction: column;
+  z-index: $z-fixed;
+  transition: none;
+
+  @include mobile-only {
+    width: 280px;
+    transform: translateX(-100%);
+    z-index: $z-modal;
+    transition: transform $transition-base;
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  @include tablet-up {
+    transform: translateX(0) !important;
+    transition: none;
+  }
+}
+
+// Header
+.sidebar-header {
+  @include flex-between;
+  padding: $spacing-6 $spacing-5;
+  border-bottom: 1px solid var(--color-gray-800);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  color: var(--color-text-inverse);
+
+  lucide-icon {
+    color: var(--color-text-inverse);
+  }
+
+  .logo-text {
+    @include body-base;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// Close Button (mobile only)
+.close-btn {
+  display: none;
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: $radius-base;
+  cursor: pointer;
+  transition: background $transition-fast;
+
+  lucide-icon {
+    color: var(--color-text-inverse);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  @include mobile-only {
+    .sidebar.open & {
+      display: flex;
+    }
+  }
+
+  @include tablet-up {
+    display: none;
+  }
+}
+
+// Navigation
+.sidebar-nav {
+  flex: 1;
+  padding: $spacing-4 $spacing-3;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  overflow-y: auto;
+  @include scrollbar-custom;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3 $spacing-4;
+  color: var(--color-gray-400);
+  border-radius: $radius-base;
+  transition: all $transition-fast;
+  text-decoration: none;
+  cursor: pointer;
+
+  lucide-icon {
+    color: var(--color-gray-400);
+    flex-shrink: 0;
+  }
+
+  .nav-label {
+    @include body-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-inverse);
+
+    lucide-icon {
+      color: var(--color-text-inverse);
+    }
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-inverse);
+
+    lucide-icon {
+      color: var(--color-text-inverse);
+    }
+  }
+}
+
+// Footer
+.sidebar-footer {
+  padding: $spacing-4 $spacing-3;
+  border-top: 1px solid var(--color-gray-800);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  border-radius: $radius-base;
+  cursor: pointer;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.user-avatar {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  background: var(--color-gray-700);
+  color: var(--color-text-inverse);
+  border-radius: $radius-full;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+
+  .user-name {
+    @include body-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-inverse);
+    line-height: 1.2;
+  }
+
+  .user-role {
+    @include body-sm;
+    color: var(--color-gray-400);
+    font-size: $font-size-xs;
+  }
+}

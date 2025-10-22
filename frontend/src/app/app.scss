@@ -1,0 +1,134 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--color-bg);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 240px;
+    display: flex;
+    flex-direction: column;
+
+    @include mobile-only {
+        margin-left: 0;
+    }
+
+    @include tablet-up {
+        margin-left: 240px;
+    }
+}
+
+// Header
+.page-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: $z-sticky;
+}
+
+.header-content {
+    @include flex-between;
+    padding: $spacing-5 $spacing-8;
+
+    @include mobile-only {
+        padding: $spacing-4;
+    }
+
+    h1 {
+        @include heading-lg;
+        margin: 0;
+        color: var(--color-text);
+
+        @include mobile-only {
+            @include heading-md;
+        }
+    }
+}
+
+.burger-btn {
+    display: none;
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-base;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    lucide-icon {
+        color: var(--color-text);
+    }
+
+    &:hover {
+        background: var(--color-gray-100);
+    }
+
+    @include mobile-only {
+        display: flex;
+    }
+
+    @include tablet-up {
+        display: none;
+    }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+}
+
+.user-badge {
+    @include body-sm;
+    padding: $spacing-2 $spacing-4;
+    background: var(--color-gray-100);
+    color: var(--color-text);
+    border-radius: $radius-full;
+    font-weight: $font-weight-medium;
+
+    @include mobile-only {
+        display: none;
+    }
+}
+
+// Dashboard Container
+.dashboard-container {
+    flex: 1;
+    padding: $spacing-8;
+
+    @include mobile-only {
+        padding: $spacing-4;
+    }
+}
+
+// Content Grid
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-6;
+    margin-bottom: $spacing-6;
+
+    @include mobile-only {
+        grid-template-columns: 1fr;
+        gap: $spacing-4;
+    }
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.grid-item {
+    min-height: 400px;
+}
+
+.table-section {
+    margin-top: $spacing-6;
+}

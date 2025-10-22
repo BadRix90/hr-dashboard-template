@@ -1,0 +1,41 @@
+<!-- Backdrop (mobile only) -->
+@if (isOpen) {
+  <div class="sidebar-backdrop" (click)="closeSidebar()"></div>
+}
+
+<aside class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-header">
+    <div class="logo">
+      <lucide-icon [img]="icons.clock" [size]="24"></lucide-icon>
+      <span class="logo-text">TimeTrack</span>
+    </div>
+    
+    <!-- Close Button (mobile only) -->
+    <button class="close-btn" (click)="closeSidebar()">
+      <lucide-icon [img]="icons.x" [size]="24"></lucide-icon>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    @for (item of navItems; track item.route) {
+      <a 
+        [routerLink]="item.route" 
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()">
+        <lucide-icon [img]="item.icon" [size]="20"></lucide-icon>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-profile">
+      <div class="user-avatar">K</div>
+      <div class="user-info">
+        <div class="user-name">Kay Dietrich</div>
+        <div class="user-role">Admin</div>
+      </div>
+    </div>
+  </div>
+</aside>

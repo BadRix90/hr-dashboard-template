@@ -1,0 +1,42 @@
+<div class="timer-container">
+  <h2>Zeit-Tracking</h2>
+
+  <div class="timer-controls">
+    <div class="project-select">
+      <label for="project">Projekt:</label>
+      <select 
+        id="project" 
+        [(ngModel)]="selectedProjectId" 
+        [disabled]="isRunning">
+        <option [value]="null">Projekt wählen...</option>
+        @for (project of projects; track project.id) {
+          <option [value]="project.id">{{ project.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="timer-actions">
+      @if (!isRunning) {
+        <button 
+          class="btn-start" 
+          (click)="startTimer()" 
+          [disabled]="!selectedProjectId">
+          ▶ Start Timer
+        </button>
+      } @else {
+        <button 
+          class="btn-stop" 
+          (click)="stopTimer()">
+          ⏹ Stop Timer
+        </button>
+      }
+    </div>
+
+    @if (activeEntry) {
+      <div class="active-timer">
+        <p>⏱️ Timer läuft für: <strong>{{ activeEntry.project_name }}</strong></p>
+        <p>Start: {{ activeEntry.start_time | date:'short' }}</p>
+      </div>
+    }
+  </div>
+</div>

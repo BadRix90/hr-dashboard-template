@@ -1,4 +1,42 @@
-<div class="page-content">
-  <h1>Dashboard Übersicht</h1>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard Übersicht</h1>
+    <p class="subtitle">Willkommen zurück! Hier ist deine Zusammenfassung</p>
+  </div>
+
   <app-stats-cards></app-stats-cards>
+
+  <div class="dashboard-content">
+    <div class="content-main">
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>Zeiterfassung</h2>
+        </div>
+        <app-timer></app-timer>
+      </section>
+
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>Letzte Einträge</h2>
+        </div>
+        <app-time-entry-list></app-time-entry-list>
+      </section>
+    </div>
+
+    <aside class="content-sidebar">
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>Urlaubskonto</h2>
+        </div>
+        <app-vacation-balance></app-vacation-balance>
+      </section>
+
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>Projekte</h2>
+        </div>
+        <app-project-list></app-project-list>
+      </section>
+    </aside>
+  </div>
 </div>

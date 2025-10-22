@@ -1,14 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface VacationRequest {
-  id: number;
-  employee: string;
-  startDate: Date;
-  endDate: Date;
-  reason: string;
-  status: 'pending' | 'approved' | 'rejected';
-}
+import { VacationService, VacationRequest } from '../../services/vacation';
 
 @Component({
   selector: 'app-vacation-approval',
@@ -17,21 +9,48 @@ interface VacationRequest {
   templateUrl: './vacation-approval.html',
   styleUrl: './vacation-approval.scss'
 })
-export class VacationApprovalComponent {
-  requests: VacationRequest[] = [
-    { id: 1, employee: 'Max Mustermann', startDate: new Date(2025, 10, 1), endDate: new Date(2025, 10, 5), reason: 'Familienurlaub', status: 'pending' },
-    { id: 2, employee: 'Anna Schmidt', startDate: new Date(2025, 10, 15), endDate: new Date(2025, 10, 20), reason: 'Erholung', status: 'pending' },
-  ];
+export class VacationApprovalComponent implements OnInit {
+  private vacationService = inject(VacationService);
+  
+  requests: VacationRequest[] = [];
+  loading = true;
 
-  approve(id: number): void {
-    const request = this.requests.find(r => r.id === id);
-    if (request) request.status = 'approved';
-    console.log('Genehmigt:', id);
+  ngOnInit(): void {
+    this.loadRequests();
   }
 
-  reject(id: number): void {
-    const request = this.requests.find(r => r.id === id);
-    if (request) request.status = 'rejected';
-    console.log('Abgelehnt:', id);
+  loadRequests(): void {
+    this.loading = true;
+    this.vacationService.getVacationRequests().subscribe({
+      next: (requests) => {
+        this.requests = requests.filter(r => r.status === 'pending');
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading requests:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  approveRequest(id: number): void {
+    this.vacationService.approveVacationRequest(id).subscribe({
+      next: () => {
+        this.requests = this.requests.filter(r => r.id !== id);
+      },
+      error: (err) => console.error('Error approving request:', err)
+    });
+  }
+
+  rejectRequest(id: number): void {
+    const reason = prompt('Grund für Ablehnung:');
+    if (!reason) return;
+
+    this.vacationService.rejectVacationRequest(id, reason).subscribe({
+      next: () => {
+        this.requests = this.requests.filter(r => r.id !== id);
+      },
+      error: (err) => console.error('Error rejecting request:', err)
+    });
   }
 }

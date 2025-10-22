@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: 'Admin' | 'Manager' | 'Mitarbeiter';
-  status: 'active' | 'inactive';
-}
+import { UserService, User } from '../../services/user';
 
 @Component({
   selector: 'app-user-list',
@@ -16,15 +9,38 @@ interface User {
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'
 })
-export class UserListComponent {
-  users: User[] = [
-    { id: 1, name: 'Max Mustermann', email: 'max@firma.de', role: 'Admin', status: 'active' },
-    { id: 2, name: 'Anna Schmidt', email: 'anna@firma.de', role: 'Manager', status: 'active' },
-    { id: 3, name: 'Tom Meyer', email: 'tom@firma.de', role: 'Mitarbeiter', status: 'active' },
-  ];
+export class UserListComponent implements OnInit {
+  private userService = inject(UserService);
+  
+  users: User[] = [];
+  loading = true;
+
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.loading = true;
+    this.userService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+        this.loading = false;
+      }
+    });
+  }
 
   deleteUser(id: number): void {
-    this.users = this.users.filter(u => u.id !== id);
-    console.log('User gelöscht:', id);
+    if (!confirm('User wirklich löschen?')) return;
+    
+    this.userService.deleteUser(id).subscribe({
+      next: () => {
+        this.users = this.users.filter(u => u.id !== id);
+      },
+      error: (err) => console.error('Error deleting user:', err)
+    });
   }
 }

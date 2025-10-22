@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface EmployeeBalance {
-  name: string;
-  totalDays: number;
-  usedDays: number;
-  remainingDays: number;
-  pendingDays: number;
-}
+import { VacationService, VacationBalance } from '../../services/vacation';
 
 @Component({
   selector: 'app-vacation-balance',
@@ -16,14 +9,34 @@ interface EmployeeBalance {
   templateUrl: './vacation-balance.html',
   styleUrl: './vacation-balance.scss'
 })
-export class VacationBalanceComponent {
-  employees: EmployeeBalance[] = [
-    { name: 'Max Mustermann', totalDays: 30, usedDays: 12, remainingDays: 18, pendingDays: 5 },
-    { name: 'Anna Schmidt', totalDays: 28, usedDays: 8, remainingDays: 20, pendingDays: 3 },
-    { name: 'Tom Meyer', totalDays: 30, usedDays: 15, remainingDays: 15, pendingDays: 0 },
-  ];
+export class VacationBalanceComponent implements OnInit {
+  private vacationService = inject(VacationService);
+  
+  balance: VacationBalance | null = null;
+  loading = true;
 
-  getPercentageUsed(employee: EmployeeBalance): number {
-    return (employee.usedDays / employee.totalDays) * 100;
+  ngOnInit(): void {
+    this.loadBalance();
+  }
+
+  loadBalance(): void {
+    this.loading = true;
+    const employeeId = 1;
+    
+    this.vacationService.getVacationBalance(employeeId).subscribe({
+      next: (balance) => {
+        this.balance = balance;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading balance:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  getPercentageUsed(): number {
+    if (!this.balance || this.balance.total_days === 0) return 0;
+    return Math.round((this.balance.used_days / this.balance.total_days) * 100);
   }
 }

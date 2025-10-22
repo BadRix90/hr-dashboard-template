@@ -1,1 +1,58 @@
-<p>export-csv works!</p>
+<div class="export-csv">
+  <div class="export-header">
+    <h2>Daten exportieren</h2>
+    <p class="subtitle">Wähle den Export-Typ und Zeitraum</p>
+  </div>
+
+  <div class="export-form">
+    <div class="form-group">
+      <label>Export-Typ</label>
+      <div class="option-cards">
+        <button
+          *ngFor="let option of exportOptions"
+          class="option-card"
+          [class.active]="selectedType === option.id"
+          (click)="selectedType = option.id">
+          <lucide-icon [img]="option.icon" class="icon"></lucide-icon>
+          <span class="label">{{ option.label }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="start-date">Von</label>
+        <input
+          id="start-date"
+          type="date"
+          [(ngModel)]="startDate"
+          class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label for="end-date">Bis</label>
+        <input
+          id="end-date"
+          type="date"
+          [(ngModel)]="endDate"
+          class="form-input">
+      </div>
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [(ngModel)]="useDatevFormat">
+        <span>DATEV-Format verwenden (für Lohnbuchhaltung)</span>
+      </label>
+    </div>
+
+    <button
+      class="export-btn"
+      (click)="exportCSV()">
+      <lucide-icon [img]="Download" class="btn-icon"></lucide-icon>
+      CSV herunterladen
+    </button>
+  </div>
+</div>

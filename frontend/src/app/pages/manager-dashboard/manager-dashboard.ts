@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { TeamOverviewComponent } from '../../components/team-overview/team-overview';
+import { OvertimeTrackerComponent } from '../../components/overtime-tracker/overtime-tracker';
+import { ExportCsvComponent } from '../../components/export-csv/export-csv';
 
 @Component({
   selector: 'app-manager-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    TeamOverviewComponent,
+    OvertimeTrackerComponent,
+    ExportCsvComponent
+  ],
   templateUrl: './manager-dashboard.html',
   styleUrl: './manager-dashboard.scss'
 })

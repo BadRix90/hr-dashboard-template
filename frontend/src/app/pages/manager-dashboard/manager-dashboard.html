@@ -1,1 +1,20 @@
-<p>manager-dashboard works!</p>
+<div class="manager-dashboard">
+  <div class="dashboard-header">
+    <h1>Manager Dashboard</h1>
+    <p class="subtitle">Überblick über dein Team und Reports</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="grid-full">
+      <app-team-overview></app-team-overview>
+    </div>
+
+    <div class="grid-left">
+      <app-overtime-tracker></app-overtime-tracker>
+    </div>
+
+    <div class="grid-right">
+      <app-export-csv></app-export-csv>
+    </div>
+  </div>
+</div>

@@ -19,21 +19,7 @@
     </header>
 
     <div class="dashboard-container">
-      <app-stats-cards></app-stats-cards>
-
-      <div class="content-grid">
-        <div class="grid-item timer-section">
-          <app-timer></app-timer>
-        </div>
-
-        <div class="grid-item form-section">
-          <app-time-entry-form></app-time-entry-form>
-        </div>
-      </div>
-
-      <div class="table-section">
-        <app-time-entry-list></app-time-entry-list>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

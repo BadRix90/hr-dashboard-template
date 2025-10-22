@@ -1,0 +1,55 @@
+@use 'variables' as *;
+
+.user-form {
+  background: var(--color-surface);
+  padding: $spacing-8;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-md);
+  max-width: 500px;
+
+  h2 {
+    margin-bottom: $spacing-6;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+
+  .form-group {
+    margin-bottom: $spacing-4;
+
+    label {
+      display: block;
+      margin-bottom: $spacing-2;
+      font-weight: $font-weight-medium;
+      color: var(--color-text);
+    }
+
+    input, select {
+      width: 100%;
+      padding: $spacing-3;
+      border: $border-width solid var(--color-border);
+      border-radius: $radius-sm;
+      font-size: $font-size-base;
+      transition: $transition-base;
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-success);
+      }
+    }
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    padding: $spacing-3 $spacing-6;
+    border: none;
+    border-radius: $radius-base;
+    cursor: pointer;
+    width: 100%;
+    font-weight: $font-weight-medium;
+    transition: $transition-base;
+
+    &:hover { background: var(--color-primary-hover); }
+  }
+}

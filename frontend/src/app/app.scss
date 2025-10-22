@@ -132,3 +132,9 @@
 .table-section {
     margin-top: $spacing-6;
 }
+
+@media (min-width: $breakpoint-desktop) {
+    .main-content {
+        margin-left: 280px;
+    }
+}

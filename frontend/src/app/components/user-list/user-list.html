@@ -1,1 +1,30 @@
-<p>user-list works!</p>
+<div class="user-list">
+  <div class="list-header">
+    <h2>Mitarbeiter</h2>
+    <button class="btn-primary">Neuer Mitarbeiter</button>
+  </div>
+
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Rolle</th>
+        <th>Status</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td><span class="badge" [class]="user.role">{{ user.role }}</span></td>
+        <td><span class="badge" [class]="user.status">{{ user.status }}</span></td>
+        <td>
+          <button class="btn-edit">Bearbeiten</button>
+          <button class="btn-delete" (click)="deleteUser(user.id)">Löschen</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,23 @@
+<div class="vacation-approval">
+  <h2>Urlaubsanträge genehmigen</h2>
+  
+  <div class="requests-list">
+    <div *ngFor="let request of requests" class="request-card" [class.pending]="request.status === 'pending'">
+      <div class="request-header">
+        <h3>{{ request.employee }}</h3>
+        <span class="badge" [class]="request.status">{{ request.status }}</span>
+      </div>
+      
+      <div class="request-details">
+        <p><strong>Von:</strong> {{ request.startDate | date:'dd.MM.yyyy' }}</p>
+        <p><strong>Bis:</strong> {{ request.endDate | date:'dd.MM.yyyy' }}</p>
+        <p><strong>Grund:</strong> {{ request.reason || 'Keine Angabe' }}</p>
+      </div>
+      
+      <div class="request-actions" *ngIf="request.status === 'pending'">
+        <button class="btn-approve" (click)="approve(request.id)">Genehmigen</button>
+        <button class="btn-reject" (click)="reject(request.id)">Ablehnen</button>
+      </div>
+    </div>
+  </div>
+</div>

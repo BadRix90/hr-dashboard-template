@@ -1,0 +1,74 @@
+@use '/src/styles/variables' as *;
+
+.vacation-approval {
+  background: var(--color-surface);
+  padding: $spacing-8;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-md);
+
+  h2 { 
+    margin-bottom: $spacing-6; 
+    color: var(--color-text); 
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+  }
+
+  .requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+
+    .request-card {
+      background: var(--color-gray-50);
+      padding: $spacing-6;
+      border-radius: $radius-base;
+      border: $border-width solid var(--color-border);
+
+      &.pending { border-left: 4px solid var(--color-warning); }
+
+      .request-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-4;
+
+        h3 { margin: 0; font-size: $font-size-lg; font-weight: $font-weight-semibold; }
+
+        .badge {
+          padding: $spacing-1 $spacing-3;
+          border-radius: $radius-full;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-medium;
+          text-transform: uppercase;
+
+          &.pending { background: var(--color-warning); color: white; }
+          &.approved { background: var(--color-success); color: white; }
+          &.rejected { background: var(--color-error); color: white; }
+        }
+      }
+
+      .request-details {
+        margin-bottom: $spacing-4;
+        p { margin: $spacing-2 0; color: var(--color-text-muted); font-size: $font-size-sm; }
+      }
+
+      .request-actions {
+        display: flex;
+        gap: $spacing-3;
+
+        button {
+          flex: 1;
+          padding: $spacing-3;
+          border: none;
+          border-radius: $radius-base;
+          font-weight: $font-weight-medium;
+          cursor: pointer;
+          transition: $transition-base;
+        }
+
+        .btn-approve { background: var(--color-success); color: white; &:hover { opacity: 0.9; } }
+        .btn-reject { background: var(--color-error); color: white; &:hover { opacity: 0.9; } }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@use '/src/styles/variables' as *;
+
+.vacation-calendar {
+  background: var(--color-surface);
+  padding: $spacing-8;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-md);
+
+  h2 { 
+    margin-bottom: $spacing-6; 
+    color: var(--color-text); 
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: $spacing-2;
+
+    .weekday {
+      font-weight: $font-weight-semibold;
+      text-align: center;
+      padding: $spacing-2;
+      color: var(--color-text-muted);
+      font-size: $font-size-sm;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: $border-width solid var(--color-border);
+      border-radius: $radius-sm;
+      cursor: pointer;
+      transition: $transition-base;
+
+      &:hover { background: var(--color-gray-100); }
+      &.vacation { background: var(--color-success); color: white; font-weight: $font-weight-semibold; }
+    }
+  }
+}@use '/src/styles/variables' as *;
+
+.vacation-calendar {
+  background: var(--color-surface);
+  padding: $spacing-8;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-md);
+
+  h2 { 
+    margin-bottom: $spacing-6; 
+    color: var(--color-text); 
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: $spacing-2;
+
+    .weekday {
+      font-weight: $font-weight-semibold;
+      text-align: center;
+      padding: $spacing-2;
+      color: var(--color-text-muted);
+      font-size: $font-size-sm;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: $border-width solid var(--color-border);
+      border-radius: $radius-sm;
+      cursor: pointer;
+      transition: $transition-base;
+
+      &:hover { background: var(--color-gray-100); }
+      &.vacation { background: var(--color-success); color: white; font-weight: $font-weight-semibold; }
+    }
+  }
+}

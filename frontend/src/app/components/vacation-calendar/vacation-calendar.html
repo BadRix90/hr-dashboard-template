@@ -1,0 +1,16 @@
+<div class="vacation-calendar">
+  <h2>Urlaubskalender {{ currentMonth | date:'MMMM yyyy' }}</h2>
+  
+  <div class="calendar-grid">
+    <div class="weekday" *ngFor="let day of ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']">
+      {{ day }}
+    </div>
+    
+    <div 
+      *ngFor="let day of getDaysInMonth()" 
+      class="calendar-day"
+      [class.vacation]="isVacationDay(day)">
+      {{ day.getDate() }}
+    </div>
+  </div>
+</div>

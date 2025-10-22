@@ -1,19 +1,40 @@
-<aside class="sidebar" [class.open]="isOpen">
+<aside class="sidebar" [class.sidebar-open]="isOpen">
   <div class="sidebar-header">
-    <h2>NovaDev</h2>
+    <h2>HR Dashboard</h2>
     <button class="close-btn" (click)="toggleSidebar()" *ngIf="isOpen">
-      <lucide-icon [img]="icons.x" [size]="20"></lucide-icon>
+      <lucide-angular [img]="icons.x" [size]="20"></lucide-angular>
     </button>
   </div>
 
+  @if (currentUser) {
+    <div class="user-info">
+      <div class="user-avatar">
+        <lucide-angular [img]="icons.user" [size]="24"></lucide-angular>
+      </div>
+      <div class="user-details">
+        <p class="user-name">{{ currentUser.first_name }} {{ currentUser.last_name }}</p>
+        <p class="user-role">{{ currentUser.role === 'admin' ? 'Administrator' : currentUser.role === 'manager' ? 'Manager' : 'Mitarbeiter' }}</p>
+      </div>
+    </div>
+  }
+
   <nav class="sidebar-nav">
-    <a 
-      *ngFor="let item of menuItems" 
-      [routerLink]="item.path" 
-      routerLinkActive="active"
-      class="nav-item">
-      <lucide-icon [img]="item.icon" [size]="20"></lucide-icon>
-      <span>{{ item.label }}</span>
-    </a>
+    @for (item of menuItems; track item.path) {
+      <a 
+        [routerLink]="item.path" 
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <lucide-angular [img]="item.icon" [size]="20"></lucide-angular>
+        <span>{{ item.label }}</span>
+      </a>
+    }
   </nav>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logout()">
+      <lucide-angular [img]="icons.logOut" [size]="20"></lucide-angular>
+      <span>Abmelden</span>
+    </button>
+  </div>
 </aside>

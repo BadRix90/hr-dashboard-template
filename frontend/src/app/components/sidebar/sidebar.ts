@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth';
 import * as LucideIcons from 'lucide-angular';
 
 @Component({
@@ -10,8 +11,9 @@ import * as LucideIcons from 'lucide-angular';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   isOpen = true;
+  currentUser: any = null;
 
   icons = {
     home: LucideIcons.Home,
@@ -19,16 +21,38 @@ export class SidebarComponent {
     calendar: LucideIcons.Calendar,
     users: LucideIcons.Users,
     barChart: LucideIcons.BarChart3,
+    logOut: LucideIcons.LogOut,
+    user: LucideIcons.User,
     x: LucideIcons.X
   };
 
-  menuItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: this.icons.home },
-    { path: '/time-tracking', label: 'Zeiterfassung', icon: this.icons.clock },
-    { path: '/vacation', label: 'Urlaub', icon: this.icons.calendar },
-    { path: '/users', label: 'Mitarbeiter', icon: this.icons.users },
-    { path: '/manager', label: 'Manager', icon: this.icons.barChart }
-  ];
+  constructor(
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
+
+  get menuItems() {
+    const allItems = [
+      { path: '/dashboard', label: 'Dashboard', icon: this.icons.home, roles: ['admin', 'manager', 'employee'] },
+      { path: '/time-tracking', label: 'Zeiterfassung', icon: this.icons.clock, roles: ['admin', 'manager', 'employee'] },
+      { path: '/vacation', label: 'Urlaub', icon: this.icons.calendar, roles: ['admin', 'manager', 'employee'] },
+      { path: '/manager', label: 'Manager', icon: this.icons.barChart, roles: ['admin', 'manager'] },
+      { path: '/users', label: 'Mitarbeiter', icon: this.icons.users, roles: ['admin'] }
+    ];
+
+    const userRole = this.authService.currentRole();
+    return allItems.filter(item => !userRole || item.roles.includes(userRole));
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
 
   toggleSidebar(): void {
     this.isOpen = !this.isOpen;

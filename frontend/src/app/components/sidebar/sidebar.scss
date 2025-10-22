@@ -1,80 +1,121 @@
-@use 'variables' as *;
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
 .sidebar {
   position: fixed;
-  left: -280px;
+  left: 0;
   top: 0;
   height: 100vh;
-  width: 280px;
+  width: 260px;
   background: var(--color-surface);
-  border-right: $border-width solid var(--color-border);
-  transition: left $transition-base;
-  z-index: $z-fixed;
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  transition: transform $transition-base;
+  z-index: 1000;
+}
 
-  &.open { left: 0; }
+.sidebar-header {
+  @include flex-between;
+  padding: $spacing-6;
+  border-bottom: 1px solid var(--color-border);
 
-  // Desktop: Sidebar immer offen
-  @media (min-width: $breakpoint-desktop) {
-    left: 0;
-    
-    .close-btn { display: none; }
+  h2 {
+    @include heading-md;
+    margin: 0;
+    color: var(--color-text);
   }
 
-  .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: $spacing-6;
-    border-bottom: $border-width solid var(--color-border);
+  .close-btn {
+    @include button-base;
+    padding: $spacing-2;
+    color: var(--color-text-muted);
 
-    h2 {
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+}
+
+.user-info {
+  display: flex;
+  gap: $spacing-3;
+  padding: $spacing-6;
+  border-bottom: 1px solid var(--color-border);
+
+  .user-avatar {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+    flex-shrink: 0;
+  }
+
+  .user-details {
+    flex: 1;
+    min-width: 0;
+
+    .user-name {
+      @include body-base;
+      font-weight: $font-weight-semibold;
+      color: var(--color-text);
+      margin: 0 0 $spacing-1 0;
+      @include truncate;
+    }
+
+    .user-role {
+      @include body-sm;
+      color: var(--color-text-muted);
       margin: 0;
-      font-size: $font-size-xl;
-      font-weight: $font-weight-bold;
+      @include truncate;
+    }
+  }
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: $spacing-4 0;
+  overflow-y: auto;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-6;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: all $transition-fast;
+    @include body-base;
+
+    &:hover {
+      background: var(--color-gray-50);
       color: var(--color-text);
     }
 
-    .close-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: $spacing-2;
-      border-radius: $radius-sm;
-      transition: $transition-base;
-
-      &:hover { background: var(--color-gray-100); }
+    &.active {
+      background: var(--color-gray-100);
+      color: var(--color-primary);
+      font-weight: $font-weight-semibold;
     }
   }
+}
 
-  .sidebar-nav {
-    flex: 1;
-    padding: $spacing-4;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-2;
+.sidebar-footer {
+  padding: $spacing-4 $spacing-6;
+  border-top: 1px solid var(--color-border);
 
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: $spacing-3;
-      padding: $spacing-3 $spacing-4;
-      border-radius: $radius-base;
-      color: var(--color-text-muted);
-      text-decoration: none;
-      font-weight: $font-weight-medium;
-      transition: $transition-base;
+  .logout-btn {
+    @include button-base;
+    @include button-outline;
+    width: 100%;
+    justify-content: flex-start;
+    color: var(--color-error);
+    border-color: var(--color-error);
 
-      &:hover {
-        background: var(--color-gray-100);
-        color: var(--color-text);
-      }
-
-      &.active {
-        background: var(--color-primary);
-        color: var(--color-text-inverse);
-      }
+    &:hover {
+      background: rgba(238, 0, 0, 0.05);
     }
   }
 }

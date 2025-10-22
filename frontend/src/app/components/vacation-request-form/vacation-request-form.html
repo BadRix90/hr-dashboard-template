@@ -1,37 +1,46 @@
-<p>vacation-request-form works!</p>
 <div class="vacation-form">
   <h2>Urlaubsantrag stellen</h2>
   
-  <form (ngSubmit)="submitRequest()">
+  <form [formGroup]="vacationForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="startDate">Startdatum:</label>
+      <label for="start_date">Startdatum:</label>
       <input 
         type="date" 
-        id="startDate" 
-        [(ngModel)]="request.startDate" 
-        name="startDate" 
+        id="start_date" 
+        formControlName="start_date"
         required>
     </div>
 
     <div class="form-group">
-      <label for="endDate">Enddatum:</label>
+      <label for="end_date">Enddatum:</label>
       <input 
         type="date" 
-        id="endDate" 
-        [(ngModel)]="request.endDate" 
-        name="endDate" 
+        id="end_date" 
+        formControlName="end_date"
         required>
+    </div>
+
+    <div class="form-group">
+      <label for="type">Typ:</label>
+      <select id="type" formControlName="type">
+        <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+      </select>
     </div>
 
     <div class="form-group">
       <label for="reason">Grund (optional):</label>
       <textarea 
         id="reason" 
-        [(ngModel)]="request.reason" 
-        name="reason" 
+        formControlName="reason"
         rows="3"></textarea>
     </div>
 
-    <button type="submit" class="btn-primary">Antrag einreichen</button>
+    <div class="form-info">
+      <strong>Berechnete Tage:</strong> {{ getDays() }}
+    </div>
+
+    <button type="submit" class="btn-primary" [disabled]="vacationForm.invalid">
+      Antrag einreichen
+    </button>
   </form>
 </div>

@@ -33,7 +33,8 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  deleteUser(id: number): void {
+  deleteUser(id: number | undefined): void {
+    if (!id) return;
     if (!confirm('User wirklich löschen?')) return;
     
     this.userService.deleteUser(id).subscribe({

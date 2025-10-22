@@ -26,7 +26,7 @@ export class UserFormComponent {
     vacation_days: [30, [Validators.required, Validators.min(0)]]
   });
 
-  onSubmit(): void {
+  submitForm(): void {
     if (this.userForm.invalid) return;
 
     const userData: UserCreateRequest = this.userForm.value;

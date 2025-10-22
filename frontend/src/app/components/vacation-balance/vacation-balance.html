@@ -1,32 +1,38 @@
 <div class="vacation-balance">
   <h2>Urlaubskontingent Übersicht</h2>
   
-  <div class="balance-list">
-    <div *ngFor="let emp of employees" class="balance-card">
-      <div class="employee-name">{{ emp.name }}</div>
-      
-      <div class="stats">
-        <div class="stat">
-          <span class="label">Gesamt</span>
-          <span class="value">{{ emp.totalDays }}</span>
-        </div>
-        <div class="stat">
-          <span class="label">Genommen</span>
-          <span class="value">{{ emp.usedDays }}</span>
-        </div>
-        <div class="stat">
-          <span class="label">Verfügbar</span>
-          <span class="value success">{{ emp.remainingDays }}</span>
-        </div>
-        <div class="stat" *ngIf="emp.pendingDays > 0">
-          <span class="label">Ausstehend</span>
-          <span class="value warning">{{ emp.pendingDays }}</span>
-        </div>
+  <div *ngIf="loading" class="loading">Lädt...</div>
+  
+  <div *ngIf="!loading && !balance" class="no-data">
+    Keine Daten verfügbar
+  </div>
+  
+  <div *ngIf="!loading && balance" class="balance-card">
+    <div class="stats">
+      <div class="stat">
+        <span class="label">Gesamt</span>
+        <span class="value">{{ balance.total_days }}</span>
       </div>
-      
-      <div class="progress-bar">
-        <div class="progress-fill" [style.width.%]="getPercentageUsed(emp)"></div>
+      <div class="stat">
+        <span class="label">Genommen</span>
+        <span class="value">{{ balance.used_days }}</span>
       </div>
+      <div class="stat">
+        <span class="label">Verfügbar</span>
+        <span class="value success">{{ balance.remaining_days }}</span>
+      </div>
+      <div class="stat" *ngIf="balance.pending_days > 0">
+        <span class="label">Ausstehend</span>
+        <span class="value warning">{{ balance.pending_days }}</span>
+      </div>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getPercentageUsed()"></div>
+    </div>
+    
+    <div class="progress-label">
+      {{ getPercentageUsed() }}% genutzt
     </div>
   </div>
 </div>

@@ -1,5 +1,4 @@
-@use '/src/styles/variables' as *;
-
+@use 'variables' as *;
 .vacation-approval {
   background: var(--color-surface);
   padding: $spacing-8;

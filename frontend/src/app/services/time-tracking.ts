@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Project } from '../models/project';
 import { TimeEntry } from '../models/time-entry';
 
@@ -13,11 +13,15 @@ export class TimeTrackingService {
   constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.apiUrl}/projects/`);
+    return this.http.get<any>(`${this.apiUrl}/projects/`).pipe(
+      map(response => Array.isArray(response) ? response : response.results || [])
+    );
   }
 
   getTimeEntries(): Observable<TimeEntry[]> {
-    return this.http.get<TimeEntry[]>(`${this.apiUrl}/time-entries/`);
+    return this.http.get<any>(`${this.apiUrl}/time-entries/`).pipe(
+      map(response => Array.isArray(response) ? response : response.results || [])
+    );
   }
 
   createTimeEntry(entry: any): Observable<TimeEntry> {

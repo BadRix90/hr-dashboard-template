@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { UserRole } from './auth';
 
 export interface User {
@@ -33,7 +33,9 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/`);
+    return this.http.get<any>(`${this.apiUrl}/`).pipe(
+      map(response => Array.isArray(response) ? response : response.results || [])
+    );
   }
 
   getUser(id: number): Observable<User> {
@@ -65,10 +67,14 @@ export class UserService {
   }
 
   getUsersByRole(role: UserRole): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/?role=${role}`);
+    return this.http.get<any>(`${this.apiUrl}/?role=${role}`).pipe(
+      map(response => Array.isArray(response) ? response : response.results || [])
+    );
   }
 
   searchUsers(query: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/?search=${query}`);
+    return this.http.get<any>(`${this.apiUrl}/?search=${query}`).pipe(
+      map(response => Array.isArray(response) ? response : response.results || [])
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export type VacationStatus = 'pending' | 'approved' | 'rejected';
 export type VacationType = 'urlaub' | 'krank' | 'sonderurlaub';
@@ -35,7 +35,9 @@ export class VacationService {
   constructor(private http: HttpClient) {}
 
   getVacationRequests(): Observable<VacationRequest[]> {
-    return this.http.get<VacationRequest[]>(`${this.apiUrl}/requests/`);
+    return this.http.get<any>(`${this.apiUrl}/requests/`).pipe(
+      map(response => Array.isArray(response) ? response : response.results || [])
+    );
   }
 
   getVacationRequest(id: number): Observable<VacationRequest> {

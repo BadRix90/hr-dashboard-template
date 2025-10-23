@@ -4,7 +4,8 @@
 .timer-container {
   @include card-base;
   padding: $spacing-6;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   @include mobile-only {
     padding: $spacing-4;

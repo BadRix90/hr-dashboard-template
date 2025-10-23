@@ -1,9 +1,8 @@
-// vacation.scss, time-tracking.scss, user-management.scss
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
 
 .page-header {
-  margin-bottom: $spacing-8;
+  margin-bottom: $spacing-6;
 
   h1 {
     @include heading-xl;
@@ -20,8 +19,8 @@
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: $spacing-6;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: $spacing-4;
   margin-bottom: $spacing-6;
 
   @include mobile-only {
@@ -31,7 +30,7 @@
 
 .page-section {
   @include card-base;
-  padding: $spacing-6;
+  padding: $spacing-5;
 
   @include mobile-only {
     padding: $spacing-4;
@@ -39,7 +38,17 @@
 }
 
 .section-title {
-  @include heading-md;
+  @include heading-sm;
   margin: 0 0 $spacing-4 0;
   color: var(--color-text);
+}
+
+.table-section {
+  @include card-base;
+  padding: $spacing-5;
+  margin-top: $spacing-6;
+
+  @include mobile-only {
+    padding: $spacing-4;
+  }
 }

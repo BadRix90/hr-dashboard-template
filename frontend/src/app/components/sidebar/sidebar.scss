@@ -7,7 +7,7 @@
   @include mobile-only {
     transform: translateX(-100%);
 
-    &.open {
+    &.sidebar-open {
       transform: translateX(0);
     }
   }
@@ -15,13 +15,14 @@
 
 .sidebar-header {
   @include flex-between;
-  padding: $spacing-6;
+  padding: $spacing-5 $spacing-6;
   border-bottom: 1px solid var(--color-sidebar-border);
 
   h2 {
-    @include heading-md;
+    @include heading-sm;
     margin: 0;
     color: var(--color-sidebar-text);
+    font-weight: $font-weight-bold;
   }
 }
 
@@ -29,25 +30,30 @@
   @include button-ghost;
   padding: $spacing-2;
   color: var(--color-sidebar-text-muted);
+  display: none;
 
   &:hover {
     color: var(--color-sidebar-text);
     background: var(--color-sidebar-hover);
+  }
+
+  @include mobile-only {
+    display: flex;
   }
 }
 
 .user-info {
   @include flex-center;
   gap: $spacing-3;
-  padding: $spacing-6;
+  padding: $spacing-4 $spacing-6;
   border-bottom: 1px solid var(--color-sidebar-border);
   justify-content: flex-start;
 }
 
 .user-avatar {
   @include flex-center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: $radius-full;
   background: var(--color-primary-light);
   color: var(--color-primary);
@@ -61,15 +67,15 @@
 }
 
 .user-name {
-  @include body-base;
+  @include body-sm;
   font-weight: $font-weight-semibold;
   color: var(--color-sidebar-text);
-  margin: 0 0 $spacing-1 0;
+  margin: 0 0 2px 0;
   @include truncate;
 }
 
 .user-role {
-  @include body-sm;
+  font-size: $font-size-xs;
   color: var(--color-sidebar-text-muted);
   margin: 0;
   text-transform: capitalize;
@@ -78,13 +84,13 @@
 
 .sidebar-nav {
   flex: 1;
-  padding: $spacing-4 $spacing-3;
+  padding: $spacing-3 $spacing-2;
   overflow-y: auto;
 }
 
 .nav-item {
   @include nav-item-base;
-  margin-bottom: $spacing-1;
+  margin-bottom: 2px;
 
   &:hover {
     @include nav-item-hover;
@@ -94,13 +100,13 @@
     @include nav-item-active;
   }
 
-  lucide-icon {
+  lucide-angular {
     flex-shrink: 0;
   }
 }
 
 .sidebar-footer {
-  padding: $spacing-4 $spacing-3;
+  padding: $spacing-3 $spacing-2;
   border-top: 1px solid var(--color-sidebar-border);
 }
 
@@ -110,6 +116,7 @@
   justify-content: center;
   color: var(--color-error);
   border-color: var(--color-error);
+  padding: $spacing-2 $spacing-4;
 
   &:hover:not(:disabled) {
     background: var(--color-error-light);

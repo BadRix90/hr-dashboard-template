@@ -1,0 +1,32 @@
+<div class="toast-container">
+  @for (toast of toasts$ | async; track toast.id) {
+    <div class="toast" [class]="'toast-' + toast.type">
+      <div class="toast-icon">
+        @switch (toast.type) {
+          @case ('success') {
+            <lucide-angular [img]="icons.checkCircle" [size]="20"></lucide-angular>
+          }
+          @case ('error') {
+            <lucide-angular [img]="icons.xCircle" [size]="20"></lucide-angular>
+          }
+          @case ('info') {
+            <lucide-angular [img]="icons.info" [size]="20"></lucide-angular>
+          }
+          @case ('warning') {
+            <lucide-angular [img]="icons.alertTriangle" [size]="20"></lucide-angular>
+          }
+        }
+      </div>
+      
+      <p class="toast-message">{{ toast.message }}</p>
+      
+      <button 
+        class="toast-close" 
+        (click)="removeToast(toast.id)"
+        aria-label="Toast schließen"
+      >
+        <lucide-angular [img]="icons.x" [size]="16"></lucide-angular>
+      </button>
+    </div>
+  }
+</div>

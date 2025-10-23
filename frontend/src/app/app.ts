@@ -3,6 +3,7 @@ import { RouterOutlet } from "@angular/router"
 import * as LucideIcons from "lucide-angular"
 import { SidebarComponent } from "./components/sidebar/sidebar"
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner"
+import { ToastComponent } from "./components/toast/toast"
 import { AuthService } from "./services/auth"
 import { CommonModule } from "@angular/common"
 
@@ -14,6 +15,7 @@ import { CommonModule } from "@angular/common"
     RouterOutlet,
     SidebarComponent,
     LoadingSpinnerComponent,
+    ToastComponent,
     LucideIcons.LucideAngularModule,
   ],
   templateUrl: "./app.html",

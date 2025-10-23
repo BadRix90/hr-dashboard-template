@@ -2,9 +2,12 @@
 @use '../styles/mixins' as *;
 
 .app-layout {
-  display: flex;
   min-height: 100vh;
-  background: var(--color-bg);
+
+  &.logged-in {
+    display: flex;
+    background: var(--color-bg);
+  }
 }
 
 .main-content {
@@ -13,8 +16,12 @@
   flex-direction: column;
   min-width: 0;
 
-  @include mobile-only {
-    margin-left: 0;
+  .logged-in & {
+    margin-left: $sidebar-width;
+
+    @include mobile-only {
+      margin-left: 0;
+    }
   }
 }
 

@@ -1,7 +1,17 @@
+<div 
+  class="sidebar-backdrop" 
+  [class.active]="isOpen"
+  (click)="closeSidebar()"
+></div>
+
 <aside class="sidebar" [class.sidebar-open]="isOpen">
   <div class="sidebar-header">
     <h2>HR Dashboard</h2>
-    <button class="close-btn" (click)="toggleSidebar()" *ngIf="isOpen">
+    <button 
+      class="close-btn" 
+      (click)="toggleSidebar()"
+      aria-label="Navigation schließen"
+    >
       <lucide-angular [img]="icons.x" [size]="20"></lucide-angular>
     </button>
   </div>
@@ -13,7 +23,10 @@
       </div>
       <div class="user-details">
         <p class="user-name">{{ currentUser.first_name }} {{ currentUser.last_name }}</p>
-        <p class="user-role">{{ currentUser.role === 'admin' ? 'Administrator' : currentUser.role === 'manager' ? 'Manager' : 'Mitarbeiter' }}</p>
+        <p class="user-role">
+          {{ currentUser.role === 'admin' ? 'Administrator' : 
+             currentUser.role === 'manager' ? 'Manager' : 'Mitarbeiter' }}
+        </p>
       </div>
     </div>
   }
@@ -24,6 +37,7 @@
         [routerLink]="item.path" 
         routerLinkActive="active"
         class="nav-item"
+        (click)="closeSidebar()"
       >
         <lucide-angular [img]="item.icon" [size]="20"></lucide-angular>
         <span>{{ item.label }}</span>
@@ -32,7 +46,11 @@
   </nav>
 
   <div class="sidebar-footer">
-    <button class="logout-btn" (click)="logout()">
+    <button 
+      class="logout-btn" 
+      (click)="logout()"
+      aria-label="Abmelden"
+    >
       <lucide-angular [img]="icons.logOut" [size]="20"></lucide-angular>
       <span>Abmelden</span>
     </button>

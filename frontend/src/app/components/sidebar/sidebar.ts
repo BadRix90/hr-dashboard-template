@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth';
@@ -11,8 +11,8 @@ import * as LucideIcons from 'lucide-angular';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss'
 })
-export class SidebarComponent implements OnInit {
-  isOpen = true;
+export class SidebarComponent implements OnInit, OnDestroy {
+  isOpen = false;
   currentUser: any = null;
 
   icons = {
@@ -37,24 +37,81 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.unlockBodyScroll();
+  }
+
   get menuItems() {
     const allItems = [
-      { path: '/dashboard', label: 'Dashboard', icon: this.icons.home, roles: ['admin', 'manager', 'employee'] },
-      { path: '/time-tracking', label: 'Zeiterfassung', icon: this.icons.clock, roles: ['admin', 'manager', 'employee'] },
-      { path: '/vacation', label: 'Urlaub', icon: this.icons.calendar, roles: ['admin', 'manager', 'employee'] },
-      { path: '/manager', label: 'Manager', icon: this.icons.barChart, roles: ['admin', 'manager'] },
-      { path: '/users', label: 'Mitarbeiter', icon: this.icons.users, roles: ['admin'] }
+      { 
+        path: '/dashboard', 
+        label: 'Dashboard', 
+        icon: this.icons.home, 
+        roles: ['admin', 'manager', 'employee'] 
+      },
+      { 
+        path: '/time-tracking', 
+        label: 'Zeiterfassung', 
+        icon: this.icons.clock, 
+        roles: ['admin', 'manager', 'employee'] 
+      },
+      { 
+        path: '/vacation', 
+        label: 'Urlaub', 
+        icon: this.icons.calendar, 
+        roles: ['admin', 'manager', 'employee'] 
+      },
+      { 
+        path: '/manager', 
+        label: 'Manager', 
+        icon: this.icons.barChart, 
+        roles: ['admin', 'manager'] 
+      },
+      { 
+        path: '/user-management', 
+        label: 'Mitarbeiter', 
+        icon: this.icons.users, 
+        roles: ['admin'] 
+      }
     ];
 
     const userRole = this.authService.currentRole();
     return allItems.filter(item => !userRole || item.roles.includes(userRole));
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
-
   toggleSidebar(): void {
     this.isOpen = !this.isOpen;
+    
+    if (this.isOpen) {
+      this.lockBodyScroll();
+    } else {
+      this.unlockBodyScroll();
+    }
+  }
+
+  closeSidebar(): void {
+    if (this.isOpen) {
+      this.isOpen = false;
+      this.unlockBodyScroll();
+    }
+  }
+
+  lockBodyScroll(): void {
+    if (window.innerWidth <= 768) {
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  unlockBodyScroll(): void {
+    document.body.style.overflow = '';
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    this.closeSidebar();
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

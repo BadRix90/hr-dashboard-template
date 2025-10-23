@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-3 {
+        fill: #1d1d1b;
+        font-family: Molgan-Regular, Molgan;
+        font-size: 200px;
+      }
+    </style>
+  </defs>
+  <text class="cls-3" transform="translate(167.48 266.97)"><tspan class="cls-2" x="0" y="0">V</tspan><tspan class="cls-1" x="147.8" y="0">I</tspan><tspan x="184.8" y="0">SION</tspan></text>
+</svg>

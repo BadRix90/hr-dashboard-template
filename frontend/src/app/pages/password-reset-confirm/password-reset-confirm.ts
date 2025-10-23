@@ -40,7 +40,7 @@ export class PasswordResetConfirmComponent implements OnInit {
 
       const payload = { token: this.token, password: this.confirmForm.value.password };
 
-      this.http.post('http://localhost:8000/api/password-reset/confirm/', payload)
+      this.http.post('/api/password-reset/confirm/', payload)
         .subscribe({
           next: () => {
             this.isLoading = false;

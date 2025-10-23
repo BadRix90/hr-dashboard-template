@@ -30,7 +30,7 @@ export interface VacationBalance {
   providedIn: 'root'
 })
 export class VacationService {
-  private apiUrl = 'http://localhost:8000/api/vacation';
+  private apiUrl = '/api/vacation';
 
   constructor(private http: HttpClient) {}
 

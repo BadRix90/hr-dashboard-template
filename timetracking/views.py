@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -11,6 +12,7 @@ User = get_user_model()
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.filter(is_active=True)
     serializer_class = ProjectSerializer
+permission_classes = [IsAuthenticated]
 
 class TimeEntryViewSet(viewsets.ModelViewSet):
     queryset = TimeEntry.objects.all()

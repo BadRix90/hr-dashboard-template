@@ -8,7 +8,7 @@ import { TimeEntry } from '../models/time-entry';
   providedIn: 'root'
 })
 export class TimeTrackingService {
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = '/api';
 
   constructor(private http: HttpClient) {}
 

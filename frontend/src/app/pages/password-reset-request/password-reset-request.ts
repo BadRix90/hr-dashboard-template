@@ -33,7 +33,7 @@ export class PasswordResetRequestComponent {
       this.errorMessage = '';
       this.successMessage = '';
 
-      this.http.post('http://localhost:8000/api/password-reset/', this.resetForm.value)
+      this.http.post('/api/password-reset/', this.resetForm.value)
         .subscribe({
           next: () => {
             this.isLoading = false;

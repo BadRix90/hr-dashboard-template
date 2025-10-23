@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core"
 import { RouterOutlet } from "@angular/router"
 import * as LucideIcons from "lucide-angular"
 import { SidebarComponent } from "./components/sidebar/sidebar"
+import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner"
 import { AuthService } from "./services/auth"
 import { CommonModule } from "@angular/common"
 
@@ -12,6 +13,7 @@ import { CommonModule } from "@angular/common"
     CommonModule,
     RouterOutlet,
     SidebarComponent,
+    LoadingSpinnerComponent,
     LucideIcons.LucideAngularModule,
   ],
   templateUrl: "./app.html",

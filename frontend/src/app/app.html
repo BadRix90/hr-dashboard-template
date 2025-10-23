@@ -1,31 +1,29 @@
+<app-loading-spinner></app-loading-spinner>
+
 <div class="app-layout" [class.logged-in]="isLoggedIn">
   @if (isLoggedIn) {
-    <app-sidebar #sidebar></app-sidebar>
+  <app-sidebar #sidebar></app-sidebar>
 
-    <div class="main-content">
-      <header class="page-header">
-        <div class="header-content">
-          <button 
-            class="burger-btn" 
-            (click)="sidebar.toggleSidebar()"
-            aria-label="Navigation öffnen"
-          >
-            <lucide-icon [img]="burgerIcons.menu" [size]="24"></lucide-icon>
-          </button>
+  <div class="main-content">
+    <header class="page-header">
+      <div class="header-content">
+        <button class="burger-btn" (click)="sidebar.toggleSidebar()" aria-label="Navigation öffnen">
+          <lucide-icon [img]="burgerIcons.menu" [size]="24"></lucide-icon>
+        </button>
 
-          <h1>{{ title }}</h1>
+        <h1>{{ title }}</h1>
 
-          <div class="header-actions">
-            <span class="user-badge">Kay Dietrich</span>
-          </div>
+        <div class="header-actions">
+          <span class="user-badge">Kay Dietrich</span>
         </div>
-      </header>
-
-      <div class="dashboard-container">
-        <router-outlet></router-outlet>
       </div>
+    </header>
+
+    <div class="dashboard-container">
+      <router-outlet></router-outlet>
     </div>
+  </div>
   } @else {
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
   }
 </div>

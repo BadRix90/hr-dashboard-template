@@ -2,14 +2,14 @@
 @use '../../../styles/mixins' as *;
 
 .login-page {
+  @include flex-center;
   min-height: 100vh;
-  display: flex;
   background: var(--color-bg);
 }
 
 .login-container {
-  flex: 1;
-  @include flex-center;
+  width: 100%;
+  max-width: 420px;
   padding: $spacing-8;
 
   @include mobile-only {
@@ -20,8 +20,6 @@
 .login-card {
   @include card-base;
   padding: $spacing-8;
-  width: 100%;
-  max-width: 420px;
 
   @include mobile-only {
     padding: $spacing-6;
@@ -30,11 +28,12 @@
 
 .login-header {
   margin-bottom: $spacing-8;
+  text-align: center;
 
   h1 {
     @include heading-lg;
-    color: var(--color-text);
     margin: 0 0 $spacing-2 0;
+    color: var(--color-text);
   }
 
   p {
@@ -45,59 +44,51 @@
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   gap: $spacing-6;
+}
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-2;
+.form-group {
+  @include flex-column;
+  gap: $spacing-2;
 
-    label {
-      @include body-sm;
-      font-weight: $font-weight-semibold;
-      color: var(--color-text);
-    }
-
-    input {
-      @include input-base;
-
-      &.error {
-        border-color: var(--color-error);
-      }
-    }
-
-    .error-message {
-      @include body-sm;
-      color: var(--color-error);
-    }
+  label {
+    @include label-base;
   }
 
-  .error-banner {
-    @include card-base;
-    background: rgba(238, 0, 0, 0.05);
-    border: 1px solid var(--color-error);
-    padding: $spacing-4;
-    @include body-sm;
-    color: var(--color-error);
-  }
+  input {
+    @include input-base;
 
-  .btn-primary {
-    @include button-primary;
-  }
-
-  .forgot-password-link {
-    text-align: center;
-    @include body-sm;
-    color: var(--color-primary);
-    text-decoration: none;
-    transition: color $transition-fast;
-
-    &:hover {
-      color: var(--color-primary-hover);
-      text-decoration: underline;
-      cursor: pointer;
+    &.error {
+      border-color: var(--color-error);
     }
+  }
+}
+
+.error-message {
+  @include body-sm;
+  color: var(--color-error);
+  margin-top: $spacing-1;
+}
+
+.error-banner {
+  padding: $spacing-4;
+  background: var(--color-error-light);
+  border: 1px solid var(--color-error);
+  border-radius: $radius-md;
+  @include body-sm;
+  color: var(--color-error);
+}
+
+.forgot-password-link {
+  @include body-sm;
+  color: var(--color-primary);
+  text-align: center;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
   }
 }

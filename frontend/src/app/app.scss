@@ -2,139 +2,90 @@
 @use '../styles/mixins' as *;
 
 .app-layout {
-    display: flex;
-    min-height: 100vh;
-    background: var(--color-bg);
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg);
 }
 
 .main-content {
-    flex: 1;
-    margin-left: 240px;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  margin-left: $sidebar-width;
+  display: flex;
+  flex-direction: column;
 
-    @include mobile-only {
-        margin-left: 0;
-    }
-
-    @include tablet-up {
-        margin-left: 240px;
-    }
+  @include mobile-only {
+    margin-left: 0;
+  }
 }
 
-// Header
 .page-header {
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    position: sticky;
-    top: 0;
-    z-index: $z-sticky;
+  @include header-base;
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+
+  h1 {
+    @include heading-lg;
+    margin: 0;
+
+    @include mobile-only {
+      @include heading-md;
+    }
+  }
 }
 
 .header-content {
-    @include flex-between;
-    padding: $spacing-5 $spacing-8;
+  @include flex-between;
+  width: 100%;
+  max-width: none;
+  padding: 0 $spacing-6;
 
-    @include mobile-only {
-        padding: $spacing-4;
-    }
-
-    h1 {
-        @include heading-lg;
-        margin: 0;
-        color: var(--color-text);
-
-        @include mobile-only {
-            @include heading-md;
-        }
-    }
+  @include mobile-only {
+    padding: 0 $spacing-4;
+  }
 }
 
 .burger-btn {
-    display: none;
-    @include flex-center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: $radius-base;
-    cursor: pointer;
-    transition: all $transition-fast;
+  @include button-ghost;
+  padding: $spacing-2;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-md;
+  display: none;
 
-    lucide-icon {
-        color: var(--color-text);
-    }
+  @include mobile-only {
+    display: flex;
+  }
 
-    &:hover {
-        background: var(--color-gray-100);
-    }
-
-    @include mobile-only {
-        display: flex;
-    }
-
-    @include tablet-up {
-        display: none;
-    }
+  lucide-icon {
+    color: var(--color-text-secondary);
+  }
 }
 
 .header-actions {
-    display: flex;
-    align-items: center;
-    gap: $spacing-4;
+  @include flex-center;
+  gap: $spacing-3;
 }
 
 .user-badge {
-    @include body-sm;
-    padding: $spacing-2 $spacing-4;
-    background: var(--color-gray-100);
-    color: var(--color-text);
-    border-radius: $radius-full;
-    font-weight: $font-weight-medium;
+  @include user-badge;
 
-    @include mobile-only {
-        display: none;
-    }
+  @include mobile-only {
+    display: none;
+  }
 }
 
-// Dashboard Container
 .dashboard-container {
-    flex: 1;
-    padding: $spacing-8;
+  flex: 1;
+  padding: $spacing-8;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
 
-    @include mobile-only {
-        padding: $spacing-4;
-    }
-}
+  @include mobile-only {
+    padding: $spacing-4;
+  }
 
-// Content Grid
-.content-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $spacing-6;
-    margin-bottom: $spacing-6;
-
-    @include mobile-only {
-        grid-template-columns: 1fr;
-        gap: $spacing-4;
-    }
-
-    @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-    }
-}
-
-.grid-item {
-    min-height: 400px;
-}
-
-.table-section {
-    margin-top: $spacing-6;
-}
-
-@media (min-width: $breakpoint-desktop) {
-    .main-content {
-        margin-left: 280px;
-    }
+  @include tablet-up {
+    padding: $spacing-6;
+  }
 }

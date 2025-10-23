@@ -1,22 +1,45 @@
-@use 'variables' as *;
+// vacation.scss, time-tracking.scss, user-management.scss
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
-.page-content {
-  padding: $spacing-6;
+.page-header {
+  margin-bottom: $spacing-8;
 
   h1 {
-    margin-bottom: $spacing-6;
-    font-size: $font-size-3xl;
-    font-weight: $font-weight-bold;
+    @include heading-xl;
+    margin: 0 0 $spacing-2 0;
+    color: var(--color-text);
   }
 
-  .content-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: $spacing-6;
-    margin-bottom: $spacing-6;
+  .subtitle {
+    @include body-base;
+    color: var(--color-text-muted);
+    margin: 0;
   }
+}
 
-  .table-section {
-    margin-top: $spacing-6;
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: $spacing-6;
+  margin-bottom: $spacing-6;
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
   }
+}
+
+.page-section {
+  @include card-base;
+  padding: $spacing-6;
+
+  @include mobile-only {
+    padding: $spacing-4;
+  }
+}
+
+.section-title {
+  @include heading-md;
+  margin: 0 0 $spacing-4 0;
+  color: var(--color-text);
 }

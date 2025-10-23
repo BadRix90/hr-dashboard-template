@@ -1,75 +1,68 @@
-@use 'variables' as *;
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
-.dashboard {
+.dashboard-header {
+  margin-bottom: $spacing-8;
+
+  h1 {
+    @include heading-xl;
+    margin: 0 0 $spacing-2 0;
+    color: var(--color-text);
+  }
+
+  .subtitle {
+    @include body-lg;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: $spacing-6;
+
+  @include desktop-up {
+    grid-template-columns: 1fr 450px;
+  }
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.content-main {
+  @include flex-column;
+  gap: $spacing-6;
+  min-width: 0;
+}
+
+.content-sidebar {
+  @include flex-column;
+  gap: $spacing-6;
+  min-width: 0;
+
+  @media (max-width: 1200px) {
+    grid-row: 2;
+  }
+}
+
+.dashboard-section {
+  @include card-base;
   padding: $spacing-6;
-  max-width: 1600px;
-  margin: 0 auto;
 
-  .dashboard-header {
-    margin-bottom: $spacing-6;
-
-    h1 {
-      margin: 0 0 $spacing-2 0;
-      font-size: $font-size-3xl;
-      font-weight: $font-weight-bold;
-      color: var(--color-text);
-    }
-
-    .subtitle {
-      margin: 0;
-      font-size: $font-size-base;
-      color: var(--color-text-muted);
-    }
+  @include mobile-only {
+    padding: $spacing-4;
   }
+}
 
-  app-stats-cards {
-    display: block;
-    margin-bottom: $spacing-8;
-  }
+.section-header {
+  @include flex-between;
+  margin-bottom: $spacing-4;
 
-  .dashboard-content {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: $spacing-6;
-
-    .content-main {
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-6;
-      min-width: 0;
-    }
-
-    .content-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-6;
-      min-width: 0;
-    }
-
-    .dashboard-section {
-      background: var(--color-surface);
-      border-radius: $radius-md;
-      padding: $spacing-6;
-      box-shadow: var(--shadow-sm);
-
-      .section-header {
-        margin-bottom: $spacing-4;
-
-        h2 {
-          margin: 0;
-          font-size: $font-size-xl;
-          font-weight: $font-weight-semibold;
-          color: var(--color-text);
-        }
-      }
-    }
-
-    @media (max-width: 1200px) {
-      grid-template-columns: 1fr;
-
-      .content-sidebar {
-        grid-row: 2;
-      }
-    }
+  h2 {
+    @include heading-md;
+    margin: 0;
+    color: var(--color-text);
   }
 }

@@ -1,48 +1,42 @@
-@use 'variables' as *;
+// manager-dashboard.scss
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
-.manager-dashboard {
-  padding: $spacing-6;
-  max-width: 1400px;
-  margin: 0 auto;
+.dashboard-header {
+  margin-bottom: $spacing-8;
 
-  .dashboard-header {
-    margin-bottom: $spacing-8;
-
-    h1 {
-      margin: 0 0 $spacing-2 0;
-      font-size: $font-size-3xl;
-      font-weight: $font-weight-bold;
-      color: var(--color-text);
-    }
-
-    .subtitle {
-      margin: 0;
-      font-size: $font-size-base;
-      color: var(--color-text-muted);
-    }
+  h1 {
+    @include heading-xl;
+    margin: 0 0 $spacing-2 0;
+    color: var(--color-text);
   }
 
-  .dashboard-grid {
-    display: grid;
-    gap: $spacing-6;
-    grid-template-columns: repeat(2, 1fr);
+  .subtitle {
+    @include body-lg;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+}
 
-    .grid-full {
-      grid-column: 1 / -1;
-    }
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-6;
 
-    .grid-left,
-    .grid-right {
-      min-width: 0;
-    }
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
 
-    @media (max-width: 1024px) {
-      grid-template-columns: 1fr;
+.grid-full {
+  grid-column: 1 / -1;
+}
 
-      .grid-left,
-      .grid-right {
-        grid-column: 1 / -1;
-      }
-    }
+.grid-section {
+  @include card-base;
+  padding: $spacing-6;
+
+  @include mobile-only {
+    padding: $spacing-4;
   }
 }

@@ -31,9 +31,9 @@ export interface VacationBalance {
   providedIn: 'root'
 })
 export class VacationService {
-  private apiUrl = `${environment.apiUrl}/vacation`
+  private apiUrl = `${environment.apiUrl}/vacation`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getVacationRequests(): Observable<VacationRequest[]> {
     return this.http.get<any>(`${this.apiUrl}/requests/`).pipe(

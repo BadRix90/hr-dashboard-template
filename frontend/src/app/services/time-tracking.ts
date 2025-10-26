@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class TimeTrackingService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = `${environment.apiUrl}/timetracking`;
 
   constructor(private http: HttpClient) { }
 

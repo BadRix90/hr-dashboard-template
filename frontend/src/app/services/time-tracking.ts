@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Project } from '../models/project';
 import { TimeEntry } from '../models/time-entry';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimeTrackingService {
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProjects(): Observable<Project[]> {
     return this.http.get<any>(`${this.apiUrl}/projects/`).pipe(

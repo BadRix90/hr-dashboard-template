@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export type VacationStatus = 'pending' | 'approved' | 'rejected';
 export type VacationType = 'urlaub' | 'krank' | 'sonderurlaub';
@@ -30,7 +31,7 @@ export interface VacationBalance {
   providedIn: 'root'
 })
 export class VacationService {
-  private apiUrl = 'http://localhost:8000/api/vacation';
+  private apiUrl = `${environment.apiUrl}/vacation`
 
   constructor(private http: HttpClient) {}
 

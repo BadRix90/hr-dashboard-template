@@ -15,6 +15,6 @@ urlpatterns = [
     path('api/auth/register/', register, name='register'),
     path('api/auth/logout/', logout, name='logout'),
     path('api/password-reset/', include('django_rest_passwordreset.urls')),
-    path('api/timetracking/', include('timetracking.urls')),
-    path('api/vacation/', include('vacation.urls')),
+path('api/timetracking/', include('timetracking.urls')),
+path('api/vacation/', include('vacation.urls')),
 ]

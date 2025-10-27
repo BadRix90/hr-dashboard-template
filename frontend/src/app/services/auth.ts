@@ -36,31 +36,39 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login/`, { username, password })
+    return this.http.post<LoginResponse>(`${this.apiUrl}/api/auth/login/`, { username, password })
       .pipe(tap(response => this.handleAuthSuccess(response)));
   }
 
   logout(): void {
-    const refreshToken = localStorage.getItem('refresh_token');
+    const refreshToken = this.getRefreshToken();
     if (refreshToken) {
-      this.http.post(`${this.apiUrl}/auth/logout/`, { refresh_token: refreshToken }).subscribe();
+      this.http.post(`${this.apiUrl}/api/auth/logout/`, { refresh_token: refreshToken }).subscribe();
     }
     this.clearTokens();
     this.router.navigate(['/login']);
   }
 
   refreshToken(): Observable<{ access: string }> {
-    const refreshToken = localStorage.getItem('refresh_token');
-    return this.http.post<{ access: string }>(`${this.apiUrl}/auth/refresh/`, { refresh: refreshToken })
+    const refresh = this.getRefreshToken();
+    return this.http.post<{ access: string }>(`${this.apiUrl}/api/auth/refresh/`, { refresh })
       .pipe(tap(response => localStorage.setItem('access_token', response.access)));
   }
 
-  getAccessToken(): string | null {
+  getToken(): string | null {
     return localStorage.getItem('access_token');
   }
 
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refresh_token');
+  }
+
   isAuthenticated(): boolean {
-    return !!this.getAccessToken();
+    return !!this.getToken();
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
   }
 
   isAdmin(): boolean {
@@ -80,7 +88,7 @@ export class AuthService {
 
   private loadUserFromToken(): void {
     if (this.isAuthenticated()) {
-      this.http.get<User>(`${this.apiUrl}/users/me/`).subscribe({
+      this.http.get<User>(`${this.apiUrl}/api/users/me/`).subscribe({
         next: user => {
           this.currentUserSubject.next(user);
           this.isLoggedIn.set(true);

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-password-reset-request',
@@ -16,12 +17,9 @@ export class PasswordResetRequestComponent {
   isLoading = false;
   successMessage = '';
   errorMessage = '';
+  private apiUrl = environment.apiUrl;
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.resetForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -33,7 +31,7 @@ export class PasswordResetRequestComponent {
       this.errorMessage = '';
       this.successMessage = '';
 
-      this.http.post('http://localhost:8000/api/password-reset/', this.resetForm.value)
+      this.http.post(`${this.apiUrl}/api/password-reset/`, this.resetForm.value)
         .subscribe({
           next: () => {
             this.isLoading = false;

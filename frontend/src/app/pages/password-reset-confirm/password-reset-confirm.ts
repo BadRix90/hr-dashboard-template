@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-password-reset-confirm',
@@ -17,6 +18,7 @@ export class PasswordResetConfirmComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   token = '';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +42,7 @@ export class PasswordResetConfirmComponent implements OnInit {
 
       const payload = { token: this.token, password: this.confirmForm.value.password };
 
-      this.http.post('http://localhost:8000/api/password-reset/confirm/', payload)
+      this.http.post(`${this.apiUrl}/api/password-reset/confirm/`, payload)
         .subscribe({
           next: () => {
             this.isLoading = false;

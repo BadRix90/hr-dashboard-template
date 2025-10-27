@@ -16,6 +16,7 @@ export interface VacationRequest {
   days: number;
   status: VacationStatus;
   reason?: string;
+  rejection_reason?: string;
   created_at?: string;
 }
 
@@ -27,60 +28,60 @@ export interface VacationBalance {
   pending_days: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class VacationService {
-  private apiUrl = `${environment.apiUrl}/vacation`;
+  private apiUrl = `${environment.apiUrl}/vacation/requests`;
 
   constructor(private http: HttpClient) { }
 
   getVacationRequests(): Observable<VacationRequest[]> {
-    return this.http.get<any>(`${this.apiUrl}/requests/`).pipe(
+    return this.http.get<any>(`${this.apiUrl}/`).pipe(
       map(response => Array.isArray(response) ? response : response.results || [])
     );
   }
 
   getVacationRequest(id: number): Observable<VacationRequest> {
-    return this.http.get<VacationRequest>(`${this.apiUrl}/requests/${id}/`);
+    return this.http.get<VacationRequest>(`${this.apiUrl}/${id}/`);
   }
 
-  createVacationRequest(request: VacationRequest): Observable<VacationRequest> {
-    return this.http.post<VacationRequest>(`${this.apiUrl}/requests/`, request);
+  createVacationRequest(request: Partial<VacationRequest>): Observable<VacationRequest> {
+    return this.http.post<VacationRequest>(`${this.apiUrl}/`, request);
   }
 
   updateVacationRequest(id: number, request: Partial<VacationRequest>): Observable<VacationRequest> {
-    return this.http.patch<VacationRequest>(`${this.apiUrl}/requests/${id}/`, request);
+    return this.http.patch<VacationRequest>(`${this.apiUrl}/${id}/`, request);
   }
 
   deleteVacationRequest(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/requests/${id}/`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}/`);
   }
 
   approveVacationRequest(id: number): Observable<VacationRequest> {
-    return this.http.post<VacationRequest>(`${this.apiUrl}/requests/${id}/approve/`, {});
+    return this.http.post<VacationRequest>(`${this.apiUrl}/${id}/approve/`, {});
   }
 
   rejectVacationRequest(id: number, reason: string): Observable<VacationRequest> {
-    return this.http.post<VacationRequest>(`${this.apiUrl}/requests/${id}/reject/`, { reason });
+    return this.http.post<VacationRequest>(`${this.apiUrl}/${id}/reject/`, { reason });
   }
 
   getVacationBalance(employeeId: number): Observable<VacationBalance> {
-    return this.http.get<VacationBalance>(`${this.apiUrl}/balance/${employeeId}/`);
+    return this.http.get<VacationBalance>(`${environment.apiUrl}/vacation/balance/${employeeId}/`);
   }
 
   calculateVacationDays(startDate: string, endDate: string): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    let days = 0;
+    const oneDay = 24 * 60 * 60 * 1000;
+    const diffDays = Math.round(Math.abs((end.getTime() - start.getTime()) / oneDay));
 
-    for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
-      const dayOfWeek = date.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        days++;
-      }
+    let workDays = 0;
+    for (let i = 0; i <= diffDays; i++) {
+      const current = new Date(start.getTime() + i * oneDay);
+      const day = current.getDay();
+      if (day !== 0 && day !== 6) workDays++;
     }
 
-    return days;
+    return workDays;
   }
 }
+  

@@ -2,8 +2,9 @@
 
 > **Modernes HR-Management-System** mit Django Backend, Angular Frontend und PostgreSQL Database
 
-[![Django](https://img.shields.io/badge/Django-5.0-green.svg)](https://www.djangoproject.com/)
-[![Angular](https://img.shields.io/badge/Angular-18-red.svg)](https://angular.io/)
+[![Django](https://img.shields.io/badge/Django-5.2.7-green.svg)](https://www.djangoproject.com/)
+[![Angular](https://img.shields.io/badge/Angular-20-red.svg)](https://angular.io/)
+[![Node.js](https://img.shields.io/badge/Node.js-22.18-brightgreen.svg)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 
@@ -29,7 +30,6 @@
 ### ✅ Implementiert
 
 **Zeiterfassung**
-
 - Timer-basierte Zeitbuchung (Start/Stop)
 - Manuelle Zeiteinträge
 - Projekt-Zuordnung
@@ -37,7 +37,6 @@
 - Export (CSV/Excel)
 
 **Urlaubsverwaltung**
-
 - Urlaubsanträge stellen
 - Genehmigung/Ablehnung (Manager)
 - Resturlaub-Anzeige
@@ -45,14 +44,12 @@
 - Historie
 
 **User Management**
-
 - Rollen: Admin, Manager, Mitarbeiter
 - User CRUD (Create, Read, Update, Delete)
 - Profil-Verwaltung
 - Permission-System
 
 **Dashboard**
-
 - Übersicht Arbeitszeit heute/Woche
 - Überstunden-Tracking
 - Urlaubs-Statistiken
@@ -74,29 +71,30 @@
 ## 🛠️ Tech Stack
 
 ### Backend
-
 ```
-Django 5.0          # Web Framework
+Django 5.2.7        # Web Framework
 Django REST         # API Framework
 PostgreSQL 16       # Production Database
 SQLite              # Development Database
 Gunicorn            # WSGI Server
-WhiteNoise          # Static Files
+WhiteNoise 6.11     # Static Files
 python-dotenv       # Environment Variables
+bcrypt 5.0          # Password Hashing
 ```
 
 ### Frontend
-
 ```
-Angular 18          # Framework
-TypeScript 5.5      # Language
+Angular 20          # Framework
+Angular CLI 20.1.6  # CLI Tool
+Node.js 22.18       # Runtime
+npm 10.9.3          # Package Manager
+TypeScript 5.x      # Language
 RxJS 7.8            # Reactive Programming
 SCSS                # Styling mit Variablen & Mixins
 Chart.js            # Visualisierungen
 ```
 
 ### DevOps
-
 ```
 Docker              # Containerization
 Docker Compose      # Multi-Container
@@ -113,8 +111,9 @@ PostgreSQL          # Database Container
 ```bash
 # Installiert sein müssen:
 Python 3.11+
-Node.js 20+
-npm 10+
+Node.js 22.18+
+npm 10.9+
+Angular CLI 20.1.6
 Git
 PowerShell (Windows)
 ```
@@ -163,21 +162,18 @@ cd ..
 ```
 
 Das Script öffnet automatisch:
-
 - **Terminal 1**: Django Backend auf `http://localhost:8000`
 - **Terminal 2**: Angular Frontend auf `http://localhost:4200` (öffnet Browser)
 
 #### 🔧 Alternativ: Manueller Start
 
 **Backend Terminal:**
-
 ```powershell
 .\venv\Scripts\activate
 python manage.py runserver
 ```
 
 **Frontend Terminal (neues Terminal):**
-
 ```powershell
 cd frontend
 ng serve --open
@@ -225,7 +221,6 @@ Write-Host "✅ Beide Terminals wurden geöffnet." -ForegroundColor Yellow
 ```
 
 **Vorteile:**
-
 - ✅ Automatisches Aktivieren der Virtual Environment
 - ✅ Beide Server starten parallel
 - ✅ Frontend öffnet Browser automatisch
@@ -365,10 +360,10 @@ def approve_vacation_request(request_id, manager_id):
     """Genehmigt Urlaubsantrag"""
     vacation_request = VacationRequest.objects.get(id=request_id)
     manager = User.objects.get(id=manager_id)
-
+    
     if manager.role not in ['admin', 'manager']:
         raise PermissionError("Keine Berechtigung")
-
+    
     vacation_request.status = 'approved'
     vacation_request.approved_by = manager
     vacation_request.approved_at = timezone.now()
@@ -377,7 +372,6 @@ def approve_vacation_request(request_id, manager_id):
 ```
 
 **Standards:**
-
 - Max **14 Zeilen pro Funktion**
 - Keine Inline-Comments (nur Docstrings)
 - Sprechende Variablennamen
@@ -395,7 +389,7 @@ export class TimeTrackingService {
 
   getTimeEntries(userId: number): Observable<TimeEntry[]> {
     return this.http.get<TimeEntry[]>(`${this.apiUrl}/entries/`, {
-      params: { user: userId.toString() },
+      params: { user: userId.toString() }
     });
   }
 
@@ -406,7 +400,6 @@ export class TimeTrackingService {
 ```
 
 **Standards:**
-
 - Max **14 Zeilen pro Funktion**
 - Keine Inline-Comments
 - Services für API-Calls
@@ -440,7 +433,7 @@ $transition-speed: 0.3s;
 @mixin card {
   background: white;
   border-radius: $border-radius;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   padding: $spacing-lg;
 }
 
@@ -448,7 +441,7 @@ $transition-speed: 0.3s;
 .dashboard-card {
   @include card;
   margin-bottom: $spacing-md;
-
+  
   .header {
     @include flex-center;
     color: $primary-color;
@@ -457,7 +450,6 @@ $transition-speed: 0.3s;
 ```
 
 **SCSS Regeln:**
-
 - **IMMER** Variablen statt Hardcoded Values
 - **IMMER** Mixins für wiederkehrende Patterns
 - **IMMER** `_variables.scss` & `_mixins.scss` nutzen
@@ -511,7 +503,6 @@ DB_PASSWORD=strong-random-password-here
 ```
 
 Generiere Secret Key:
-
 ```python
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
@@ -539,7 +530,6 @@ docker-compose down -v
 ### Hetzner Cloud Deployment
 
 **1. Server Setup**
-
 ```bash
 # Server mieten (CX21 oder höher)
 # SSH-Keys einrichten
@@ -553,7 +543,6 @@ apt install docker.io docker-compose git -y
 ```
 
 **2. Repository deployen**
-
 ```bash
 cd /opt
 git clone https://github.com/BadRix90/hr-dashboard-template.git
@@ -568,7 +557,6 @@ chmod +x setup.sh
 ```
 
 **3. Firewall konfigurieren**
-
 ```bash
 ufw allow 80/tcp
 ufw allow 443/tcp
@@ -577,14 +565,12 @@ ufw enable
 ```
 
 **4. SSL-Zertifikat (Let's Encrypt)**
-
 ```bash
 apt install certbot python3-certbot-nginx -y
 certbot --nginx -d yourdomain.com -d www.yourdomain.com
 ```
 
 **5. Auto-Updates deployen**
-
 ```bash
 cd /opt/hr-dashboard-template
 git pull origin main
@@ -596,14 +582,12 @@ git pull origin main
 ## 📊 API-Dokumentation
 
 ### Base URL
-
 ```
 Development:  http://localhost:8000/api/
 Production:   https://yourdomain.com/api/
 ```
 
 ### Authentication
-
 ```http
 POST /api/auth/login/
 Content-Type: application/json
@@ -621,7 +605,6 @@ Response:
 ```
 
 ### Zeiterfassung
-
 ```http
 # Alle Einträge abrufen
 GET /api/timetracking/entries/
@@ -653,7 +636,6 @@ GET /api/timetracking/export/?format=csv&start_date=2025-01-01&end_date=2025-01-
 ```
 
 ### Urlaubsverwaltung
-
 ```http
 # Urlaub beantragen
 POST /api/vacation/requests/
@@ -677,7 +659,6 @@ GET /api/vacation/balance/
 ```
 
 ### User Management
-
 ```http
 # Alle User (Admin)
 GET /api/users/
@@ -708,7 +689,6 @@ DELETE /api/users/{id}/
 ## 🗺️ Roadmap
 
 ### ✅ Phase 0: Basis (Abgeschlossen)
-
 - [x] Django Backend Setup
 - [x] Angular Frontend Setup
 - [x] Basis-Komponenten
@@ -716,7 +696,6 @@ DELETE /api/users/{id}/
 - [x] Development Workflow
 
 ### 🚧 Phase 1: Production-Ready (In Arbeit)
-
 - [ ] JWT Authentication implementieren
 - [ ] Login/Logout Components
 - [ ] AuthGuard für Routing
@@ -726,7 +705,6 @@ DELETE /api/users/{id}/
 - [ ] Production Settings (DEBUG=False, SSL, etc.)
 
 ### 📅 Phase 2: Deployment (Geplant)
-
 - [ ] Dockerfile Backend/Frontend
 - [ ] docker-compose.yml
 - [ ] Nginx Reverse Proxy
@@ -735,7 +713,6 @@ DELETE /api/users/{id}/
 - [ ] CI/CD Pipeline (GitHub Actions)
 
 ### 📅 Phase 3: Features (Geplant)
-
 - [ ] Loading Spinner überall
 - [ ] Toast Notifications
 - [ ] Confirm Dialogs
@@ -745,7 +722,6 @@ DELETE /api/users/{id}/
 - [ ] Kalender-Integration
 
 ### 📅 Phase 4: DSGVO & Compliance (Geplant)
-
 - [ ] Datenschutzerklärung
 - [ ] Cookie-Banner
 - [ ] Consent-Management
@@ -755,7 +731,6 @@ DELETE /api/users/{id}/
 - [ ] 2FA (Zwei-Faktor-Auth)
 
 ### 📅 Phase 5: Polish (Nice-to-Have)
-
 - [ ] Dark Mode
 - [ ] Multi-Language (DE/EN)
 - [ ] PWA (Progressive Web App)
@@ -847,9 +822,7 @@ docker-compose exec frontend sh
 
 ## 📄 Lizenz
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/BadRix90/hr-dashboard-template/blob/main/LICENSE)
-
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe [LICENSE](https://github.com/BadRix90/hr-dashboard-template/blob/main/LICENSE) Datei für Details.
+MIT License - Siehe LICENSE Datei
 
 ---
 
@@ -859,7 +832,6 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe [LICENSE](https://git
 **GitHub:** https://github.com/BadRix90/hr-dashboard-template
 
 Bei Fragen oder Problemen:
-
 1. GitHub Issues erstellen
 2. Logs checken (`docker-compose logs -f`)
 3. Troubleshooting-Sektion prüfen

@@ -1,54 +1,62 @@
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+.page-content {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
 .page-header {
-  margin-bottom: $spacing-6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 
   h1 {
-    @include heading-xl;
-    margin: 0 0 $spacing-2 0;
-    color: var(--color-text);
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-primary, #333);
   }
 
-  .subtitle {
-    @include body-base;
-    color: var(--color-text-muted);
-    margin: 0;
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color, #007bff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    span {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    &:hover {
+      background: #0056b3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
   }
 }
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: $spacing-4;
-  margin-bottom: $spacing-6;
-
-  @include mobile-only {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.page-section {
-  @include card-base;
-  padding: $spacing-5;
-
-  @include mobile-only {
-    padding: $spacing-4;
-  }
-}
-
-.section-title {
-  @include heading-sm;
-  margin: 0 0 $spacing-4 0;
-  color: var(--color-text);
-}
-
+.projects-section,
 .table-section {
-  @include card-base;
-  padding: $spacing-5;
-  margin-top: $spacing-6;
+  margin-top: 2rem;
 
-  @include mobile-only {
-    padding: $spacing-4;
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary, #333);
   }
 }

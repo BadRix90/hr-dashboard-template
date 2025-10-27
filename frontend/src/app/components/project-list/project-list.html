@@ -1,1 +1,46 @@
-<p>project-list works!</p>
+<div class="project-list">
+  @if (loading()) {
+    <div class="loading">Lade Projekte...</div>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (!loading() && projects().length === 0) {
+    <div class="empty-state">
+      <p>Noch keine Projekte angelegt</p>
+    </div>
+  }
+
+  @if (!loading() && projects().length > 0) {
+    <div class="projects-grid">
+      @for (project of projects(); track project.id) {
+        <div class="project-card" [class.inactive]="!project.is_active">
+          <div class="project-header">
+            <h3>{{ project.name }}</h3>
+            <span class="status-badge" [class.active]="project.is_active">
+              {{ project.is_active ? 'Aktiv' : 'Inaktiv' }}
+            </span>
+          </div>
+
+          <p class="project-description">
+            {{ project.description || 'Keine Beschreibung' }}
+          </p>
+
+          <div class="project-actions">
+            <button class="btn-icon" (click)="onEdit(project)" title="Bearbeiten">
+              ✏️
+            </button>
+            <button class="btn-icon" (click)="toggleStatus(project)" title="Status ändern">
+              {{ project.is_active ? '⏸️' : '▶️' }}
+            </button>
+            <button class="btn-icon danger" (click)="onDelete(project)" title="Löschen">
+              🗑️
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

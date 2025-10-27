@@ -1,31 +1,89 @@
 <div class="vacation-approval">
   <h2>Urlaubsanträge genehmigen</h2>
 
-  <div *ngIf="loading" class="loading">Lädt...</div>
+  @if (loading()) {
+    <div class="loading">Lädt...</div>
+  }
 
-  <div *ngIf="!loading && requests.length === 0" class="no-requests">
-    Keine offenen Anträge
-  </div>
+  @if (!loading() && requests().length === 0) {
+    <div class="no-requests">
+      <p>✓ Keine offenen Anträge</p>
+    </div>
+  }
 
-  <div class="requests-list">
-    <div *ngFor="let request of requests" class="request-card" [class.pending]="request.status === 'pending'">
-      <div class="request-header">
-        <h3>{{ request.employee_name || 'Unbekannt' }}</h3>
-        <span class="badge" [class]="request.status">{{ request.status }}</span>
+  @if (!loading() && requests().length > 0) {
+    <div class="requests-list">
+      @for (request of requests(); track request.id) {
+        <div class="request-card">
+          <div class="request-header">
+            <div class="employee-info">
+              <h3>{{ request.employee_name || 'Unbekannt' }}</h3>
+              <span class="type-badge" [class]="request.type">
+                {{ request.type === 'urlaub' ? '🏖️ Urlaub' : 
+                   request.type === 'krank' ? '🤒 Krank' : '📋 Sonderurlaub' }}
+              </span>
+            </div>
+            <span class="days-badge">{{ request.days }} Tage</span>
+          </div>
+
+          <div class="request-details">
+            <div class="detail-item">
+              <span class="label">Von:</span>
+              <span class="value">{{ request.start_date }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Bis:</span>
+              <span class="value">{{ request.end_date }}</span>
+            </div>
+            @if (request.reason) {
+              <div class="detail-item full-width">
+                <span class="label">Grund:</span>
+                <span class="value">{{ request.reason }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="request-actions">
+            <button class="btn-approve" (click)="approveRequest(request.id!, request.employee_name || '')">
+              ✓ Genehmigen
+            </button>
+            <button class="btn-reject" (click)="openRejectModal(request.id!)">
+              ✗ Ablehnen
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (showRejectModal()) {
+  <div class="modal-overlay" (click)="closeRejectModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Antrag ablehnen</h3>
+        <button class="close-btn" (click)="closeRejectModal()">&times;</button>
       </div>
-
-      <div class="request-details">
-        <p><strong>Von:</strong> {{ request.start_date | date:'dd.MM.yyyy' }}</p>
-        <p><strong>Bis:</strong> {{ request.end_date | date:'dd.MM.yyyy' }}</p>
-        <p><strong>Tage:</strong> {{ request.days }}</p>
-        <p><strong>Typ:</strong> {{ request.type }}</p>
-        <p><strong>Grund:</strong> {{ request.reason || 'Keine Angabe' }}</p>
-      </div>
-
-      <div class="request-actions" *ngIf="request.status === 'pending'">
-        <button class="btn-approve" (click)="approveRequest(request.id!)">Genehmigen</button>
-        <button class="btn-reject" (click)="rejectRequest(request.id!)">Ablehnen</button>
-      </div>
+      <form #rejectForm="ngForm" (ngSubmit)="rejectRequest(rejectReason.value); rejectForm.reset()">
+        <div class="form-group">
+          <label for="reason">Grund für Ablehnung *</label>
+          <textarea
+            #rejectReason
+            id="reason"
+            rows="4"
+            required
+            placeholder="Bitte gib einen Grund an..."
+          ></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeRejectModal()">
+            Abbrechen
+          </button>
+          <button type="submit" class="btn-danger" [disabled]="!rejectReason.value">
+            Ablehnen
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
+}

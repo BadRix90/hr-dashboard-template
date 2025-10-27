@@ -68,7 +68,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         roles: ['admin', 'manager'] 
       },
       { 
-        path: '/user-management', 
+        path: '/users', 
         label: 'Mitarbeiter', 
         icon: this.icons.users, 
         roles: ['admin'] 

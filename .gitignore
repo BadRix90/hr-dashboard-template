@@ -1,0 +1,29 @@
+# Python
+*.pyc
+__pycache__/
+*.log
+venv/
+*.egg-info/
+
+# Django
+db.sqlite3
+*.sqlite3
+/staticfiles/
+/media/
+
+# Environment
+.env
+.env.production
+
+# Docker
+.dockerignore
+
+# Frontend
+node_modules/
+/frontend/dist/
+/frontend/.angular/
+
+# IDE
+.vscode/
+.idea/
+*.swp

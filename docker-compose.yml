@@ -44,15 +44,18 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    networks:
-      - app-network
+  build:
+    context: .
+    dockerfile: Dockerfile.frontend
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - /etc/letsencrypt:/etc/letsencrypt:ro
+  depends_on:
+    - backend
+  networks:
+    - app-network
 
 volumes:
   postgres_data:

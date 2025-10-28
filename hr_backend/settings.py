@@ -9,7 +9,9 @@ SECRET_KEY = config(
     'SECRET_KEY', default='django-insecure-6tx3^=#w^^)yisv2*v!p^6d@f&(jrt^-)#b=*=y-5n_l6&s(+b')
 DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,hr-dashboard.novadev-edge.io,37.27.15.92,backend'
+).split(',')
 
 # Applications
 INSTALLED_APPS = [
@@ -112,7 +114,7 @@ AUTH_USER_MODEL = 'users.User'
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:4200,http://127.0.0.1:4200'
+    default='http://localhost:4200,http://127.0.0.1:4200,https://hr-dashboard.novadev-edge.io,http://37.27.15.92'
 ).split(',')
 CORS_ALLOW_CREDENTIALS = True
 
@@ -143,12 +145,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
-# CSRF Exemption für API
+# CSRF Configuration für Production
 CSRF_TRUSTED_ORIGINS = [
+    'https://hr-dashboard.novadev-edge.io',
     'http://37.27.15.92',
-    'http://localhost',
-    'https://novadev-edge.io',
-    'https://www.novadev-edge.io',
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
 ]
 
 # JWT Settings
@@ -168,6 +170,8 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_HTTPONLY = True
     SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SAMESITE = 'Lax'   
+    SESSION_COOKIE_SAMESITE = 'Lax'
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_SECONDS = 31536000

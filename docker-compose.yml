@@ -35,8 +35,8 @@ services:
       - DB_PASSWORD=PostgreSQL_Password_2025_Secure!
       - DB_HOST=db
       - DB_PORT=5432
-      - ALLOWED_HOSTS=localhost,127.0.0.1,37.27.15.92,backend
-      - CORS_ALLOWED_ORIGINS=http://localhost:4200,http://127.0.0.1:4200,http://37.27.15.92
+      - ALLOWED_HOSTS=localhost,127.0.0.1,37.27.15.92,backend,hr-dashboard.novadev-edge.io
+      - CORS_ALLOWED_ORIGINS=http://localhost:4200,http://127.0.0.1:4200,http://37.27.15.92,https://hr-dashboard.novadev-edge.io
     depends_on:
       db:
         condition: service_healthy

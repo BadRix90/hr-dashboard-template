@@ -1,3 +1,6 @@
+// frontend/src/app/services/auth.ts
+// KORRIGIERTE VERSION - Ersetze komplett!
+
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -36,14 +39,16 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/api/auth/login/`, { username, password })
+    // ✅ FIX: /api/ entfernt, weil environment.apiUrl bereits /api enthält!
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login/`, { username, password })
       .pipe(tap(response => this.handleAuthSuccess(response)));
   }
 
   logout(): void {
     const refreshToken = this.getRefreshToken();
     if (refreshToken) {
-      this.http.post(`${this.apiUrl}/api/auth/logout/`, { refresh_token: refreshToken }).subscribe();
+      // ✅ FIX: /api/ entfernt
+      this.http.post(`${this.apiUrl}/auth/logout/`, { refresh_token: refreshToken }).subscribe();
     }
     this.clearTokens();
     this.router.navigate(['/login']);
@@ -51,7 +56,8 @@ export class AuthService {
 
   refreshToken(): Observable<{ access: string }> {
     const refresh = this.getRefreshToken();
-    return this.http.post<{ access: string }>(`${this.apiUrl}/api/auth/refresh/`, { refresh })
+    // ✅ FIX: /api/ entfernt
+    return this.http.post<{ access: string }>(`${this.apiUrl}/auth/refresh/`, { refresh })
       .pipe(tap(response => localStorage.setItem('access_token', response.access)));
   }
 
@@ -88,7 +94,8 @@ export class AuthService {
 
   private loadUserFromToken(): void {
     if (this.isAuthenticated()) {
-      this.http.get<User>(`${this.apiUrl}/api/users/me/`).subscribe({
+      // ✅ FIX: /api/ entfernt
+      this.http.get<User>(`${this.apiUrl}/users/me/`).subscribe({
         next: user => {
           this.currentUserSubject.next(user);
           this.isLoggedIn.set(true);

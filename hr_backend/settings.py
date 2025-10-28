@@ -143,6 +143,14 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+# CSRF Exemption für API
+CSRF_TRUSTED_ORIGINS = [
+    'http://37.27.15.92',
+    'http://localhost',
+    'https://novadev-edge.io',
+    'https://www.novadev-edge.io',
+]
+
 # JWT Settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),

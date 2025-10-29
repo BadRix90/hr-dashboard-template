@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile.backend
     command: gunicorn hr_backend.wsgi:application --bind 0.0.0.0:8000 --workers 2
     env_file:
-      - .env.production
+      - .env 
     environment:
       - DEBUG=${DEBUG:-False}
       - SECRET_KEY=${SECRET_KEY}

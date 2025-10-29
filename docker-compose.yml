@@ -37,7 +37,7 @@ services:
       - EMAIL_PORT=587
       - EMAIL_USE_TLS=True
       - EMAIL_HOST_USER=hr@novadev-edge.io
-      - EMAIL_HOST_PASSWORD="6hM34Zr8D74Ry1j6"
+      - EMAIL_HOST_PASSWORD=6hM34Zr8D74Ry1j6
       - DEFAULT_FROM_EMAIL=hr@novadev-edge.io
 
   frontend:
@@ -60,4 +60,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-    

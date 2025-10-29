@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: hr_dashboard
-      POSTGRES_USER: hr_user
-      POSTGRES_PASSWORD: "BcF6$w&O&RLVJqpsT2gx62JK6Ppxe#jc"
+      POSTGRES_DB: ${DB_NAME:-hr_dashboard}
+      POSTGRES_USER: ${DB_USER:-hr_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -22,23 +22,29 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     command: gunicorn hr_backend.wsgi:application --bind 0.0.0.0:8000 --workers 2
-    network_mode: "host"
+    env_file:
+      - .env.production
     environment:
-      - DEBUG=False
-      - SECRET_KEY="+=JhLk!GJHEbRpb9t&$Q6&!w_=29QrML9%9qNc@4^981K=bc5p"
-      - DB_NAME=hr_dashboard
-      - DB_USER=hr_user
-      - DB_PASSWORD="BcF6$w&O&RLVJqpsT2gx62JK6Ppxe#jc"
-      - DB_HOST=localhost
-      - DB_PORT=5432
-      - ALLOWED_HOSTS=localhost,127.0.0.1,37.27.15.92,backend,hr-dashboard.novadev-edge.io
-      - CORS_ALLOWED_ORIGINS=http://localhost:4200,http://127.0.0.1:4200,http://37.27.15.92,https://hr-dashboard.novadev-edge.io
-      - EMAIL_HOST=mail.your-server.de
-      - EMAIL_PORT=587
-      - EMAIL_USE_TLS=True
-      - EMAIL_HOST_USER=hr@novadev-edge.io
-      - EMAIL_HOST_PASSWORD=6hM34Zr8D74Ry1j6
-      - DEFAULT_FROM_EMAIL=hr@novadev-edge.io
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME:-hr_dashboard}
+      - DB_USER=${DB_USER:-hr_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-5432}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT:-587}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS:-True}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
 
   frontend:
     build:

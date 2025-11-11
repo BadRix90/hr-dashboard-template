@@ -1,81 +1,63 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { UserRole } from './auth';
 import { environment } from '../../environments/environment';
 
+export type UserRole = 'admin' | 'manager' | 'employee';
+
 export interface User {
-  id?: number;
-  name: string;
+  id: number;
+  username: string;
   email: string;
+  first_name: string;
+  last_name: string;
   role: UserRole;
-  status: 'active' | 'inactive';
-  department?: string;
+  department: string;
+  vacation_days: number;
+  phone?: string;
   hire_date?: string;
-  vacation_days?: number;
-  created_at?: string;
 }
 
-export interface UserCreateRequest {
-  name: string;
+export interface UserCreate {
+  username: string;
   email: string;
   password: string;
+  first_name: string;
+  last_name: string;
   role: UserRole;
-  department?: string;
-  vacation_days?: number;
+  department: string;
+  vacation_days: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class UserService {
   private apiUrl = `${environment.apiUrl}/users`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
     return this.http.get<any>(`${this.apiUrl}/`).pipe(
-      map(response => Array.isArray(response) ? response : response.results || [])
+      map(response => {
+        if (Array.isArray(response)) return response;
+        if (response.results) return response.results;
+        return [];
+      })
     );
   }
 
-  getUser(id: number): Observable<User> {
+  getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}/`);
   }
 
-  createUser(user: UserCreateRequest): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/`, user);
+  createUser(data: UserCreate): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/`, data);
   }
 
-  updateUser(id: number, user: Partial<User>): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${id}/`, user);
+  updateUser(id: number, data: Partial<User>): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${id}/`, data);
   }
 
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}/`);
-  }
-
-  changeUserRole(userId: number, role: UserRole): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/role/`, { role });
-  }
-
-  activateUser(id: number): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${id}/`, { status: 'active' });
-  }
-
-  deactivateUser(id: number): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${id}/`, { status: 'inactive' });
-  }
-
-  getUsersByRole(role: UserRole): Observable<User[]> {
-    return this.http.get<any>(`${this.apiUrl}/?role=${role}`).pipe(
-      map(response => Array.isArray(response) ? response : response.results || [])
-    );
-  }
-
-  searchUsers(query: string): Observable<User[]> {
-    return this.http.get<any>(`${this.apiUrl}/?search=${query}`).pipe(
-      map(response => Array.isArray(response) ? response : response.results || [])
-    );
   }
 }

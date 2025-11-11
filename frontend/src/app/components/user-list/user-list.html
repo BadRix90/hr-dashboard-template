@@ -1,30 +1,50 @@
 <div class="user-list">
   <div class="list-header">
     <h2>Mitarbeiter</h2>
-    <button class="btn-primary">Neuer Mitarbeiter</button>
+    <button class="btn-primary" (click)="openUserForm()">Neuer Mitarbeiter</button>
   </div>
 
+  @if (loading()) {
+  <div class="loading">Lade Mitarbeiter...</div>
+  } @else if (users().length === 0) {
+  <div class="empty-state">
+    <p>Keine Mitarbeiter vorhanden</p>
+    <button class="btn-primary" (click)="openUserForm()">Ersten Mitarbeiter anlegen</button>
+  </div>
+  } @else {
   <table class="user-table">
     <thead>
       <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Rolle</th>
-        <th>Status</th>
+        <th>Abteilung</th>
         <th>Aktionen</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
+      @for (user of users(); track user.id) {
+      <tr>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
         <td>{{ user.email }}</td>
-        <td><span class="badge" [class]="user.role">{{ user.role }}</span></td>
-        <td><span class="badge" [class]="user.status">{{ user.status }}</span></td>
-        <td>
-          <button class="btn-edit">Bearbeiten</button>
+        <td><span class="badge" [class]="user.role">{{ getRoleLabel(user.role) }}</span></td>
+        <td>{{ user.department || '-' }}</td>
+        <td class="actions">
+          <button class="btn-edit" (click)="editUser(user)">Bearbeiten</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">Löschen</button>
         </td>
       </tr>
+      }
     </tbody>
   </table>
+  }
 </div>
+
+@if (showUserForm()) {
+<div class="modal-overlay" (click)="closeUserForm()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeUserForm()">×</button>
+    <app-user-form (userCreated)="onUserCreated()"></app-user-form>
+  </div>
+</div>
+}

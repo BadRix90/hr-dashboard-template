@@ -28,7 +28,9 @@
       font-weight: $font-weight-medium;
       transition: $transition-base;
 
-      &:hover { background: var(--color-primary-hover); }
+      &:hover {
+        background: var(--color-primary-hover);
+      }
     }
   }
 
@@ -36,7 +38,8 @@
     width: 100%;
     border-collapse: collapse;
 
-    th, td {
+    th,
+    td {
       text-align: left;
       padding: $spacing-4;
       border-bottom: $border-width solid var(--color-border);
@@ -56,14 +59,34 @@
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
 
-      &.Admin { background: var(--color-error); color: white; }
-      &.Manager { background: var(--color-warning); color: white; }
-      &.Mitarbeiter { background: var(--color-success); color: white; }
-      &.active { background: var(--color-success); color: white; }
-      &.inactive { background: var(--color-gray-400); color: white; }
+      &.Admin {
+        background: var(--color-error);
+        color: white;
+      }
+
+      &.Manager {
+        background: var(--color-warning);
+        color: white;
+      }
+
+      &.Mitarbeiter {
+        background: var(--color-success);
+        color: white;
+      }
+
+      &.active {
+        background: var(--color-success);
+        color: white;
+      }
+
+      &.inactive {
+        background: var(--color-gray-400);
+        color: white;
+      }
     }
 
-    .btn-edit, .btn-delete {
+    .btn-edit,
+    .btn-delete {
       padding: $spacing-2 $spacing-3;
       border: none;
       border-radius: $radius-sm;
@@ -76,13 +99,59 @@
     .btn-edit {
       background: var(--color-success);
       color: white;
-      &:hover { opacity: 0.9; }
+
+      &:hover {
+        opacity: 0.9;
+      }
     }
 
     .btn-delete {
       background: var(--color-error);
       color: white;
-      &:hover { opacity: 0.9; }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+
+    &:hover {
+      color: #333;
     }
   }
 }

@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService, UserCreateRequest } from '../../services/user';
-import { UserRole } from '../../services/auth';
+import { UserService, UserCreate, UserRole } from '../../services/user';
 
 @Component({
   selector: 'app-user-form',
@@ -15,37 +14,33 @@ export class UserFormComponent {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
 
+  @Output() userCreated = new EventEmitter<void>();
   roles: UserRole[] = ['admin', 'manager', 'employee'];
 
-getRoleLabel(role: UserRole): string {
-  const labels = {
-    'admin': 'Administrator',
-    'manager': 'Manager',
-    'employee': 'Mitarbeiter'
-  };
-  return labels[role];
-}
-  
   userForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
+    username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    role: ['Mitarbeiter', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    first_name: ['', Validators.required],
+    last_name: ['', Validators.required],
+    role: ['employee', Validators.required],
     department: [''],
     vacation_days: [30, [Validators.required, Validators.min(0)]]
   });
 
+  getRoleLabel(role: UserRole): string {
+    return { admin: 'Administrator', manager: 'Manager', employee: 'Mitarbeiter' }[role];
+  }
+
   submitForm(): void {
     if (this.userForm.invalid) return;
-
-    const userData: UserCreateRequest = this.userForm.value;
-
+    const userData: UserCreate = this.userForm.value;
     this.userService.createUser(userData).subscribe({
       next: () => {
-        alert('User erfolgreich erstellt!');
-        this.userForm.reset({ role: 'Mitarbeiter', vacation_days: 30 });
+        this.userCreated.emit();
+        this.userForm.reset({ role: 'employee', vacation_days: 30 });
       },
-      error: (err) => console.error('Error creating user:', err)
+      error: (err) => console.error('❌ Fehler:', err)
     });
   }
 }

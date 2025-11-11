@@ -1,47 +1,71 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService, User } from '../../services/user';
+import { UserService, User, UserRole } from '../../services/user';
+import { UserFormComponent } from '../user-form/user-form';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UserFormComponent],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'
 })
 export class UserListComponent implements OnInit {
   private userService = inject(UserService);
-  
-  users: User[] = [];
-  loading = true;
+
+  users = signal<User[]>([]);
+  loading = signal(true);
+  showUserForm = signal(false);
+  selectedUser = signal<User | null>(null);
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
   loadUsers(): void {
-    this.loading = true;
+    this.loading.set(true);
     this.userService.getUsers().subscribe({
       next: (users) => {
-        this.users = users;
-        this.loading = false;
+        this.users.set(users);
+        this.loading.set(false);
       },
       error: (err) => {
-        console.error('Error loading users:', err);
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
 
-  deleteUser(id: number | undefined): void {
-    if (!id) return;
-    if (!confirm('User wirklich löschen?')) return;
-    
+  openUserForm(): void {
+    this.selectedUser.set(null);
+    this.showUserForm.set(true);
+  }
+
+  closeUserForm(): void {
+    this.showUserForm.set(false);
+    this.selectedUser.set(null);
+  }
+
+  onUserCreated(): void {
+    this.closeUserForm();
+    this.loadUsers();
+  }
+
+  editUser(user: User): void {
+    this.selectedUser.set(user);
+    this.showUserForm.set(true);
+  }
+
+  deleteUser(id: number): void {
+    if (!confirm('Mitarbeiter wirklich löschen?')) return;
     this.userService.deleteUser(id).subscribe({
       next: () => {
-        this.users = this.users.filter(u => u.id !== id);
+        this.users.update(list => list.filter(u => u.id !== id));
       },
-      error: (err) => console.error('Error deleting user:', err)
+      error: (err) => console.error('Fehler beim Löschen:', err)
     });
+  }
+
+  getRoleLabel(role: UserRole): string {
+    return { admin: 'Administrator', manager: 'Manager', employee: 'Mitarbeiter' }[role];
   }
 }

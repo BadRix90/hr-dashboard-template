@@ -1,0 +1,68 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: 1.6;
+  color: $text-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include heading-base;
+}
+
+h1 { font-size: $font-size-h1; font-weight: $font-weight-bold; }
+h2 { font-size: $font-size-h2; font-weight: $font-weight-bold; }
+h3 { font-size: $font-size-h3; font-weight: $font-weight-medium; }
+h4 { font-size: $font-size-h4; font-weight: $font-weight-medium; }
+h5 { font-size: $font-size-h5; font-weight: $font-weight-medium; }
+h6 { font-size: $font-size-h6; font-weight: $font-weight-medium; }
+
+.text-primary { color: $text-primary; }
+.text-secondary { color: $text-secondary; }
+.text-disabled { color: $text-disabled; }
+.text-white { color: $text-on-dark; }
+
+.text-success { color: $success-color; }
+.text-warning { color: $warning-color; }
+.text-error { color: $error-color; }
+.text-info { color: $info-color; }
+
+.text-small { font-size: $font-size-small; }
+.text-tiny { font-size: $font-size-tiny; }
+
+.font-light { font-weight: $font-weight-light; }
+.font-regular { font-weight: $font-weight-regular; }
+.font-medium { font-weight: $font-weight-medium; }
+.font-bold { font-weight: $font-weight-bold; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-truncate { @include text-truncate; }
+.text-clamp-2 { @include text-clamp(2); }
+.text-clamp-3 { @include text-clamp(3); }
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: darken($primary-color, 10%);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 2px solid $focus-color;
+    outline-offset: 2px;
+  }
+}

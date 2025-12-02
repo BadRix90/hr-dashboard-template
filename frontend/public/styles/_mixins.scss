@@ -1,0 +1,116 @@
+@use 'variables' as *;
+
+@mixin breakpoint($size) {
+  @if $size == xs {
+    @media (min-width: $breakpoint-xs) { @content; }
+  }
+  @else if $size == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  }
+  @else if $size == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  }
+  @else if $size == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  }
+  @else if $size == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+@mixin card-base {
+  background: $background-white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+  transition: all 0.3s ease;
+}
+
+@mixin card-hover {
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin heading-base {
+  font-family: $font-family-headings;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+}
+
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $border-radius-sm;
+  font-family: $font-family-base;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin fade-in($duration: 0.3s) {
+  animation: fadeIn $duration ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@mixin slide-in-up {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

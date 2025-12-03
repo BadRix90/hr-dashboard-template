@@ -9,6 +9,7 @@
   position: fixed;
   left: 0;
   top: 0;
+  overflow-x: hidden;
   overflow-y: auto;
   box-shadow: $shadow-md;
   z-index: $z-index-modal;
@@ -28,6 +29,9 @@
     font-size: $font-size-h5;
     font-weight: $font-weight-bold;
     color: $text-on-dark;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

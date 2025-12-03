@@ -18,6 +18,16 @@
   }
 }
 
+@mixin container {
+  max-width: $max-content-width;
+  margin: 0 auto;
+  padding: $spacing-md;
+
+  @include breakpoint(md) {
+    padding: $spacing-xl;
+  }
+}
+
 @mixin card-base {
   background: $background-white;
   border-radius: $border-radius-md;

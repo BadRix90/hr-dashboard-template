@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ThemeService } from '../../services/theme';
 
 interface User {
   firstName: string;
@@ -32,15 +33,46 @@ interface SettingsTab {
   templateUrl: './settings.html',
   styleUrl: './settings.scss',
 })
-export class Settings {
+export class Settings implements OnInit {
   activeTab = 'profile';
   theme = 'light';
+  selectedFont = 'plus-jakarta';
+
+  constructor(private themeService: ThemeService) {}
 
   tabs: SettingsTab[] = [
     { id: 'profile', label: 'Profile', icon: 'person' },
     { id: 'account', label: 'Account', icon: 'security' },
     { id: 'notifications', label: 'Notifications', icon: 'notifications' },
     { id: 'appearance', label: 'Appearance', icon: 'palette' }
+  ];
+
+  fonts = [
+    {
+      id: 'plus-jakarta',
+      name: 'Plus Jakarta Sans',
+      family: "'Plus Jakarta Sans', sans-serif"
+    },
+    {
+      id: 'work-sans',
+      name: 'Work Sans',
+      family: "'Work Sans', sans-serif"
+    },
+    {
+      id: 'nunito',
+      name: 'Nunito',
+      family: "'Nunito', sans-serif"
+    },
+    {
+      id: 'quicksand',
+      name: 'Quicksand',
+      family: "'Quicksand', sans-serif"
+    },
+    {
+      id: 'balthazar',
+      name: 'Balthazar',
+      family: "'Balthazar', serif"
+    }
   ];
 
   user: User = {
@@ -59,6 +91,15 @@ export class Settings {
     timeTracking: false,
     team: true
   };
+
+  ngOnInit() {
+    this.selectedFont = this.themeService.getCurrentFont();
+  }
+
+  selectFont(fontId: string) {
+    this.selectedFont = fontId;
+    this.themeService.setFont(fontId);
+  }
 
   changeAvatar() {
     console.log('Change avatar');
@@ -83,6 +124,6 @@ export class Settings {
   }
 
   saveAppearance() {
-    console.log('Save appearance', this.theme);
+    console.log('Appearance saved', { theme: this.theme, font: this.selectedFont });
   }
 }

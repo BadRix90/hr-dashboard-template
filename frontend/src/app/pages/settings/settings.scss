@@ -341,6 +341,44 @@
   }
 }
 
+.font-options {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.font-card {
+  padding: $spacing-lg;
+  border: 2px solid #eee;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-color;
+  }
+
+  &.active {
+    border-color: $primary-color;
+    background: rgba($primary-color, 0.05);
+  }
+
+  .font-preview {
+    display: block;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  .font-sample {
+    font-size: $font-size-small;
+    color: $text-secondary;
+    margin: 0;
+  }
+}
+
 .btn-primary {
   @include button-base;
   background: $primary-color;

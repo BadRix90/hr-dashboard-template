@@ -179,6 +179,22 @@
             </div>
           </div>
 
+          <div class="settings-group">
+            <h3>Font Family</h3>
+            <div class="font-options">
+              @for (font of fonts; track font.id) {
+                <div
+                  class="font-card"
+                  [class.active]="selectedFont === font.id"
+                  [style.font-family]="font.family"
+                  (click)="selectFont(font.id)">
+                  <span class="font-preview">{{ font.name }}</span>
+                  <p class="font-sample">The quick brown fox jumps over the lazy dog</p>
+                </div>
+              }
+            </div>
+          </div>
+
           <button class="btn-primary" (click)="saveAppearance()">Save Changes</button>
         </div>
       }

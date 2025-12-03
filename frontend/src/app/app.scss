@@ -2,16 +2,16 @@
 @use '../../public/styles/mixins' as *;
 
 .main-content {
-  margin-left: 0;
-  margin-top: 64px;
-  margin-bottom: 60px;
-  min-height: calc(100vh - 124px);
-  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 64px;
+  bottom: 60px;
+  right: 0;
   overflow-x: hidden;
+  overflow-y: auto;
 
   @include breakpoint(md) {
-    margin-left: 260px;
-    margin-bottom: 0;
-    min-height: calc(100vh - 64px);
+    left: 260px;
+    bottom: 0;
   }
 }

@@ -1,0 +1,88 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>Team Overview</h1>
+    <p class="text-secondary">Manage your team members</p>
+  </header>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <h3>Total Members</h3>
+      <p class="stat-value">{{ totalMembers }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Active Today</h3>
+      <p class="stat-value">{{ activeToday }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>On Vacation</h3>
+      <p class="stat-value">{{ onVacation }}</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header">
+      <h2>Team Members</h2>
+      <div class="header-actions">
+        <input type="text" class="search-input" placeholder="Search members..." [(ngModel)]="searchTerm">
+        <button class="btn-primary" (click)="addMember()">
+          <mat-icon>add</mat-icon>
+          Add Member
+        </button>
+      </div>
+    </div>
+
+    <div class="team-grid">
+      @for (member of filteredMembers; track member.id) {
+        <div class="member-card">
+          <div class="member-avatar">
+            <img [src]="member.avatar" [alt]="member.name">
+            <span class="status-indicator" [class.online]="member.status === 'online'"></span>
+          </div>
+          <div class="member-info">
+            <h3>{{ member.name }}</h3>
+            <p class="member-role">{{ member.role }}</p>
+            <p class="member-department">{{ member.department }}</p>
+          </div>
+          <div class="member-stats">
+            <div class="stat-item">
+              <mat-icon>schedule</mat-icon>
+              <span>{{ member.hoursThisWeek }}h</span>
+            </div>
+            <div class="stat-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ member.vacationDays }} days</span>
+            </div>
+          </div>
+          <div class="member-actions">
+            <button mat-icon-button (click)="viewMember(member.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button (click)="editMember(member.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteMember(member.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Department Distribution</h2>
+    <div class="department-chart">
+      @for (dept of departments; track dept.name) {
+        <div class="department-item">
+          <div class="dept-header">
+            <span class="dept-name">{{ dept.name }}</span>
+            <span class="dept-count">{{ dept.count }} members</span>
+          </div>
+          <div class="dept-bar">
+            <div class="bar-fill" [style.width.%]="(dept.count / totalMembers) * 100"></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

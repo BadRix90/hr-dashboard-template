@@ -1,0 +1,271 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+.page-container {
+  padding: $spacing-md;
+  width: 100%;
+  max-width: 1920px;
+  box-sizing: border-box;
+
+  @include breakpoint(md) {
+    padding: $spacing-xl;
+  }
+}
+
+.page-header {
+  margin-bottom: $spacing-lg;
+
+  h1 {
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-h3;
+
+    @include breakpoint(md) {
+      font-size: $font-size-h1;
+    }
+  }
+}
+
+.timer-section {
+  margin-bottom: $spacing-xl;
+}
+
+.timer-card {
+  @include card-base;
+  text-align: center;
+  padding: $spacing-xl;
+}
+
+.timer-display {
+  margin-bottom: $spacing-lg;
+
+  .time {
+    font-size: 3rem;
+    font-weight: $font-weight-bold;
+    color: $primary-color;
+    font-variant-numeric: tabular-nums;
+
+    @include breakpoint(md) {
+      font-size: 4rem;
+    }
+  }
+}
+
+.timer-controls {
+  @include flex-center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  button {
+    @include button-base;
+    padding: $spacing-md $spacing-xl;
+    font-size: $font-size-body;
+    min-width: 120px;
+  }
+
+  .btn-start {
+    background: $success-color;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: darken($success-color, 10%);
+    }
+
+    &:disabled {
+      background: lighten($success-color, 20%);
+    }
+  }
+
+  .btn-stop {
+    background: $error-color;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: darken($error-color, 10%);
+    }
+
+    &:disabled {
+      background: lighten($error-color, 20%);
+    }
+  }
+}
+
+.timer-info {
+  @include flex-center;
+  gap: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid #eee;
+
+  span {
+    font-size: $font-size-small;
+    color: $text-secondary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.content-section {
+  @include card-base;
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    font-size: $font-size-h4;
+    margin-bottom: $spacing-lg;
+    color: $text-primary;
+  }
+}
+
+.section-header {
+  @include flex-between;
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    margin: 0;
+  }
+
+  .btn-secondary {
+    @include button-base;
+    background: $accent-color;
+    color: white;
+
+    &:hover {
+      background: darken($accent-color, 10%);
+    }
+  }
+}
+
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.entry-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border: 1px solid #eee;
+  border-radius: $border-radius-sm;
+  transition: all 0.2s ease;
+  align-items: start;
+
+  @include breakpoint(md) {
+    padding: $spacing-lg;
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    background: $hover-overlay;
+  }
+}
+
+.entry-date {
+  @include flex-center;
+  gap: $spacing-xs;
+  color: $text-secondary;
+  font-size: $font-size-small;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.entry-details {
+  @include flex-column;
+  gap: $spacing-xs;
+}
+
+.entry-time {
+  @include flex-between;
+  font-weight: $font-weight-medium;
+
+  .time-range {
+    color: $text-primary;
+  }
+
+  .duration {
+    color: $primary-color;
+    font-weight: $font-weight-bold;
+  }
+}
+
+.entry-project {
+  font-size: $font-size-small;
+  color: $accent-color;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+.entry-description {
+  font-size: $font-size-small;
+  color: $text-secondary;
+  margin: 0;
+}
+
+.entry-actions {
+  display: flex;
+  gap: $spacing-xs;
+
+  button {
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.week-chart {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $spacing-sm;
+  height: 200px;
+  align-items: flex-end;
+
+  @include breakpoint(md) {
+    gap: $spacing-md;
+    height: 250px;
+  }
+}
+
+.day-bar {
+  @include flex-column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+
+  .bar {
+    width: 100%;
+    background: linear-gradient(to top, $primary-color, lighten($primary-color, 20%));
+    border-radius: $border-radius-sm $border-radius-sm 0 0;
+    min-height: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(to top, darken($primary-color, 10%), $primary-color);
+    }
+  }
+
+  .hours {
+    font-size: $font-size-tiny;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-top: $spacing-xs;
+
+    @include breakpoint(md) {
+      font-size: $font-size-small;
+    }
+  }
+
+  .day-label {
+    font-size: $font-size-tiny;
+    color: $text-secondary;
+    margin-top: $spacing-xs;
+
+    @include breakpoint(md) {
+      font-size: $font-size-small;
+    }
+  }
+}

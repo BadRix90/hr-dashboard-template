@@ -1,0 +1,69 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>Time Tracking</h1>
+    <p class="text-secondary">Track your working hours</p>
+  </header>
+
+  <div class="timer-section">
+    <div class="timer-card">
+      <div class="timer-display">
+        <span class="time">{{ currentTime }}</span>
+      </div>
+      <div class="timer-controls">
+        <button class="btn-start" [disabled]="isTracking" (click)="startTracking()">Start</button>
+        <button class="btn-stop" [disabled]="!isTracking" (click)="stopTracking()">Stop</button>
+      </div>
+      <div class="timer-info">
+        <span class="today-hours">Today: {{ todayHours }}h</span>
+        <span class="week-hours">This Week: {{ weekHours }}h</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header">
+      <h2>Time Entries</h2>
+      <button class="btn-secondary" (click)="addManualEntry()">Add Manual Entry</button>
+    </div>
+
+    <div class="entries-list">
+      @for (entry of timeEntries; track entry.id) {
+        <div class="entry-item">
+          <div class="entry-date">
+            <mat-icon>calendar_today</mat-icon>
+            <span>{{ entry.date }}</span>
+          </div>
+          <div class="entry-details">
+            <div class="entry-time">
+              <span class="time-range">{{ entry.startTime }} - {{ entry.endTime }}</span>
+              <span class="duration">{{ entry.duration }}h</span>
+            </div>
+            <p class="entry-project" *ngIf="entry.project">{{ entry.project }}</p>
+            <p class="entry-description" *ngIf="entry.description">{{ entry.description }}</p>
+          </div>
+          <div class="entry-actions">
+            <button mat-icon-button (click)="editEntry(entry.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteEntry(entry.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Weekly Overview</h2>
+    <div class="week-chart">
+      @for (day of weekData; track day.day) {
+        <div class="day-bar">
+          <div class="bar" [style.height.%]="(day.hours / 12) * 100"></div>
+          <span class="hours">{{ day.hours }}h</span>
+          <span class="day-label">{{ day.day }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

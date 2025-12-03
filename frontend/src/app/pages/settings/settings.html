@@ -1,0 +1,187 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>Settings</h1>
+    <p class="text-secondary">Configure your preferences</p>
+  </header>
+
+  <div class="settings-layout">
+    <aside class="settings-sidebar">
+      <nav class="settings-nav">
+        @for (tab of tabs; track tab.id) {
+          <button
+            class="nav-item"
+            [class.active]="activeTab === tab.id"
+            (click)="activeTab = tab.id">
+            <mat-icon>{{ tab.icon }}</mat-icon>
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+    </aside>
+
+    <div class="settings-content">
+      @if (activeTab === 'profile') {
+        <div class="content-section">
+          <h2>Profile Settings</h2>
+
+          <div class="profile-header">
+            <div class="profile-avatar-section">
+              <img [src]="user.avatar" alt="Profile" class="profile-avatar">
+              <button class="btn-secondary" (click)="changeAvatar()">Change Avatar</button>
+            </div>
+          </div>
+
+          <form class="settings-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" [(ngModel)]="user.firstName" name="firstName">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" [(ngModel)]="user.lastName" name="lastName">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" [(ngModel)]="user.email" name="email">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" [(ngModel)]="user.phone" name="phone">
+              </div>
+              <div class="form-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" [(ngModel)]="user.department" name="department" readonly>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="role">Role</label>
+              <input type="text" id="role" [(ngModel)]="user.role" name="role" readonly>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" (click)="cancelChanges()">Cancel</button>
+              <button type="submit" class="btn-primary" (click)="saveProfile()">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      }
+
+      @if (activeTab === 'account') {
+        <div class="content-section">
+          <h2>Account Settings</h2>
+
+          <div class="settings-group">
+            <h3>Change Password</h3>
+            <form class="settings-form">
+              <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword">
+              </div>
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword">
+              </div>
+              <button type="submit" class="btn-primary">Update Password</button>
+            </form>
+          </div>
+
+          <div class="settings-group danger-zone">
+            <h3>Danger Zone</h3>
+            <p class="warning-text">Once you delete your account, there is no going back.</p>
+            <button class="btn-danger" (click)="deleteAccount()">Delete Account</button>
+          </div>
+        </div>
+      }
+
+      @if (activeTab === 'notifications') {
+        <div class="content-section">
+          <h2>Notification Settings</h2>
+
+          <div class="settings-group">
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <h4>Email Notifications</h4>
+                <p>Receive email notifications for important updates</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="notifications.email">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <h4>Vacation Requests</h4>
+                <p>Get notified when vacation requests are approved or rejected</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="notifications.vacation">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <h4>Time Tracking Reminders</h4>
+                <p>Receive reminders to track your working hours</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="notifications.timeTracking">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <h4>Team Updates</h4>
+                <p>Get notified about team member changes and updates</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="notifications.team">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-primary" (click)="saveNotifications()">Save Preferences</button>
+        </div>
+      }
+
+      @if (activeTab === 'appearance') {
+        <div class="content-section">
+          <h2>Appearance</h2>
+
+          <div class="settings-group">
+            <h3>Theme</h3>
+            <div class="theme-options">
+              <div class="theme-card" [class.active]="theme === 'light'" (click)="theme = 'light'">
+                <div class="theme-preview light"></div>
+                <span>Light</span>
+              </div>
+              <div class="theme-card" [class.active]="theme === 'dark'" (click)="theme = 'dark'">
+                <div class="theme-preview dark"></div>
+                <span>Dark</span>
+              </div>
+              <div class="theme-card" [class.active]="theme === 'auto'" (click)="theme = 'auto'">
+                <div class="theme-preview auto"></div>
+                <span>Auto</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-primary" (click)="saveAppearance()">Save Changes</button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

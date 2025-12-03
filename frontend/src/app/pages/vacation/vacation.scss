@@ -1,0 +1,178 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+.page-container {
+  padding: $spacing-md;
+  width: 100%;
+  max-width: 1920px;
+  box-sizing: border-box;
+
+  @include breakpoint(md) {
+    padding: $spacing-xl;
+  }
+}
+
+.page-header {
+  margin-bottom: $spacing-lg;
+
+  h1 {
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-h3;
+
+    @include breakpoint(md) {
+      font-size: $font-size-h1;
+    }
+  }
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+
+  @include breakpoint(sm) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat-card {
+  @include card-base;
+  text-align: center;
+
+  h3 {
+    font-size: $font-size-small;
+    color: $text-secondary;
+    margin-bottom: $spacing-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $primary-color;
+    margin: 0;
+  }
+}
+
+.content-section {
+  @include card-base;
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    font-size: $font-size-h4;
+    margin-bottom: $spacing-lg;
+    color: $text-primary;
+  }
+}
+
+.vacation-form {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include breakpoint(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-group {
+    margin-bottom: $spacing-md;
+
+    label {
+      display: block;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      color: $text-primary;
+      margin-bottom: $spacing-xs;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: $spacing-sm $spacing-md;
+      border: 1px solid #ddd;
+      border-radius: $border-radius-sm;
+      font-family: $font-family-base;
+      font-size: $font-size-body;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  .btn-primary {
+    @include button-base;
+    background: $primary-color;
+    color: white;
+    padding: $spacing-md $spacing-xl;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+  }
+}
+
+.vacation-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.vacation-item {
+  @include flex-between;
+  padding: $spacing-md;
+  border: 1px solid #eee;
+  border-radius: $border-radius-sm;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-color;
+    background: $hover-overlay;
+  }
+}
+
+.vacation-info {
+  @include flex-column;
+  gap: $spacing-xs;
+
+  .vacation-dates {
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  .vacation-days {
+    font-size: $font-size-small;
+    color: $text-secondary;
+  }
+}
+
+.status {
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+
+  &.status-pending {
+    background: rgba($warning-color, 0.1);
+    color: $warning-color;
+  }
+
+  &.status-approved {
+    background: rgba($success-color, 0.1);
+    color: $success-color;
+  }
+
+  &.status-rejected {
+    background: rgba($error-color, 0.1);
+    color: $error-color;
+  }
+}

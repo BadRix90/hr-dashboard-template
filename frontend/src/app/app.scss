@@ -4,9 +4,11 @@
 .main-content {
   margin-left: 0;
   margin-top: 64px;
-  margin-bottom: 64px;
-  min-height: calc(100vh - 128px);
+  margin-bottom: 60px;
+  min-height: calc(100vh - 124px);
   background: $background-light;
+  width: 100%;
+  overflow-x: hidden;
 
   @include breakpoint(md) {
     margin-left: 260px;

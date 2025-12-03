@@ -2,25 +2,34 @@
 @use '../../../../public/styles/mixins' as *;
 
 .dashboard-container {
-  padding: $spacing-xl;
+  padding: $spacing-md;
   max-width: 1400px;
   margin: 0 auto;
+
+  @include breakpoint(md) {
+    padding: $spacing-xl;
+  }
 }
 
 .dashboard-header {
-  margin-bottom: $spacing-xl;
+  margin-bottom: $spacing-lg;
 
   h1 {
     margin-bottom: $spacing-sm;
+    font-size: $font-size-h3;
+
+    @include breakpoint(md) {
+      font-size: $font-size-h1;
+    }
   }
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: $spacing-lg;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
 
-  @include breakpoint(md) {
+  @include breakpoint(sm) {
     grid-template-columns: repeat(2, 1fr);
   }
 

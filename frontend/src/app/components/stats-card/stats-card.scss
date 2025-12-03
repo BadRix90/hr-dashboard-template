@@ -4,9 +4,10 @@
 .stats-card {
   @include card-base;
   @include card-hover;
-  min-height: 140px;
+  min-height: 100px;
   position: relative;
   overflow: hidden;
+  padding: $spacing-md;
 
   mat-card-content {
     @include flex-between;
@@ -16,39 +17,65 @@
 
 .card-icon {
   @include flex-center;
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   border-radius: $border-radius-round;
   background: rgba($primary-color, 0.1);
+  flex-shrink: 0;
 
   mat-icon {
-    font-size: 32px;
-    width: 32px;
-    height: 32px;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
     color: $primary-color;
+  }
+
+  @include breakpoint(md) {
+    width: 60px;
+    height: 60px;
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
   }
 }
 
 .card-info {
   flex: 1;
-  margin-left: $spacing-md;
+  margin-left: $spacing-sm;
   text-align: right;
+  min-width: 0;
+
+  @include breakpoint(md) {
+    margin-left: $spacing-md;
+  }
 }
 
 .card-title {
-  font-size: $font-size-small;
+  font-size: $font-size-tiny;
   font-weight: $font-weight-medium;
   color: $text-secondary;
   margin: 0 0 $spacing-xs 0;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+
+  @include breakpoint(md) {
+    font-size: $font-size-small;
+    letter-spacing: 0.5px;
+  }
 }
 
 .card-value {
-  font-size: $font-size-h2;
+  font-size: $font-size-h3;
   font-weight: $font-weight-bold;
   color: $text-primary;
   margin: 0;
+
+  @include breakpoint(md) {
+    font-size: $font-size-h2;
+  }
 }
 
 .card-primary .card-icon {

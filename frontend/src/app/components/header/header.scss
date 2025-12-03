@@ -9,16 +9,12 @@
   z-index: $z-index-dropdown;
   background: $background-white;
   box-shadow: $shadow-sm;
-  width: 100%; // Added width calculation to ensure proper space for icons
+  width: 100%;
 
   @include breakpoint(md) {
     left: 260px;
-    width: calc(100% - 260px); // Explicitly set width to account for sidebar offset
+    width: calc(100% - 260px);
   }
-}
-
-.menu-button {
-  display: none;
 }
 
 .header-title {
@@ -30,13 +26,8 @@
   flex: 1;
 }
 
-.header button[mat-icon-button]:not(.menu-button) {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.header button[mat-icon-button] mat-icon {
-  display: inline-block !important;
-  visibility: visible !important;
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
 }

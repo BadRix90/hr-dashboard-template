@@ -1,0 +1,210 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+:host {
+  position: relative;
+  display: block;
+}
+
+.notification-trigger {
+  @include flex-center;
+  padding: $spacing-xs;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $hover-overlay;
+  }
+
+  mat-icon {
+    color: $text-primary;
+  }
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + $spacing-sm);
+  right: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: $background-white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-lg;
+  z-index: $z-index-modal + 10;
+  overflow: hidden;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-header {
+  @include flex-between;
+  padding: $spacing-lg;
+  border-bottom: 1px solid #eee;
+
+  h3 {
+    font-size: $font-size-body;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  .mark-all-read {
+    background: transparent;
+    border: none;
+    color: $primary-color;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.notification-list {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.empty-state {
+  @include flex-center;
+  @include flex-column;
+  padding: $spacing-xxl;
+  color: $text-secondary;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-small;
+  }
+}
+
+.notification-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $hover-overlay;
+  }
+
+  &.unread {
+    background: rgba($primary-color, 0.05);
+  }
+}
+
+.notification-icon {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-round;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &.icon-vacation {
+    background: rgba($primary-color, 0.1);
+    color: $primary-color;
+  }
+
+  &.icon-time {
+    background: rgba($accent-color, 0.1);
+    color: $accent-color;
+  }
+
+  &.icon-team {
+    background: rgba($success-color, 0.1);
+    color: $success-color;
+  }
+
+  &.icon-system {
+    background: rgba($text-secondary, 0.1);
+    color: $text-secondary;
+  }
+}
+
+.notification-content {
+  @include flex-column;
+  gap: $spacing-xs;
+  min-width: 0;
+
+  .notification-title {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    margin: 0;
+    @include text-truncate;
+  }
+
+  .notification-message {
+    font-size: $font-size-tiny;
+    color: $text-secondary;
+    margin: 0;
+    @include text-clamp(2);
+  }
+
+  .notification-time {
+    font-size: $font-size-tiny;
+    color: $text-disabled;
+  }
+}
+
+.unread-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: $border-radius-round;
+  background: $primary-color;
+  align-self: center;
+}
+
+.dropdown-footer {
+  padding: $spacing-md $spacing-lg;
+  border-top: 1px solid #eee;
+  text-align: center;
+
+  .view-all {
+    background: transparent;
+    border: none;
+    color: $primary-color;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-index-modal + 5;
+}

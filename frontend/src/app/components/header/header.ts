@@ -1,14 +1,12 @@
-import { Component, output } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ProfileCard } from '../profile-card/profile-card';
+import { NotificationDropdown } from '../notification-dropdown/notification-dropdown';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule],
+  imports: [MatToolbarModule, ProfileCard, NotificationDropdown],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
-  menuToggle = output<void>();
-}
+export class Header {}

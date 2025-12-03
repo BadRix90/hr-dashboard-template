@@ -1,0 +1,169 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+:host {
+  position: relative;
+  display: block;
+}
+
+.profile-trigger {
+  @include flex-center;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $hover-overlay;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: $border-radius-round;
+    object-fit: cover;
+  }
+
+  .user-name {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    display: none;
+
+    @include breakpoint(md) {
+      display: block;
+    }
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: $text-secondary;
+  }
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + $spacing-sm);
+  right: 0;
+  width: 280px;
+  background: $background-white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-lg;
+  z-index: $z-index-modal + 10;
+  overflow: hidden;
+}
+
+.dropdown-header {
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, $primary-color, lighten($primary-color, 10%));
+
+  .avatar-large {
+    width: 64px;
+    height: 64px;
+    border-radius: $border-radius-round;
+    object-fit: cover;
+    border: 3px solid white;
+    margin-bottom: $spacing-sm;
+  }
+
+  .user-info {
+    h3 {
+      font-size: $font-size-body;
+      font-weight: $font-weight-bold;
+      color: white;
+      margin: 0 0 $spacing-xs 0;
+    }
+
+    .user-role {
+      font-size: $font-size-small;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0 0 $spacing-xs 0;
+    }
+
+    .user-email {
+      font-size: $font-size-tiny;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0;
+    }
+  }
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #eee;
+  margin: $spacing-xs 0;
+}
+
+.dropdown-menu {
+  padding: $spacing-sm 0;
+
+  .menu-item {
+    @include flex-center;
+    justify-content: flex-start;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-lg;
+    color: $text-primary;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: $text-secondary;
+    }
+
+    span {
+      font-size: $font-size-small;
+    }
+
+    &:hover {
+      background: $hover-overlay;
+
+      mat-icon {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.logout-button {
+  @include flex-center;
+  justify-content: flex-start;
+  gap: $spacing-md;
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+  background: transparent;
+  border: none;
+  color: $error-color;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+  }
+
+  &:hover {
+    background: rgba($error-color, 0.1);
+  }
+}
+
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-index-modal + 5;
+}

@@ -1,32 +1,32 @@
 <div class="page-container">
   <header class="page-header">
-    <h1>Team Overview</h1>
-    <p class="text-secondary">Manage your team members</p>
+    <h1>{{ text.team.title }}</h1>
+    <p class="text-secondary">{{ text.team.subtitle }}</p>
   </header>
 
   <div class="stats-row">
     <div class="stat-card">
-      <h3>Total Members</h3>
+      <h3>{{ text.team.totalMembers }}</h3>
       <p class="stat-value">{{ totalMembers }}</p>
     </div>
     <div class="stat-card">
-      <h3>Active Today</h3>
+      <h3>{{ text.team.activeToday }}</h3>
       <p class="stat-value">{{ activeToday }}</p>
     </div>
     <div class="stat-card">
-      <h3>On Vacation</h3>
+      <h3>{{ text.team.onVacation }}</h3>
       <p class="stat-value">{{ onVacation }}</p>
     </div>
   </div>
 
   <div class="content-section">
     <div class="section-header">
-      <h2>Team Members</h2>
+      <h2>{{ text.team.teamMembers }}</h2>
       <div class="header-actions">
-        <input type="text" class="search-input" placeholder="Search members..." [(ngModel)]="searchTerm">
+        <input type="text" class="search-input" [placeholder]="text.team.searchMembers" [(ngModel)]="searchTerm">
         <button class="btn-primary" (click)="addMember()">
           <mat-icon>add</mat-icon>
-          Add Member
+          {{ text.team.addMember }}
         </button>
       </div>
     </div>
@@ -50,7 +50,7 @@
             </div>
             <div class="stat-item">
               <mat-icon>calendar_today</mat-icon>
-              <span>{{ member.vacationDays }} days</span>
+              <span>{{ member.vacationDays }} {{ text.vacation.days }}</span>
             </div>
           </div>
           <div class="member-actions">
@@ -70,13 +70,13 @@
   </div>
 
   <div class="content-section">
-    <h2>Department Distribution</h2>
+    <h2>{{ text.team.departmentDistribution }}</h2>
     <div class="department-chart">
       @for (dept of departments; track dept.name) {
         <div class="department-item">
           <div class="dept-header">
             <span class="dept-name">{{ dept.name }}</span>
-            <span class="dept-count">{{ dept.count }} members</span>
+            <span class="dept-count">{{ dept.count }} {{ text.team.members }}</span>
           </div>
           <div class="dept-bar">
             <div class="bar-fill" [style.width.%]="(dept.count / totalMembers) * 100"></div>

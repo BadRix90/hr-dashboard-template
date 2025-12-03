@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { TextService } from '../../services/text';
 
 interface User {
   name: string;
@@ -18,6 +19,7 @@ interface User {
 })
 export class ProfileCard {
   isOpen = false;
+  text: TextService;
 
   user: User = {
     name: 'Max Mustermann',
@@ -25,6 +27,10 @@ export class ProfileCard {
     role: 'Senior Developer',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Max'
   };
+
+  constructor(textService: TextService) {
+    this.text = textService;
+  }
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeService } from '../../services/theme';
+import { TextService } from '../../services/text';
 
 interface User {
   firstName: string;
@@ -34,18 +35,11 @@ interface SettingsTab {
   styleUrl: './settings.scss',
 })
 export class Settings implements OnInit {
+  text: TextService;
   activeTab = 'profile';
   theme = 'light';
   selectedFont = 'plus-jakarta';
-
-  constructor(private themeService: ThemeService) {}
-
-  tabs: SettingsTab[] = [
-    { id: 'profile', label: 'Profile', icon: 'person' },
-    { id: 'account', label: 'Account', icon: 'security' },
-    { id: 'notifications', label: 'Notifications', icon: 'notifications' },
-    { id: 'appearance', label: 'Appearance', icon: 'palette' }
-  ];
+  tabs: SettingsTab[];
 
   fonts = [
     {
@@ -92,6 +86,16 @@ export class Settings implements OnInit {
     team: true
   };
 
+  constructor(private themeService: ThemeService, textService: TextService) {
+    this.text = textService;
+    this.tabs = [
+      { id: 'profile', label: this.text.settings.tabs.profile, icon: 'person' },
+      { id: 'account', label: this.text.settings.tabs.account, icon: 'security' },
+      { id: 'notifications', label: this.text.settings.tabs.notifications, icon: 'notifications' },
+      { id: 'appearance', label: this.text.settings.tabs.appearance, icon: 'palette' }
+    ];
+  }
+
   ngOnInit() {
     this.selectedFont = this.themeService.getCurrentFont();
   }
@@ -114,7 +118,7 @@ export class Settings implements OnInit {
   }
 
   deleteAccount() {
-    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    if (confirm(this.text.settings.account.dangerText)) {
       console.log('Delete account');
     }
   }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TextService } from '../../services/text';
 
 interface VacationRequest {
   id: number;
@@ -15,6 +16,7 @@ interface VacationRequest {
   styleUrl: './vacation.scss',
 })
 export class Vacation {
+  text: TextService;
   availableDays = 25;
   usedDays = 8;
   pendingRequests = 2;
@@ -42,4 +44,17 @@ export class Vacation {
       status: 'approved'
     }
   ];
+
+  constructor(textService: TextService) {
+    this.text = textService;
+  }
+
+  getStatusText(status: string): string {
+    switch(status) {
+      case 'pending': return this.text.vacation.status.pending;
+      case 'approved': return this.text.vacation.status.approved;
+      case 'rejected': return this.text.vacation.status.rejected;
+      default: return status;
+    }
+  }
 }

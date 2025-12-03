@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TextService } from '../../services/text';
 
 interface TeamMember {
   id: number;
@@ -28,6 +29,7 @@ interface Department {
   styleUrl: './team.scss',
 })
 export class Team {
+  text: TextService;
   searchTerm = '';
   totalMembers = 24;
   activeToday = 20;
@@ -110,6 +112,10 @@ export class Team {
     { name: 'Marketing', count: 3 },
     { name: 'Sales', count: 2 }
   ];
+
+  constructor(textService: TextService) {
+    this.text = textService;
+  }
 
   get filteredMembers(): TeamMember[] {
     if (!this.searchTerm) {

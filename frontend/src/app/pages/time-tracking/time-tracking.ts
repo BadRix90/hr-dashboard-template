@@ -1,7 +1,8 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TextService } from '../../services/text';
 
 interface TimeEntry {
   id: number;
@@ -25,6 +26,7 @@ interface WeekDay {
   styleUrl: './time-tracking.scss',
 })
 export class TimeTracking implements OnInit, OnDestroy {
+  text: TextService;
   currentTime = '00:00:00';
   isTracking = false;
   todayHours = 7.5;
@@ -41,7 +43,7 @@ export class TimeTracking implements OnInit, OnDestroy {
       endTime: '17:30',
       duration: 8.5,
       project: 'HR Dashboard',
-      description: 'Frontend development'
+      description: 'Frontend-Entwicklung'
     },
     {
       id: 2,
@@ -50,7 +52,7 @@ export class TimeTracking implements OnInit, OnDestroy {
       endTime: '16:00',
       duration: 7.5,
       project: 'HR Dashboard',
-      description: 'Backend API setup'
+      description: 'Backend API Setup'
     },
     {
       id: 3,
@@ -58,19 +60,24 @@ export class TimeTracking implements OnInit, OnDestroy {
       startTime: '09:00',
       endTime: '17:00',
       duration: 8.0,
-      project: 'Client Meeting'
+      project: 'Kunden-Meeting'
     }
   ];
 
-  weekData: WeekDay[] = [
-    { day: 'Mon', hours: 8.5 },
-    { day: 'Tue', hours: 7.5 },
-    { day: 'Wed', hours: 8.0 },
-    { day: 'Thu', hours: 7.5 },
-    { day: 'Fri', hours: 7.0 },
-    { day: 'Sat', hours: 0 },
-    { day: 'Sun', hours: 0 }
-  ];
+  weekData: WeekDay[];
+
+  constructor(textService: TextService) {
+    this.text = textService;
+    this.weekData = [
+      { day: this.text.weekDays.short.mon, hours: 8.5 },
+      { day: this.text.weekDays.short.tue, hours: 7.5 },
+      { day: this.text.weekDays.short.wed, hours: 8.0 },
+      { day: this.text.weekDays.short.thu, hours: 7.5 },
+      { day: this.text.weekDays.short.fri, hours: 7.0 },
+      { day: this.text.weekDays.short.sat, hours: 0 },
+      { day: this.text.weekDays.short.sun, hours: 0 }
+    ];
+  }
 
   ngOnInit() {
     this.updateCurrentTime();

@@ -1,7 +1,7 @@
 <div class="page-container">
   <header class="page-header">
-    <h1>Settings</h1>
-    <p class="text-secondary">Configure your preferences</p>
+    <h1>{{ text.settings.title }}</h1>
+    <p class="text-secondary">{{ text.settings.subtitle }}</p>
   </header>
 
   <div class="settings-layout">
@@ -22,51 +22,51 @@
     <div class="settings-content">
       @if (activeTab === 'profile') {
         <div class="content-section">
-          <h2>Profile Settings</h2>
+          <h2>{{ text.settings.profile.title }}</h2>
 
           <div class="profile-header">
             <div class="profile-avatar-section">
               <img [src]="user.avatar" alt="Profile" class="profile-avatar">
-              <button class="btn-secondary" (click)="changeAvatar()">Change Avatar</button>
+              <button class="btn-secondary" (click)="changeAvatar()">{{ text.settings.profile.changeAvatar }}</button>
             </div>
           </div>
 
           <form class="settings-form">
             <div class="form-row">
               <div class="form-group">
-                <label for="firstName">First Name</label>
+                <label for="firstName">{{ text.settings.profile.firstName }}</label>
                 <input type="text" id="firstName" [(ngModel)]="user.firstName" name="firstName">
               </div>
               <div class="form-group">
-                <label for="lastName">Last Name</label>
+                <label for="lastName">{{ text.settings.profile.lastName }}</label>
                 <input type="text" id="lastName" [(ngModel)]="user.lastName" name="lastName">
               </div>
             </div>
 
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">{{ text.settings.profile.email }}</label>
               <input type="email" id="email" [(ngModel)]="user.email" name="email">
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="phone">Phone</label>
+                <label for="phone">{{ text.settings.profile.phone }}</label>
                 <input type="tel" id="phone" [(ngModel)]="user.phone" name="phone">
               </div>
               <div class="form-group">
-                <label for="department">Department</label>
+                <label for="department">{{ text.settings.profile.department }}</label>
                 <input type="text" id="department" [(ngModel)]="user.department" name="department" readonly>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="role">Role</label>
+              <label for="role">{{ text.settings.profile.role }}</label>
               <input type="text" id="role" [(ngModel)]="user.role" name="role" readonly>
             </div>
 
             <div class="form-actions">
-              <button type="button" class="btn-secondary" (click)="cancelChanges()">Cancel</button>
-              <button type="submit" class="btn-primary" (click)="saveProfile()">Save Changes</button>
+              <button type="button" class="btn-secondary" (click)="cancelChanges()">{{ text.common.cancel }}</button>
+              <button type="submit" class="btn-primary" (click)="saveProfile()">{{ text.settings.profile.saveChanges }}</button>
             </div>
           </form>
         </div>
@@ -74,44 +74,44 @@
 
       @if (activeTab === 'account') {
         <div class="content-section">
-          <h2>Account Settings</h2>
+          <h2>{{ text.settings.account.title }}</h2>
 
           <div class="settings-group">
-            <h3>Change Password</h3>
+            <h3>{{ text.settings.account.changePassword }}</h3>
             <form class="settings-form">
               <div class="form-group">
-                <label for="currentPassword">Current Password</label>
+                <label for="currentPassword">{{ text.settings.account.currentPassword }}</label>
                 <input type="password" id="currentPassword">
               </div>
               <div class="form-group">
-                <label for="newPassword">New Password</label>
+                <label for="newPassword">{{ text.settings.account.newPassword }}</label>
                 <input type="password" id="newPassword">
               </div>
               <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
+                <label for="confirmPassword">{{ text.settings.account.confirmPassword }}</label>
                 <input type="password" id="confirmPassword">
               </div>
-              <button type="submit" class="btn-primary">Update Password</button>
+              <button type="submit" class="btn-primary">{{ text.settings.account.updatePassword }}</button>
             </form>
           </div>
 
           <div class="settings-group danger-zone">
-            <h3>Danger Zone</h3>
-            <p class="warning-text">Once you delete your account, there is no going back.</p>
-            <button class="btn-danger" (click)="deleteAccount()">Delete Account</button>
+            <h3>{{ text.settings.account.dangerZone }}</h3>
+            <p class="warning-text">{{ text.settings.account.dangerText }}</p>
+            <button class="btn-danger" (click)="deleteAccount()">{{ text.settings.account.deleteAccount }}</button>
           </div>
         </div>
       }
 
       @if (activeTab === 'notifications') {
         <div class="content-section">
-          <h2>Notification Settings</h2>
+          <h2>{{ text.settings.notifications.title }}</h2>
 
           <div class="settings-group">
             <div class="toggle-item">
               <div class="toggle-info">
-                <h4>Email Notifications</h4>
-                <p>Receive email notifications for important updates</p>
+                <h4>{{ text.settings.notifications.email }}</h4>
+                <p>{{ text.settings.notifications.emailDesc }}</p>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="notifications.email">
@@ -121,8 +121,8 @@
 
             <div class="toggle-item">
               <div class="toggle-info">
-                <h4>Vacation Requests</h4>
-                <p>Get notified when vacation requests are approved or rejected</p>
+                <h4>{{ text.settings.notifications.vacation }}</h4>
+                <p>{{ text.settings.notifications.vacationDesc }}</p>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="notifications.vacation">
@@ -132,8 +132,8 @@
 
             <div class="toggle-item">
               <div class="toggle-info">
-                <h4>Time Tracking Reminders</h4>
-                <p>Receive reminders to track your working hours</p>
+                <h4>{{ text.settings.notifications.timeTracking }}</h4>
+                <p>{{ text.settings.notifications.timeTrackingDesc }}</p>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="notifications.timeTracking">
@@ -143,8 +143,8 @@
 
             <div class="toggle-item">
               <div class="toggle-info">
-                <h4>Team Updates</h4>
-                <p>Get notified about team member changes and updates</p>
+                <h4>{{ text.settings.notifications.team }}</h4>
+                <p>{{ text.settings.notifications.teamDesc }}</p>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="notifications.team">
@@ -153,34 +153,34 @@
             </div>
           </div>
 
-          <button class="btn-primary" (click)="saveNotifications()">Save Preferences</button>
+          <button class="btn-primary" (click)="saveNotifications()">{{ text.settings.notifications.savePreferences }}</button>
         </div>
       }
 
       @if (activeTab === 'appearance') {
         <div class="content-section">
-          <h2>Appearance</h2>
+          <h2>{{ text.settings.appearance.title }}</h2>
 
           <div class="settings-group">
-            <h3>Theme</h3>
+            <h3>{{ text.settings.appearance.theme }}</h3>
             <div class="theme-options">
               <div class="theme-card" [class.active]="theme === 'light'" (click)="theme = 'light'">
                 <div class="theme-preview light"></div>
-                <span>Light</span>
+                <span>{{ text.settings.appearance.light }}</span>
               </div>
               <div class="theme-card" [class.active]="theme === 'dark'" (click)="theme = 'dark'">
                 <div class="theme-preview dark"></div>
-                <span>Dark</span>
+                <span>{{ text.settings.appearance.dark }}</span>
               </div>
               <div class="theme-card" [class.active]="theme === 'auto'" (click)="theme = 'auto'">
                 <div class="theme-preview auto"></div>
-                <span>Auto</span>
+                <span>{{ text.settings.appearance.auto }}</span>
               </div>
             </div>
           </div>
 
           <div class="settings-group">
-            <h3>Font Family</h3>
+            <h3>{{ text.settings.appearance.fontFamily }}</h3>
             <div class="font-options">
               @for (font of fonts; track font.id) {
                 <div
@@ -189,13 +189,13 @@
                   [style.font-family]="font.family"
                   (click)="selectFont(font.id)">
                   <span class="font-preview">{{ font.name }}</span>
-                  <p class="font-sample">The quick brown fox jumps over the lazy dog</p>
+                  <p class="font-sample">{{ text.settings.appearance.fontSample }}</p>
                 </div>
               }
             </div>
           </div>
 
-          <button class="btn-primary" (click)="saveAppearance()">Save Changes</button>
+          <button class="btn-primary" (click)="saveAppearance()">{{ text.common.save }}</button>
         </div>
       }
     </div>

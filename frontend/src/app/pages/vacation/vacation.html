@@ -1,55 +1,55 @@
 <div class="page-container">
   <header class="page-header">
-    <h1>Vacation Management</h1>
-    <p class="text-secondary">Manage your vacation days and requests</p>
+    <h1>{{ text.vacation.title }}</h1>
+    <p class="text-secondary">{{ text.vacation.subtitle }}</p>
   </header>
 
   <div class="stats-row">
     <div class="stat-card">
-      <h3>Available Days</h3>
+      <h3>{{ text.vacation.availableDays }}</h3>
       <p class="stat-value">{{ availableDays }}</p>
     </div>
     <div class="stat-card">
-      <h3>Used Days</h3>
+      <h3>{{ text.vacation.usedDays }}</h3>
       <p class="stat-value">{{ usedDays }}</p>
     </div>
     <div class="stat-card">
-      <h3>Pending Requests</h3>
+      <h3>{{ text.vacation.pendingRequests }}</h3>
       <p class="stat-value">{{ pendingRequests }}</p>
     </div>
   </div>
 
   <div class="content-section">
-    <h2>Request Vacation</h2>
+    <h2>{{ text.vacation.requestVacation }}</h2>
     <form class="vacation-form">
       <div class="form-row">
         <div class="form-group">
-          <label for="startDate">Start Date</label>
+          <label for="startDate">{{ text.vacation.startDate }}</label>
           <input type="date" id="startDate" required>
         </div>
         <div class="form-group">
-          <label for="endDate">End Date</label>
+          <label for="endDate">{{ text.vacation.endDate }}</label>
           <input type="date" id="endDate" required>
         </div>
       </div>
       <div class="form-group">
-        <label for="reason">Reason (optional)</label>
+        <label for="reason">{{ text.vacation.reason }}</label>
         <textarea id="reason" rows="3"></textarea>
       </div>
-      <button type="submit" class="btn-primary">Submit Request</button>
+      <button type="submit" class="btn-primary">{{ text.vacation.submitRequest }}</button>
     </form>
   </div>
 
   <div class="content-section">
-    <h2>Vacation History</h2>
+    <h2>{{ text.vacation.vacationHistory }}</h2>
     <div class="vacation-list">
       @for (vacation of vacations; track vacation.id) {
         <div class="vacation-item">
           <div class="vacation-info">
             <span class="vacation-dates">{{ vacation.startDate }} - {{ vacation.endDate }}</span>
-            <span class="vacation-days">{{ vacation.days }} days</span>
+            <span class="vacation-days">{{ vacation.days }} {{ text.vacation.days }}</span>
           </div>
-          <span class="status" [class]="'status-' + vacation.status">{{ vacation.status }}</span>
+          <span class="status" [class]="'status-' + vacation.status">{{ getStatusText(vacation.status) }}</span>
         </div>
       }
     </div>

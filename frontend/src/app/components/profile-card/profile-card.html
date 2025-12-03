@@ -20,15 +20,15 @@
     <nav class="dropdown-menu">
       <a routerLink="/settings" class="menu-item" (click)="closeDropdown()">
         <mat-icon>person</mat-icon>
-        <span>Profile Settings</span>
+        <span>{{ text.profile.profileSettings }}</span>
       </a>
       <a routerLink="/vacation" class="menu-item" (click)="closeDropdown()">
         <mat-icon>calendar_today</mat-icon>
-        <span>My Vacation</span>
+        <span>{{ text.profile.myVacation }}</span>
       </a>
       <a routerLink="/time-tracking" class="menu-item" (click)="closeDropdown()">
         <mat-icon>schedule</mat-icon>
-        <span>Time Tracking</span>
+        <span>{{ text.profile.timeTracking }}</span>
       </a>
     </nav>
 
@@ -36,7 +36,7 @@
 
     <button class="logout-button" (click)="logout()">
       <mat-icon>logout</mat-icon>
-      <span>Logout</span>
+      <span>{{ text.profile.logout }}</span>
     </button>
   </div>
 }

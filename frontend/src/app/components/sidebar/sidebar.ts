@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { TextService } from '../../services/text';
 
 interface NavItem {
   label: string;
@@ -17,12 +18,15 @@ interface NavItem {
 })
 export class Sidebar {
   open = input(false);
+  navItems: NavItem[];
 
-  navItems: NavItem[] = [
-    { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
-    { label: 'Vacation', route: '/vacation', icon: 'calendar_today' },
-    { label: 'Time Tracking', route: '/time-tracking', icon: 'schedule' },
-    { label: 'Team', route: '/team', icon: 'people' },
-    { label: 'Settings', route: '/settings', icon: 'settings' }
-  ];
+  constructor(textService: TextService) {
+    this.navItems = [
+      { label: textService.nav.dashboard, route: '/dashboard', icon: 'dashboard' },
+      { label: textService.nav.vacation, route: '/vacation', icon: 'calendar_today' },
+      { label: textService.nav.timeTracking, route: '/time-tracking', icon: 'schedule' },
+      { label: textService.nav.team, route: '/team', icon: 'people' },
+      { label: textService.nav.settings, route: '/settings', icon: 'settings' }
+    ];
+  }
 }

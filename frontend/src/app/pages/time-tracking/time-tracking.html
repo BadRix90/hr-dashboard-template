@@ -1,7 +1,7 @@
 <div class="page-container">
   <header class="page-header">
-    <h1>Time Tracking</h1>
-    <p class="text-secondary">Track your working hours</p>
+    <h1>{{ text.timeTracking.title }}</h1>
+    <p class="text-secondary">{{ text.timeTracking.subtitle }}</p>
   </header>
 
   <div class="timer-section">
@@ -10,20 +10,20 @@
         <span class="time">{{ currentTime }}</span>
       </div>
       <div class="timer-controls">
-        <button class="btn-start" [disabled]="isTracking" (click)="startTracking()">Start</button>
-        <button class="btn-stop" [disabled]="!isTracking" (click)="stopTracking()">Stop</button>
+        <button class="btn-start" [disabled]="isTracking" (click)="startTracking()">{{ text.timeTracking.start }}</button>
+        <button class="btn-stop" [disabled]="!isTracking" (click)="stopTracking()">{{ text.timeTracking.stop }}</button>
       </div>
       <div class="timer-info">
-        <span class="today-hours">Today: {{ todayHours }}h</span>
-        <span class="week-hours">This Week: {{ weekHours }}h</span>
+        <span class="today-hours">{{ text.timeTracking.today }}: {{ todayHours }}{{ text.timeTracking.hours }}</span>
+        <span class="week-hours">{{ text.timeTracking.thisWeek }}: {{ weekHours }}{{ text.timeTracking.hours }}</span>
       </div>
     </div>
   </div>
 
   <div class="content-section">
     <div class="section-header">
-      <h2>Time Entries</h2>
-      <button class="btn-secondary" (click)="addManualEntry()">Add Manual Entry</button>
+      <h2>{{ text.timeTracking.timeEntries }}</h2>
+      <button class="btn-secondary" (click)="addManualEntry()">{{ text.timeTracking.addManualEntry }}</button>
     </div>
 
     <div class="entries-list">
@@ -36,7 +36,7 @@
           <div class="entry-details">
             <div class="entry-time">
               <span class="time-range">{{ entry.startTime }} - {{ entry.endTime }}</span>
-              <span class="duration">{{ entry.duration }}h</span>
+              <span class="duration">{{ entry.duration }}{{ text.timeTracking.hours }}</span>
             </div>
             <p class="entry-project" *ngIf="entry.project">{{ entry.project }}</p>
             <p class="entry-description" *ngIf="entry.description">{{ entry.description }}</p>
@@ -55,12 +55,12 @@
   </div>
 
   <div class="content-section">
-    <h2>Weekly Overview</h2>
+    <h2>{{ text.timeTracking.weeklyOverview }}</h2>
     <div class="week-chart">
       @for (day of weekData; track day.day) {
         <div class="day-bar">
           <div class="bar" [style.height.%]="(day.hours / 12) * 100"></div>
-          <span class="hours">{{ day.hours }}h</span>
+          <span class="hours">{{ day.hours }}{{ text.timeTracking.hours }}</span>
           <span class="day-label">{{ day.day }}</span>
         </div>
       }

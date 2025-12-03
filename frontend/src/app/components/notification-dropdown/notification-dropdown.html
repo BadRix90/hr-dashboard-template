@@ -7,9 +7,9 @@
 @if (isOpen) {
   <div class="notification-dropdown">
     <div class="dropdown-header">
-      <h3>Notifications</h3>
+      <h3>{{ text.notifications.title }}</h3>
       @if (unreadCount > 0) {
-        <button class="mark-all-read" (click)="markAllAsRead()">Mark all as read</button>
+        <button class="mark-all-read" (click)="markAllAsRead()">{{ text.notifications.markAllRead }}</button>
       }
     </div>
 
@@ -17,7 +17,7 @@
       @if (notifications.length === 0) {
         <div class="empty-state">
           <mat-icon>notifications_none</mat-icon>
-          <p>No notifications</p>
+          <p>{{ text.notifications.noNotifications }}</p>
         </div>
       } @else {
         @for (notification of notifications; track notification.id) {
@@ -40,7 +40,7 @@
 
     @if (notifications.length > 0) {
       <div class="dropdown-footer">
-        <button class="view-all" (click)="viewAllNotifications()">View all notifications</button>
+        <button class="view-all" (click)="viewAllNotifications()">{{ text.notifications.viewAll }}</button>
       </div>
     }
   </div>

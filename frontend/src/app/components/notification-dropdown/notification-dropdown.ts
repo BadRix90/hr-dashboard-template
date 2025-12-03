@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { TextService } from '../../services/text';
 
 interface Notification {
   id: number;
@@ -20,41 +21,46 @@ interface Notification {
 })
 export class NotificationDropdown {
   isOpen = false;
+  text: TextService;
 
   notifications: Notification[] = [
     {
       id: 1,
       type: 'vacation',
-      title: 'Vacation Request Approved',
-      message: 'Your vacation request for Dec 20-27 has been approved',
-      time: '2 hours ago',
+      title: 'Urlaubsantrag genehmigt',
+      message: 'Dein Urlaubsantrag für 20.-27. Dez wurde genehmigt',
+      time: 'vor 2 Stunden',
       read: false
     },
     {
       id: 2,
       type: 'time',
-      title: 'Time Entry Reminder',
-      message: 'Don\'t forget to log your hours for yesterday',
-      time: '5 hours ago',
+      title: 'Zeiterfassungs-Erinnerung',
+      message: 'Vergiss nicht, deine Stunden von gestern zu erfassen',
+      time: 'vor 5 Stunden',
       read: false
     },
     {
       id: 3,
       type: 'team',
-      title: 'New Team Member',
-      message: 'Sarah Wagner joined the Marketing team',
-      time: '1 day ago',
+      title: 'Neues Teammitglied',
+      message: 'Sarah Wagner ist dem Marketing-Team beigetreten',
+      time: 'vor 1 Tag',
       read: true
     },
     {
       id: 4,
       type: 'system',
-      title: 'System Update',
-      message: 'The HR system will be updated tonight at 11 PM',
-      time: '2 days ago',
+      title: 'System-Update',
+      message: 'Das HR-System wird heute Nacht um 23 Uhr aktualisiert',
+      time: 'vor 2 Tagen',
       read: true
     }
   ];
+
+  constructor(textService: TextService) {
+    this.text = textService;
+  }
 
   get unreadCount(): number {
     return this.notifications.filter(n => !n.read).length;

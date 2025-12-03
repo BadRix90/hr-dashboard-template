@@ -1,0 +1,29 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-index-dropdown;
+  background: $background-white;
+  box-shadow: $shadow-sm;
+
+  @include breakpoint(md) {
+    left: 260px;
+  }
+}
+
+.menu-button {
+  display: none;
+}
+
+.header-title {
+  font-size: $font-size-h6;
+  font-weight: $font-weight-medium;
+}
+
+.spacer {
+  flex: 1;
+}

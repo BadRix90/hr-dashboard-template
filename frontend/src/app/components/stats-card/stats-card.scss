@@ -1,0 +1,67 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+.stats-card {
+  @include card-base;
+  @include card-hover;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+
+  mat-card-content {
+    @include flex-between;
+    padding: 0;
+  }
+}
+
+.card-icon {
+  @include flex-center;
+  width: 60px;
+  height: 60px;
+  border-radius: $border-radius-round;
+  background: rgba($primary-color, 0.1);
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: $primary-color;
+  }
+}
+
+.card-info {
+  flex: 1;
+  margin-left: $spacing-md;
+  text-align: right;
+}
+
+.card-title {
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+  margin: 0 0 $spacing-xs 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.card-primary .card-icon {
+  background: rgba($primary-color, 0.1);
+  mat-icon { color: $primary-color; }
+}
+
+.card-accent .card-icon {
+  background: rgba($accent-color, 0.1);
+  mat-icon { color: $accent-color; }
+}
+
+.card-warn .card-icon {
+  background: rgba($warn-color, 0.1);
+  mat-icon { color: $warn-color; }
+}

@@ -1,0 +1,65 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: $background-dark;
+  color: $text-on-dark;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  box-shadow: $shadow-md;
+  z-index: $z-index-modal;
+  display: none;
+
+  @include breakpoint(md) {
+    display: block;
+  }
+}
+
+.sidebar-header {
+  padding: $spacing-xl $spacing-lg;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-bold;
+    color: $text-on-dark;
+  }
+}
+
+.sidebar-nav {
+  padding: $spacing-md 0;
+
+  mat-nav-list {
+    padding: 0;
+  }
+
+  .nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.2s ease;
+    margin: 0 $spacing-sm;
+    border-radius: $border-radius-sm;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: $text-on-dark;
+    }
+
+    &.active {
+      background: rgba($primary-color, 0.2);
+      color: $primary-color;
+
+      mat-icon {
+        color: $primary-color;
+      }
+    }
+
+    mat-icon {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

@@ -1,1 +1,12 @@
-<p>stats-card works!</p>
+<mat-card class="stats-card" [routerLink]="route()" [class]="'card-' + color()">
+  <mat-card-content>
+    <div class="card-icon">
+      <mat-icon>{{ icon() }}</mat-icon>
+    </div>
+
+    <div class="card-info">
+      <h3 class="card-title">{{ title() }}</h3>
+      <p class="card-value">{{ value() }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

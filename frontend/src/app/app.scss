@@ -1,0 +1,16 @@
+@use '../../public/styles/variables' as *;
+@use '../../public/styles/mixins' as *;
+
+.main-content {
+  margin-left: 0;
+  margin-top: 64px;
+  margin-bottom: 64px;
+  min-height: calc(100vh - 128px);
+  background: $background-light;
+
+  @include breakpoint(md) {
+    margin-left: 260px;
+    margin-bottom: 0;
+    min-height: calc(100vh - 64px);
+  }
+}

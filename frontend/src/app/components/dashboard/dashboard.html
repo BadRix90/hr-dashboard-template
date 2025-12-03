@@ -1,1 +1,18 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>HR Dashboard</h1>
+    <p class="text-secondary">Welcome back! Here's your overview.</p>
+  </header>
+
+  <div class="stats-grid">
+    @for (stat of stats; track stat.title) {
+      <app-stats-card
+        [title]="stat.title"
+        [value]="stat.value"
+        [icon]="stat.icon"
+        [route]="stat.route"
+        [color]="stat.color">
+      </app-stats-card>
+    }
+  </div>
+</div>

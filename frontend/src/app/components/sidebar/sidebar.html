@@ -1,1 +1,20 @@
-<p>sidebar works!</p>
+<aside class="sidebar" [class.open]="open()">
+  <div class="sidebar-header">
+    <h2>HR Dashboard</h2>
+  </div>
+
+  <nav class="sidebar-nav">
+    <mat-nav-list>
+      @for (item of navItems; track item.route) {
+        <a
+          mat-list-item
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="nav-item">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </nav>
+</aside>

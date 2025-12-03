@@ -1,0 +1,50 @@
+@use '../../../../public/styles/variables' as *;
+@use '../../../../public/styles/mixins' as *;
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: $background-white;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: $z-index-dropdown;
+
+  @include breakpoint(md) {
+    display: none;
+  }
+}
+
+.nav-item {
+  @include flex-center;
+  @include flex-column;
+  flex: 1;
+  padding: $spacing-xs;
+  text-decoration: none;
+  color: $text-secondary;
+  transition: all 0.2s ease;
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+  }
+
+  .nav-label {
+    font-size: $font-size-tiny;
+    font-weight: $font-weight-medium;
+  }
+
+  &.active {
+    color: $primary-color;
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
+}

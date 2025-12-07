@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TextService } from '../../services/text';
 import { EmployeeService, Employee, EmployeeStats } from '../../services/employee';
@@ -20,7 +21,7 @@ interface TeamMember {
   role: string;
   department: string;
   avatar: string;
-  status: 'online' | 'offline';
+  status: 'office' | 'home' | 'vacation' | 'sick';
   hoursThisWeek: number;
   vacationDays: number;
   email: string;
@@ -38,7 +39,7 @@ interface Department {
 
 @Component({
   selector: 'app-team',
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, MatDialogModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, MatMenuModule, MatDialogModule],
   templateUrl: './team.html',
   styleUrl: './team.scss',
 })
@@ -77,7 +78,7 @@ export class Team implements OnInit {
           role: emp.role,
           department: emp.department,
           avatar: emp.avatar,
-          status: 'online' as const,
+          status: 'office' as const, // Default status, later from backend
           hoursThisWeek: 0,
           vacationDays: emp.vacation_days_available,
           email: emp.user.email,
@@ -274,5 +275,29 @@ export class Team implements OnInit {
         });
       }
     });
+  }
+
+  getStatusText(status: string): string {
+    switch(status) {
+      case 'office': return 'Vor Ort';
+      case 'home': return 'Home Office';
+      case 'vacation': return 'Urlaub';
+      case 'sick': return 'Krank';
+      default: return status;
+    }
+  }
+
+  getStatusIcon(status: string): string {
+    switch(status) {
+      case 'office': return 'business';
+      case 'home': return 'home';
+      case 'vacation': return 'beach_access';
+      case 'sick': return 'sick';
+      default: return 'help';
+    }
+  }
+
+  getStatusClass(status: string): string {
+    return `status-${status}`;
   }
 }

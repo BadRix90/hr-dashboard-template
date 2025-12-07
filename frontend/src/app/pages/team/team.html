@@ -31,42 +31,66 @@
       </div>
     </div>
 
-    <div class="team-grid">
-      @for (member of filteredMembers; track member.id) {
-        <div class="member-card">
-          <div class="member-avatar">
-            <img [src]="member.avatar" [alt]="member.name">
-            <span class="status-indicator" [class.online]="member.status === 'online'"></span>
-          </div>
-          <div class="member-info">
-            <h3>{{ member.name }}</h3>
-            <p class="member-role">{{ member.role }}</p>
-            <p class="member-department">{{ member.department }}</p>
-          </div>
-          <div class="member-stats">
-            <div class="stat-item">
-              <mat-icon>schedule</mat-icon>
-              <span>{{ member.hoursThisWeek }}h</span>
+    @if (loading) {
+      <p>Lade Teammitglieder...</p>
+    } @else if (filteredMembers.length === 0) {
+      <p>Keine Teammitglieder gefunden</p>
+    } @else {
+      <div class="team-list">
+        @for (member of filteredMembers; track member.id) {
+          <div class="member-row">
+            <div class="member-avatar">
+              <img [src]="member.avatar" [alt]="member.name">
             </div>
-            <div class="stat-item">
-              <mat-icon>calendar_today</mat-icon>
-              <span>{{ member.vacationDays }} {{ text.vacation.days }}</span>
+
+            <div class="member-info">
+              <div class="member-name">{{ member.name }}</div>
+              <div class="member-role">{{ member.role }}</div>
+            </div>
+
+            <div class="member-department">
+              {{ member.department }}
+            </div>
+
+            <div class="member-status" [class]="getStatusClass(member.status)">
+              <mat-icon>{{ getStatusIcon(member.status) }}</mat-icon>
+              <span>{{ getStatusText(member.status) }}</span>
+            </div>
+
+            <div class="member-stats">
+              <div class="stat-item">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ member.hoursThisWeek }}h</span>
+              </div>
+              <div class="stat-item">
+                <mat-icon>calendar_today</mat-icon>
+                <span>{{ member.vacationDays }} Tage</span>
+              </div>
+            </div>
+
+            <div class="member-actions">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="viewMember(member.id)">
+                  <mat-icon>visibility</mat-icon>
+                  <span>Ansehen</span>
+                </button>
+                <button mat-menu-item (click)="editMember(member.id)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Bearbeiten</span>
+                </button>
+                <button mat-menu-item (click)="deleteMember(member.id)" class="delete-action">
+                  <mat-icon>delete</mat-icon>
+                  <span>Löschen</span>
+                </button>
+              </mat-menu>
             </div>
           </div>
-          <div class="member-actions">
-            <button mat-icon-button (click)="viewMember(member.id)">
-              <mat-icon>visibility</mat-icon>
-            </button>
-            <button mat-icon-button (click)="editMember(member.id)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteMember(member.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   </div>
 
   <div class="content-section">

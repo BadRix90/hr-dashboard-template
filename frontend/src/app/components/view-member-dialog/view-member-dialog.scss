@@ -1,0 +1,82 @@
+.member-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+
+  .member-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .member-info {
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .member-role {
+      margin: 0.25rem 0 0 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+mat-dialog-content {
+  padding: 2rem 1.5rem !important;
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+
+      mat-icon {
+        color: var(--primary-color);
+        margin-top: 0.25rem;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .label {
+          font-size: 0.875rem;
+          color: var(--text-secondary);
+        }
+
+        .value {
+          font-size: 1rem;
+          color: var(--text-primary);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding: 1rem 1.5rem !important;
+  border-top: 1px solid var(--border-color);
+
+  button mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

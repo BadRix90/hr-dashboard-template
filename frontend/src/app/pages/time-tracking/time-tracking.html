@@ -26,32 +26,38 @@
       <button class="btn-secondary" (click)="addManualEntry()">{{ text.timeTracking.addManualEntry }}</button>
     </div>
 
-    <div class="entries-list">
-      @for (entry of timeEntries; track entry.id) {
-        <div class="entry-item">
-          <div class="entry-date">
-            <mat-icon>calendar_today</mat-icon>
-            <span>{{ entry.date }}</span>
-          </div>
-          <div class="entry-details">
-            <div class="entry-time">
-              <span class="time-range">{{ entry.startTime }} - {{ entry.endTime }}</span>
-              <span class="duration">{{ entry.duration }}{{ text.timeTracking.hours }}</span>
+    @if (loading) {
+      <p>Lade Zeiteinträge...</p>
+    } @else if (timeEntries.length === 0) {
+      <p>Keine Zeiteinträge vorhanden</p>
+    } @else {
+      <div class="entries-list">
+        @for (entry of timeEntries; track entry.id) {
+          <div class="entry-item">
+            <div class="entry-date">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ entry.date }}</span>
             </div>
-            <p class="entry-project" *ngIf="entry.project">{{ entry.project }}</p>
-            <p class="entry-description" *ngIf="entry.description">{{ entry.description }}</p>
+            <div class="entry-details">
+              <div class="entry-time">
+                <span class="time-range">{{ entry.start_time }} - {{ entry.end_time }}</span>
+                <span class="duration">{{ entry.duration }}{{ text.timeTracking.hours }}</span>
+              </div>
+              <p class="entry-project" *ngIf="entry.project">{{ entry.project }}</p>
+              <p class="entry-description" *ngIf="entry.description">{{ entry.description }}</p>
+            </div>
+            <div class="entry-actions">
+              <button mat-icon-button (click)="editEntry(entry.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteEntry(entry.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </div>
-          <div class="entry-actions">
-            <button mat-icon-button (click)="editEntry(entry.id)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteEntry(entry.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   </div>
 
   <div class="content-section">

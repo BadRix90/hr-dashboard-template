@@ -21,20 +21,20 @@
 
   <div class="content-section">
     <h2>{{ text.vacation.requestVacation }}</h2>
-    <form class="vacation-form">
+    <form class="vacation-form" (submit)="submitRequest()">
       <div class="form-row">
         <div class="form-group">
           <label for="startDate">{{ text.vacation.startDate }}</label>
-          <input type="date" id="startDate" required>
+          <input type="date" id="startDate" [(ngModel)]="newRequest.start_date" name="start_date" required>
         </div>
         <div class="form-group">
           <label for="endDate">{{ text.vacation.endDate }}</label>
-          <input type="date" id="endDate" required>
+          <input type="date" id="endDate" [(ngModel)]="newRequest.end_date" name="end_date" required>
         </div>
       </div>
       <div class="form-group">
         <label for="reason">{{ text.vacation.reason }}</label>
-        <textarea id="reason" rows="3"></textarea>
+        <textarea id="reason" rows="3" [(ngModel)]="newRequest.reason" name="reason"></textarea>
       </div>
       <button type="submit" class="btn-primary">{{ text.vacation.submitRequest }}</button>
     </form>
@@ -42,16 +42,22 @@
 
   <div class="content-section">
     <h2>{{ text.vacation.vacationHistory }}</h2>
-    <div class="vacation-list">
-      @for (vacation of vacations; track vacation.id) {
-        <div class="vacation-item">
-          <div class="vacation-info">
-            <span class="vacation-dates">{{ vacation.startDate }} - {{ vacation.endDate }}</span>
-            <span class="vacation-days">{{ vacation.days }} {{ text.vacation.days }}</span>
+    @if (loading) {
+      <p>Lade Urlaubsdaten...</p>
+    } @else if (vacations.length === 0) {
+      <p>Keine Urlaubsanträge vorhanden</p>
+    } @else {
+      <div class="vacation-list">
+        @for (vacation of vacations; track vacation.id) {
+          <div class="vacation-item">
+            <div class="vacation-info">
+              <span class="vacation-dates">{{ vacation.start_date }} - {{ vacation.end_date }}</span>
+              <span class="vacation-days">{{ vacation.days }} {{ text.vacation.days }}</span>
+            </div>
+            <span class="status" [class]="'status-' + vacation.status">{{ getStatusText(vacation.status) }}</span>
           </div>
-          <span class="status" [class]="'status-' + vacation.status">{{ getStatusText(vacation.status) }}</span>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   </div>
 </div>

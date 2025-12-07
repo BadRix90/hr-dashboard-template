@@ -1,0 +1,67 @@
+<div class="member-header">
+  <img [src]="member.avatar" [alt]="member.name" class="member-avatar">
+  <div class="member-info">
+    <h2>{{ member.name }}</h2>
+    <p class="member-role">{{ member.role }}</p>
+  </div>
+</div>
+
+<mat-dialog-content>
+  <div class="info-grid">
+    <div class="info-item">
+      <mat-icon>email</mat-icon>
+      <div>
+        <span class="label">E-Mail</span>
+        <span class="value">{{ member.email }}</span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <mat-icon>phone</mat-icon>
+      <div>
+        <span class="label">Telefon</span>
+        <span class="value">{{ member.phone || 'Nicht angegeben' }}</span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <mat-icon>business</mat-icon>
+      <div>
+        <span class="label">Abteilung</span>
+        <span class="value">{{ member.department }}</span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <mat-icon>work</mat-icon>
+      <div>
+        <span class="label">Rolle</span>
+        <span class="value">{{ member.role }}</span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <mat-icon>calendar_today</mat-icon>
+      <div>
+        <span class="label">Verfügbare Urlaubstage</span>
+        <span class="value">{{ member.vacationDays }} Tage</span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <mat-icon>schedule</mat-icon>
+      <div>
+        <span class="label">Stunden diese Woche</span>
+        <span class="value">{{ member.hoursThisWeek }}h</span>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Schließen</button>
+  <button mat-raised-button color="primary" (click)="onEdit()">
+    <mat-icon>edit</mat-icon>
+    Bearbeiten
+  </button>
+</mat-dialog-actions>

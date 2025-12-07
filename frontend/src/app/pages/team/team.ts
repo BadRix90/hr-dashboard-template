@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TextService } from '../../services/text';
+import { EmployeeService, Employee, EmployeeStats } from '../../services/employee';
+import { AddMemberDialog, MemberFormData } from '../../components/add-member-dialog/add-member-dialog';
+import { ViewMemberDialog, MemberData } from '../../components/view-member-dialog/view-member-dialog';
+import { EditMemberDialog, EditMemberData } from '../../components/edit-member-dialog/edit-member-dialog';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 interface TeamMember {
   id: number;
@@ -15,6 +22,11 @@ interface TeamMember {
   hoursThisWeek: number;
   vacationDays: number;
   email: string;
+  phone: string;
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  vacation_days_total: number;
 }
 
 interface Department {
@@ -24,97 +36,89 @@ interface Department {
 
 @Component({
   selector: 'app-team',
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, MatDialogModule],
   templateUrl: './team.html',
   styleUrl: './team.scss',
 })
-export class Team {
+export class Team implements OnInit {
   text: TextService;
   searchTerm = '';
-  totalMembers = 24;
-  activeToday = 20;
-  onVacation = 3;
+  totalMembers = 0;
+  activeToday = 0;
+  onVacation = 0;
 
-  members: TeamMember[] = [
-    {
-      id: 1,
-      name: 'Max Mustermann',
-      role: 'Senior Developer',
-      department: 'Engineering',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
-      status: 'online',
-      hoursThisWeek: 38.5,
-      vacationDays: 12,
-      email: 'max.mustermann@company.com'
-    },
-    {
-      id: 2,
-      name: 'Anna Schmidt',
-      role: 'Product Manager',
-      department: 'Product',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna',
-      status: 'online',
-      hoursThisWeek: 40,
-      vacationDays: 15,
-      email: 'anna.schmidt@company.com'
-    },
-    {
-      id: 3,
-      name: 'Tom Weber',
-      role: 'UX Designer',
-      department: 'Design',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Tom',
-      status: 'offline',
-      hoursThisWeek: 35,
-      vacationDays: 8,
-      email: 'tom.weber@company.com'
-    },
-    {
-      id: 4,
-      name: 'Lisa Müller',
-      role: 'HR Manager',
-      department: 'HR',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa',
-      status: 'online',
-      hoursThisWeek: 37,
-      vacationDays: 10,
-      email: 'lisa.mueller@company.com'
-    },
-    {
-      id: 5,
-      name: 'David Klein',
-      role: 'Backend Developer',
-      department: 'Engineering',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David',
-      status: 'online',
-      hoursThisWeek: 42,
-      vacationDays: 5,
-      email: 'david.klein@company.com'
-    },
-    {
-      id: 6,
-      name: 'Sarah Wagner',
-      role: 'Marketing Lead',
-      department: 'Marketing',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
-      status: 'online',
-      hoursThisWeek: 39,
-      vacationDays: 18,
-      email: 'sarah.wagner@company.com'
-    }
-  ];
+  members: TeamMember[] = [];
+  departments: Department[] = [];
+  loading = true;
 
-  departments: Department[] = [
-    { name: 'Engineering', count: 10 },
-    { name: 'Product', count: 4 },
-    { name: 'Design', count: 3 },
-    { name: 'HR', count: 2 },
-    { name: 'Marketing', count: 3 },
-    { name: 'Sales', count: 2 }
-  ];
-
-  constructor(textService: TextService) {
+  constructor(
+    textService: TextService,
+    private employeeService: EmployeeService,
+    private dialog: MatDialog,
+    private http: HttpClient
+  ) {
     this.text = textService;
+  }
+
+  ngOnInit() {
+    this.loadEmployees();
+    this.loadStats();
+  }
+
+  loadEmployees() {
+    this.employeeService.getAll().subscribe({
+      next: (employees: Employee[]) => {
+        this.members = employees.map(emp => ({
+          id: emp.id,
+          name: `${emp.user.first_name} ${emp.user.last_name}`,
+          role: emp.role,
+          department: emp.department,
+          avatar: emp.avatar,
+          status: 'online' as const,
+          hoursThisWeek: 0,
+          vacationDays: emp.vacation_days_available,
+          email: emp.user.email,
+          phone: emp.phone,
+          user_id: emp.user.id,
+          first_name: emp.user.first_name,
+          last_name: emp.user.last_name,
+          vacation_days_total: emp.vacation_days_total
+        }));
+        this.calculateDepartments();
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading employees:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  loadStats() {
+    this.employeeService.getStats().subscribe({
+      next: (stats: EmployeeStats) => {
+        this.totalMembers = stats.total_members;
+        this.activeToday = stats.active_today;
+        this.onVacation = stats.on_vacation;
+      },
+      error: (error) => {
+        console.error('Error loading stats:', error);
+      }
+    });
+  }
+
+  calculateDepartments() {
+    const deptMap = new Map<string, number>();
+
+    this.members.forEach(member => {
+      const count = deptMap.get(member.department) || 0;
+      deptMap.set(member.department, count + 1);
+    });
+
+    this.departments = Array.from(deptMap.entries()).map(([name, count]) => ({
+      name,
+      count
+    }));
   }
 
   get filteredMembers(): TeamMember[] {
@@ -131,18 +135,126 @@ export class Team {
   }
 
   addMember() {
-    console.log('Add member');
+    const dialogRef = this.dialog.open(AddMemberDialog, {
+      width: '600px',
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe((result: MemberFormData) => {
+      if (result) {
+        this.createEmployee(result);
+      }
+    });
+  }
+
+  createEmployee(data: MemberFormData) {
+    this.http.post(`${environment.apiUrl}/employees/create_with_user/`, data).subscribe({
+      next: (employee: any) => {
+        console.log('Employee created:', employee);
+        this.loadEmployees();
+        this.loadStats();
+        alert('Mitarbeiter erfolgreich erstellt');
+      },
+      error: (error) => {
+        console.error('Error creating employee:', error);
+        alert('Fehler beim Erstellen des Mitarbeiters');
+      }
+    });
   }
 
   viewMember(id: number) {
-    console.log('View member', id);
+    const member = this.members.find(m => m.id === id);
+    if (!member) return;
+
+    const memberData: MemberData = {
+      id: member.id,
+      name: member.name,
+      email: member.email,
+      phone: member.phone,
+      department: member.department,
+      role: member.role,
+      avatar: member.avatar,
+      vacationDays: member.vacationDays,
+      hoursThisWeek: member.hoursThisWeek
+    };
+
+    const dialogRef = this.dialog.open(ViewMemberDialog, {
+      width: '600px',
+      data: memberData
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'edit') {
+        this.editMember(id);
+      }
+    });
   }
 
   editMember(id: number) {
-    console.log('Edit member', id);
+    const member = this.members.find(m => m.id === id);
+    if (!member) return;
+
+    const editData: EditMemberData = {
+      id: member.id,
+      first_name: member.first_name,
+      last_name: member.last_name,
+      email: member.email,
+      phone: member.phone,
+      department: member.department,
+      role: member.role,
+      vacation_days_total: member.vacation_days_total
+    };
+
+    const dialogRef = this.dialog.open(EditMemberDialog, {
+      width: '600px',
+      data: editData
+    });
+
+    dialogRef.afterClosed().subscribe((result: EditMemberData) => {
+      if (result) {
+        this.updateEmployee(result);
+      }
+    });
+  }
+
+  updateEmployee(data: EditMemberData) {
+    const updatePayload = {
+      user: {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email
+      },
+      phone: data.phone,
+      department: data.department,
+      role: data.role,
+      vacation_days_total: data.vacation_days_total
+    };
+
+    this.http.patch(`${environment.apiUrl}/employees/${data.id}/update_with_user/`, updatePayload).subscribe({
+      next: () => {
+        this.loadEmployees();
+        alert('Mitarbeiter erfolgreich aktualisiert');
+      },
+      error: (error) => {
+        console.error('Error updating employee:', error);
+        alert('Fehler beim Aktualisieren des Mitarbeiters');
+      }
+    });
   }
 
   deleteMember(id: number) {
-    console.log('Delete member', id);
+    if (!confirm('Mitarbeiter wirklich löschen?')) return;
+
+    this.employeeService.delete(id).subscribe({
+      next: () => {
+        this.loadEmployees();
+        this.loadStats();
+        alert('Mitarbeiter gelöscht');
+      },
+      error: (error) => {
+        console.error('Error deleting employee:', error);
+        alert('Fehler beim Löschen');
+      }
+    });
   }
 }

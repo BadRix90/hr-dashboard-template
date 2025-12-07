@@ -1,17 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { TextService } from '../../services/text';
-
-interface Notification {
-  id: number;
-  type: 'vacation' | 'time' | 'team' | 'system';
-  title: string;
-  message: string;
-  time: string;
-  read: boolean;
-}
+import { NotificationService, Notification } from '../../services/notification';
 
 @Component({
   selector: 'app-notification-dropdown',
@@ -19,47 +11,34 @@ interface Notification {
   templateUrl: './notification-dropdown.html',
   styleUrl: './notification-dropdown.scss',
 })
-export class NotificationDropdown {
+export class NotificationDropdown implements OnInit {
   isOpen = false;
   text: TextService;
+  notifications: Notification[] = [];
+  loading = true;
 
-  notifications: Notification[] = [
-    {
-      id: 1,
-      type: 'vacation',
-      title: 'Urlaubsantrag genehmigt',
-      message: 'Dein Urlaubsantrag für 20.-27. Dez wurde genehmigt',
-      time: 'vor 2 Stunden',
-      read: false
-    },
-    {
-      id: 2,
-      type: 'time',
-      title: 'Zeiterfassungs-Erinnerung',
-      message: 'Vergiss nicht, deine Stunden von gestern zu erfassen',
-      time: 'vor 5 Stunden',
-      read: false
-    },
-    {
-      id: 3,
-      type: 'team',
-      title: 'Neues Teammitglied',
-      message: 'Sarah Wagner ist dem Marketing-Team beigetreten',
-      time: 'vor 1 Tag',
-      read: true
-    },
-    {
-      id: 4,
-      type: 'system',
-      title: 'System-Update',
-      message: 'Das HR-System wird heute Nacht um 23 Uhr aktualisiert',
-      time: 'vor 2 Tagen',
-      read: true
-    }
-  ];
-
-  constructor(textService: TextService) {
+  constructor(
+    textService: TextService,
+    private notificationService: NotificationService
+  ) {
     this.text = textService;
+  }
+
+  ngOnInit() {
+    this.loadNotifications();
+  }
+
+  loadNotifications() {
+    this.notificationService.getAll().subscribe({
+      next: (notifications) => {
+        this.notifications = notifications;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading notifications:', error);
+        this.loading = false;
+      }
+    });
   }
 
   get unreadCount(): number {
@@ -76,13 +55,30 @@ export class NotificationDropdown {
 
   markAsRead(id: number) {
     const notification = this.notifications.find(n => n.id === id);
-    if (notification) {
-      notification.read = true;
-    }
+    if (!notification || notification.read) return;
+
+    this.notificationService.markAsRead(id).subscribe({
+      next: (updatedNotification) => {
+        const index = this.notifications.findIndex(n => n.id === id);
+        if (index !== -1) {
+          this.notifications[index] = updatedNotification;
+        }
+      },
+      error: (error) => {
+        console.error('Error marking notification as read:', error);
+      }
+    });
   }
 
   markAllAsRead() {
-    this.notifications.forEach(n => n.read = true);
+    this.notificationService.markAllAsRead().subscribe({
+      next: () => {
+        this.notifications = this.notifications.map(n => ({ ...n, read: true }));
+      },
+      error: (error) => {
+        console.error('Error marking all as read:', error);
+      }
+    });
   }
 
   viewAllNotifications() {
@@ -98,6 +94,22 @@ export class NotificationDropdown {
       system: 'settings'
     };
     return icons[type] || 'notifications';
+  }
+
+  getTimeAgo(dateString: string): string {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+
+    if (diffMins < 1) return 'Gerade eben';
+    if (diffMins < 60) return `vor ${diffMins} Min.`;
+
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `vor ${diffHours} Std.`;
+
+    const diffDays = Math.floor(diffHours / 24);
+    return `vor ${diffDays} Tag${diffDays > 1 ? 'en' : ''}`;
   }
 
   @HostListener('document:click', ['$event'])

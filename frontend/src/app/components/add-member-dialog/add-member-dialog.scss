@@ -1,0 +1,185 @@
+h2[mat-dialog-title] {
+  margin: 0;
+  padding: 1.5rem 1.5rem 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.member-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+
+  .form-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.25rem;
+
+    h3 {
+      margin: 0 0 1.25rem 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #00BCD4;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    ::ng-deep .mat-mdc-form-field {
+      width: 100%;
+      margin-bottom: 0.5rem;
+
+      .mat-mdc-text-field-wrapper {
+        background: white;
+        border-radius: 8px;
+      }
+
+      .mat-mdc-form-field-flex {
+        background: white;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+        padding: 0.5rem 1rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #00BCD4;
+        }
+      }
+
+      &.mat-focused .mat-mdc-form-field-flex {
+        border-color: #00BCD4;
+        box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+      }
+
+      .mat-mdc-notch-piece {
+        display: none;
+      }
+
+      .mat-mdc-form-field-infix {
+        padding: 0.75rem 0;
+        border: none;
+        min-height: auto;
+      }
+
+      input, .mat-mdc-select {
+        font-size: 0.95rem;
+        color: #333;
+        cursor: text;
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+
+      .mat-mdc-select {
+        cursor: pointer;
+      }
+
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+
+      label {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      &.mat-focused label {
+        color: #00BCD4;
+      }
+    }
+
+    .error-message {
+      display: block;
+      color: #f44336;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 0.25rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+
+      ::ng-deep .mat-mdc-form-field {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+mat-dialog-content {
+  padding: 1.5rem !important;
+  max-height: 65vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #00BCD4;
+    border-radius: 3px;
+
+    &:hover {
+      background: #0097A7;
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding: 1rem 1.5rem !important;
+  border-top: 1px solid #e0e0e0;
+  gap: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    min-width: 100px;
+    height: 42px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 640px) {
+  .member-form {
+    .form-section .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Dropdown Panel Fix
+::ng-deep .mat-mdc-select-panel {
+  background: white !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 0.5rem;
+
+  .mat-mdc-option {
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+
+    &:hover {
+      background: #f0f0f0 !important;
+    }
+
+    &.mat-mdc-option-active {
+      background: #e3f2fd !important;
+    }
+  }
+}

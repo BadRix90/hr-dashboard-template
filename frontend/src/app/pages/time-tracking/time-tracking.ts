@@ -3,16 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TextService } from '../../services/text';
-
-interface TimeEntry {
-  id: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-  duration: number;
-  project?: string;
-  description?: string;
-}
+import { TimeTrackingService, TimeEntry, WeeklyStats } from '../../services/time-tracking';
 
 interface WeekDay {
   day: string;
@@ -29,64 +20,74 @@ export class TimeTracking implements OnInit, OnDestroy {
   text: TextService;
   currentTime = '00:00:00';
   isTracking = false;
-  todayHours = 7.5;
-  weekHours = 38.5;
+  todayHours = 0;
+  weekHours = 0;
 
   private timerInterval: any;
   private startTime: Date | null = null;
 
-  timeEntries: TimeEntry[] = [
-    {
-      id: 1,
-      date: '2024-12-03',
-      startTime: '09:00',
-      endTime: '17:30',
-      duration: 8.5,
-      project: 'HR Dashboard',
-      description: 'Frontend-Entwicklung'
-    },
-    {
-      id: 2,
-      date: '2024-12-02',
-      startTime: '08:30',
-      endTime: '16:00',
-      duration: 7.5,
-      project: 'HR Dashboard',
-      description: 'Backend API Setup'
-    },
-    {
-      id: 3,
-      date: '2024-12-01',
-      startTime: '09:00',
-      endTime: '17:00',
-      duration: 8.0,
-      project: 'Kunden-Meeting'
-    }
-  ];
+  timeEntries: TimeEntry[] = [];
+  weekData: WeekDay[] = [];
+  loading = true;
 
-  weekData: WeekDay[];
-
-  constructor(textService: TextService) {
+  constructor(
+    textService: TextService,
+    private timeTrackingService: TimeTrackingService
+  ) {
     this.text = textService;
-    this.weekData = [
-      { day: this.text.weekDays.short.mon, hours: 8.5 },
-      { day: this.text.weekDays.short.tue, hours: 7.5 },
-      { day: this.text.weekDays.short.wed, hours: 8.0 },
-      { day: this.text.weekDays.short.thu, hours: 7.5 },
-      { day: this.text.weekDays.short.fri, hours: 7.0 },
-      { day: this.text.weekDays.short.sat, hours: 0 },
-      { day: this.text.weekDays.short.sun, hours: 0 }
-    ];
   }
 
   ngOnInit() {
-    this.updateCurrentTime();
+    this.loadTimeEntries();
+    this.loadWeeklyStats();
   }
 
   ngOnDestroy() {
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
     }
+  }
+
+  loadTimeEntries() {
+    this.timeTrackingService.getAll().subscribe({
+      next: (entries: TimeEntry[]) => {
+        this.timeEntries = entries;
+        this.calculateTodayHours();
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading time entries:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  loadWeeklyStats() {
+    this.timeTrackingService.getWeeklyStats().subscribe({
+      next: (stats: WeeklyStats[]) => {
+        this.weekData = stats;
+        this.weekHours = stats.reduce((sum, day) => sum + day.hours, 0);
+      },
+      error: (error) => {
+        console.error('Error loading weekly stats:', error);
+        // Fallback to empty week data
+        this.weekData = [
+          { day: this.text.weekDays.short.mon, hours: 0 },
+          { day: this.text.weekDays.short.tue, hours: 0 },
+          { day: this.text.weekDays.short.wed, hours: 0 },
+          { day: this.text.weekDays.short.thu, hours: 0 },
+          { day: this.text.weekDays.short.fri, hours: 0 },
+          { day: this.text.weekDays.short.sat, hours: 0 },
+          { day: this.text.weekDays.short.sun, hours: 0 }
+        ];
+      }
+    });
+  }
+
+  calculateTodayHours() {
+    const today = new Date().toISOString().split('T')[0];
+    const todayEntries = this.timeEntries.filter(entry => entry.date === today);
+    this.todayHours = todayEntries.reduce((sum, entry) => sum + entry.duration, 0);
   }
 
   startTracking() {
@@ -136,6 +137,16 @@ export class TimeTracking implements OnInit, OnDestroy {
   }
 
   deleteEntry(id: number) {
-    console.log('Delete entry', id);
+    this.timeTrackingService.delete(id).subscribe({
+      next: () => {
+        this.timeEntries = this.timeEntries.filter(entry => entry.id !== id);
+        this.calculateTodayHours();
+        this.loadWeeklyStats();
+      },
+      error: (error) => {
+        console.error('Error deleting entry:', error);
+        alert('Fehler beim Löschen des Eintrags');
+      }
+    });
   }
 }

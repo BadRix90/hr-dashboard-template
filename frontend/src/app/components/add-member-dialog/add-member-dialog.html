@@ -1,0 +1,127 @@
+<h2 mat-dialog-title>{{ text.team.addMember }}</h2>
+
+<mat-dialog-content>
+  <form class="member-form">
+    <div class="form-section">
+      <h3>Benutzer-Daten</h3>
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [(ngModel)]="formData.username"
+          name="username"
+          (blur)="validateUsername()"
+          placeholder="Benutzername *"
+          required>
+        @if (errors.username) {
+          <span class="error-message">{{ errors.username }}</span>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          type="email"
+          [(ngModel)]="formData.email"
+          name="email"
+          (blur)="validateEmail()"
+          placeholder="E-Mail *"
+          required>
+        @if (errors.email) {
+          <span class="error-message">{{ errors.email }}</span>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          type="password"
+          [(ngModel)]="formData.password"
+          name="password"
+          (blur)="validatePassword()"
+          placeholder="Passwort (mind. 6 Zeichen) *"
+          required>
+        @if (errors.password) {
+          <span class="error-message">{{ errors.password }}</span>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="form-section">
+      <h3>Persönliche Daten</h3>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [(ngModel)]="formData.first_name"
+            name="first_name"
+            (blur)="validateFirstName()"
+            placeholder="Vorname *"
+            required>
+          @if (errors.first_name) {
+            <span class="error-message">{{ errors.first_name }}</span>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [(ngModel)]="formData.last_name"
+            name="last_name"
+            (blur)="validateLastName()"
+            placeholder="Nachname *"
+            required>
+          @if (errors.last_name) {
+            <span class="error-message">{{ errors.last_name }}</span>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [(ngModel)]="formData.phone"
+          name="phone"
+          (blur)="validatePhone()"
+          placeholder="Telefon (z.B. +49 123 456789)">
+        @if (errors.phone) {
+          <span class="error-message">{{ errors.phone }}</span>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="form-section">
+      <h3>Arbeitsplatz</h3>
+      <mat-form-field appearance="outline">
+        <mat-select [(ngModel)]="formData.department" name="department" placeholder="Abteilung *" required>
+          @for (dept of departments; track dept) {
+            <mat-option [value]="dept">{{ dept }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-select [(ngModel)]="formData.role" name="role" placeholder="Rolle *" required>
+          @for (role of roles; track role) {
+            <mat-option [value]="role">{{ role }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="formData.vacation_days_total"
+          name="vacation_days_total"
+          min="0"
+          max="365"
+          placeholder="Urlaubstage pro Jahr">
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{ text.common.cancel }}</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">{{ text.common.save }}</button>
+</mat-dialog-actions>

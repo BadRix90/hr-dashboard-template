@@ -1,0 +1,24 @@
+<div class="delete-dialog">
+  <div class="dialog-icon">
+    <mat-icon>warning</mat-icon>
+  </div>
+
+  <h2 mat-dialog-title>Mitarbeiter löschen?</h2>
+
+  <mat-dialog-content>
+    <p class="warning-text">
+      Möchtest du <strong>{{ data.name }}</strong> wirklich löschen?
+    </p>
+    <p class="info-text">
+      Diese Aktion kann nicht rückgängig gemacht werden. Alle Daten des Mitarbeiters werden permanent gelöscht.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Abbrechen</button>
+    <button mat-raised-button color="warn" (click)="onConfirm()">
+      <mat-icon>delete</mat-icon>
+      Löschen
+    </button>
+  </mat-dialog-actions>
+</div>

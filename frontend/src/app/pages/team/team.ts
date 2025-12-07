@@ -9,6 +9,8 @@ import { EmployeeService, Employee, EmployeeStats } from '../../services/employe
 import { AddMemberDialog, MemberFormData } from '../../components/add-member-dialog/add-member-dialog';
 import { ViewMemberDialog, MemberData } from '../../components/view-member-dialog/view-member-dialog';
 import { EditMemberDialog, EditMemberData } from '../../components/edit-member-dialog/edit-member-dialog';
+import { DeleteMemberDialog, DeleteMemberData } from '../../components/delete-member-dialog/delete-member-dialog';
+import { ToastService } from '../../services/toast';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
@@ -55,7 +57,8 @@ export class Team implements OnInit {
     textService: TextService,
     private employeeService: EmployeeService,
     private dialog: MatDialog,
-    private http: HttpClient
+    private http: HttpClient,
+    private toast: ToastService
   ) {
     this.text = textService;
   }
@@ -153,11 +156,11 @@ export class Team implements OnInit {
         console.log('Employee created:', employee);
         this.loadEmployees();
         this.loadStats();
-        alert('Mitarbeiter erfolgreich erstellt');
+        this.toast.success('Mitarbeiter erfolgreich erstellt');
       },
       error: (error) => {
         console.error('Error creating employee:', error);
-        alert('Fehler beim Erstellen des Mitarbeiters');
+        this.toast.error('Fehler beim Erstellen des Mitarbeiters');
       }
     });
   }
@@ -233,27 +236,42 @@ export class Team implements OnInit {
     this.http.patch(`${environment.apiUrl}/employees/${data.id}/update_with_user/`, updatePayload).subscribe({
       next: () => {
         this.loadEmployees();
-        alert('Mitarbeiter erfolgreich aktualisiert');
+        this.toast.success('Mitarbeiter erfolgreich aktualisiert');
       },
       error: (error) => {
         console.error('Error updating employee:', error);
-        alert('Fehler beim Aktualisieren des Mitarbeiters');
+        this.toast.error('Fehler beim Aktualisieren des Mitarbeiters');
       }
     });
   }
 
   deleteMember(id: number) {
-    if (!confirm('Mitarbeiter wirklich löschen?')) return;
+    const member = this.members.find(m => m.id === id);
+    if (!member) return;
 
-    this.employeeService.delete(id).subscribe({
-      next: () => {
-        this.loadEmployees();
-        this.loadStats();
-        alert('Mitarbeiter gelöscht');
-      },
-      error: (error) => {
-        console.error('Error deleting employee:', error);
-        alert('Fehler beim Löschen');
+    const deleteData: DeleteMemberData = {
+      id: member.id,
+      name: member.name
+    };
+
+    const dialogRef = this.dialog.open(DeleteMemberDialog, {
+      width: '450px',
+      data: deleteData
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.employeeService.delete(id).subscribe({
+          next: () => {
+            this.loadEmployees();
+            this.loadStats();
+            this.toast.success(`${member.name} wurde gelöscht`);
+          },
+          error: (error) => {
+            console.error('Error deleting employee:', error);
+            this.toast.error('Fehler beim Löschen des Mitarbeiters');
+          }
+        });
       }
     });
   }

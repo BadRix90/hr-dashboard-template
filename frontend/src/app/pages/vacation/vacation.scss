@@ -60,10 +60,50 @@
   @include card-base;
   margin-bottom: $spacing-lg;
 
-  h2 {
-    font-size: $font-size-h4;
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: $spacing-lg;
-    color: $text-primary;
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-h4;
+      color: $text-primary;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding: $spacing-sm $spacing-xl;
+      background: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: $font-size-body;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 188, 212, 0.3);
+
+      &:hover {
+        background: darken($primary-color, 10%);
+        box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 188, 212, 0.3);
+      }
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 }
 
@@ -107,72 +147,116 @@
       resize: vertical;
     }
   }
-
-  .btn-primary {
-    @include button-base;
-    background: $primary-color;
-    color: white;
-    padding: $spacing-md $spacing-xl;
-
-    &:hover {
-      background: darken($primary-color, 10%);
-    }
-  }
 }
 
 .vacation-list {
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
-}
 
-.vacation-item {
-  @include flex-between;
-  padding: $spacing-md;
-  border: 1px solid #eee;
-  border-radius: $border-radius-sm;
-  transition: all 0.2s ease;
+  .vacation-item {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr auto;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border: 1px solid #eee;
+    border-radius: $border-radius-sm;
+    transition: all 0.2s ease;
 
-  &:hover {
-    border-color: $primary-color;
-    background: $hover-overlay;
+    &:hover {
+      border-color: $primary-color;
+      background: $hover-overlay;
+    }
+
+    .vacation-dates {
+      .date-range {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        font-weight: $font-weight-medium;
+        color: $text-primary;
+        margin-bottom: $spacing-xs;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          color: $primary-color;
+        }
+      }
+
+      .days-count {
+        font-size: $font-size-small;
+        color: $text-secondary;
+        margin-left: 1.5rem;
+      }
+    }
+
+    .vacation-info {
+      .reason {
+        font-size: $font-size-small;
+        color: $text-secondary;
+
+        strong {
+          color: $text-primary;
+        }
+      }
+    }
+
+    .vacation-status {
+      .status-badge {
+        display: inline-flex;
+        padding: $spacing-xs $spacing-md;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+
+        &.status-pending {
+          background: rgba($warning-color, 0.1);
+          color: $warning-color;
+        }
+
+        &.status-approved {
+          background: rgba($success-color, 0.1);
+          color: $success-color;
+        }
+
+        &.status-rejected {
+          background: rgba($error-color, 0.1);
+          color: $error-color;
+        }
+      }
+    }
+
+    .vacation-actions {
+      display: flex;
+      gap: $spacing-xs;
+
+      button {
+        color: $text-secondary;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
   }
 }
 
-.vacation-info {
-  @include flex-column;
-  gap: $spacing-xs;
+@media (max-width: 768px) {
+  .content-section .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
 
-  .vacation-dates {
-    font-weight: $font-weight-medium;
-    color: $text-primary;
+    .btn-primary {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
-  .vacation-days {
-    font-size: $font-size-small;
-    color: $text-secondary;
-  }
-}
-
-.status {
-  padding: $spacing-xs $spacing-md;
-  border-radius: $border-radius-sm;
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
-  text-transform: uppercase;
-
-  &.status-pending {
-    background: rgba($warning-color, 0.1);
-    color: $warning-color;
-  }
-
-  &.status-approved {
-    background: rgba($success-color, 0.1);
-    color: $success-color;
-  }
-
-  &.status-rejected {
-    background: rgba($error-color, 0.1);
-    color: $error-color;
+  .vacation-list .vacation-item {
+    grid-template-columns: 1fr;
   }
 }

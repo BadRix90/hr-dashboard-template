@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TextService } from '../../services/text';
-import { VacationService, VacationRequest, VacationRequestCreate } from '../../services/vacation';
+import { VacationService, VacationRequest } from '../../services/vacation';
 import { EmployeeService, Employee } from '../../services/employee';
+import { CreateVacationDialog, VacationFormData } from '../../components/create-vacation-dialog/create-vacation-dialog';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-vacation',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, MatDialogModule],
   templateUrl: './vacation.html',
   styleUrl: './vacation.scss',
 })
@@ -16,20 +21,17 @@ export class Vacation implements OnInit {
   availableDays = 0;
   usedDays = 0;
   pendingRequests = 0;
+  employeeId = 0;
 
   vacations: VacationRequest[] = [];
   loading = true;
 
-  newRequest: VacationRequestCreate = {
-    start_date: '',
-    end_date: '',
-    reason: ''
-  };
-
   constructor(
     textService: TextService,
     private vacationService: VacationService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private dialog: MatDialog,
+    private toast: ToastService
   ) {
     this.text = textService;
   }
@@ -44,15 +46,18 @@ export class Vacation implements OnInit {
       next: (employee: Employee) => {
         this.availableDays = employee.vacation_days_available;
         this.usedDays = employee.vacation_days_used;
+        this.employeeId = employee.id;
       },
       error: (error) => {
         console.error('Error loading employee data:', error);
-        // Fallback to first employee if "me" endpoint fails
+        // Fallback to first employee
         this.employeeService.getAll().subscribe({
-          next: (employees) => {
+          next: (employees: Employee[]) => {
             if (employees.length > 0) {
-              this.availableDays = employees[0].vacation_days_available;
-              this.usedDays = employees[0].vacation_days_used;
+              const emp = employees[0];
+              this.availableDays = emp.vacation_days_available;
+              this.usedDays = emp.vacation_days_used;
+              this.employeeId = emp.id;
             }
           }
         });
@@ -74,31 +79,45 @@ export class Vacation implements OnInit {
     });
   }
 
-  submitRequest() {
-    if (!this.newRequest.start_date || !this.newRequest.end_date) {
-      alert('Bitte Start- und Enddatum auswählen');
-      return;
-    }
+  openCreateDialog() {
+    const dialogRef = this.dialog.open(CreateVacationDialog, {
+      width: '600px',
+      data: {
+        employee_id: this.employeeId,
+        available_days: this.availableDays
+      }
+    });
 
-    this.vacationService.create(this.newRequest).subscribe({
-      next: (vacation) => {
-        this.vacations.unshift(vacation);
-        this.pendingRequests++;
-        this.newRequest = { start_date: '', end_date: '', reason: '' };
-        alert('Urlaubsantrag erfolgreich erstellt');
-      },
-      error: (error) => {
-        console.error('Error creating vacation request:', error);
-        alert('Fehler beim Erstellen des Antrags');
+    dialogRef.afterClosed().subscribe((result: VacationFormData) => {
+      if (result) {
+        this.createVacationRequest(result);
       }
     });
   }
 
+  createVacationRequest(data: VacationFormData) {
+    this.vacationService.create(data).subscribe({
+      next: () => {
+        this.loadVacations();
+        this.loadEmployeeData();
+        this.toast.success('Urlaubsantrag erfolgreich gestellt');
+      },
+      error: (error) => {
+        console.error('Error creating vacation request:', error);
+        this.toast.error('Fehler beim Erstellen des Urlaubsantrags');
+      }
+    });
+  }
+
+  getStatusClass(status: string): string {
+    return `status-${status}`;
+  }
+
   getStatusText(status: string): string {
     switch(status) {
-      case 'pending': return this.text.vacation.status.pending;
-      case 'approved': return this.text.vacation.status.approved;
-      case 'rejected': return this.text.vacation.status.rejected;
+      case 'pending': return 'Ausstehend';
+      case 'approved': return 'Genehmigt';
+      case 'rejected': return 'Abgelehnt';
       default: return status;
     }
   }

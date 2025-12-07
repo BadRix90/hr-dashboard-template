@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>Urlaubsantrag stellen</h2>
+
+<mat-dialog-content>
+  <form class="vacation-form">
+    <div class="form-section">
+      <h3>Zeitraum</h3>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="startPicker"
+            [(ngModel)]="startDate"
+            (ngModelChange)="onStartDateChange()"
+            name="start_date"
+            placeholder="Startdatum *"
+            [min]="minDate"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          @if (errors.start_date) {
+            <span class="error-message">{{ errors.start_date }}</span>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="endPicker"
+            [(ngModel)]="endDate"
+            (ngModelChange)="onEndDateChange()"
+            name="end_date"
+            placeholder="Enddatum *"
+            [min]="startDate || minDate"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          @if (errors.end_date) {
+            <span class="error-message">{{ errors.end_date }}</span>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="info-box">
+        <div class="info-item">
+          <span class="label">Berechnete Urlaubstage:</span>
+          <span class="value">{{ calculatedDays }} Tage</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Verfügbare Urlaubstage:</span>
+          <span class="value">{{ data.available_days }} Tage</span>
+        </div>
+        @if (errors.days) {
+          <span class="error-message">{{ errors.days }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Begründung (optional)</h3>
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          [(ngModel)]="reason"
+          name="reason"
+          placeholder="Grund für den Urlaub..."
+          rows="4">
+        </textarea>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{ text.common.cancel }}</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Antrag stellen</button>
+</mat-dialog-actions>

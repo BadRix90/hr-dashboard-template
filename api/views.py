@@ -37,11 +37,83 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     def stats(self, request):
         """Dashboard Statistiken"""
         total = Employee.objects.count()
+        # Count pending vacation requests as "on vacation"
+        from .models import VacationRequest
+        on_vacation = VacationRequest.objects.filter(status='approved').count()
+        
         return Response({
             'total_members': total,
-            'active_today': total - 3,  # Mock-Daten
-            'on_vacation': 3
+            'active_today': total,  # All employees active (no real tracking yet)
+            'on_vacation': on_vacation
         })
+
+    @action(detail=False, methods=['post'])
+    def create_with_user(self, request):
+        """Create User and Employee in one request"""
+        data = request.data
+        
+        # Create User
+        try:
+            user = User.objects.create_user(
+                username=data.get('username'),
+                email=data.get('email'),
+                password=data.get('password'),
+                first_name=data.get('first_name'),
+                last_name=data.get('last_name')
+            )
+        except Exception as e:
+            return Response(
+                {'error': f'User creation failed: {str(e)}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Create Employee
+        try:
+            employee = Employee.objects.create(
+                user=user,
+                phone=data.get('phone', ''),
+                department=data.get('department'),
+                role=data.get('role'),
+                avatar=data.get('avatar', ''),
+                vacation_days_total=data.get('vacation_days_total', 30),
+                vacation_days_used=0
+            )
+            
+            serializer = self.get_serializer(employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            # Rollback: delete user if employee creation fails
+            user.delete()
+            return Response(
+                {'error': f'Employee creation failed: {str(e)}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    @action(detail=True, methods=['patch'])
+    def update_with_user(self, request, pk=None):
+        """Update User and Employee"""
+        employee = self.get_object()
+        data = request.data
+        
+        # Update User if data provided
+        if 'user' in data:
+            user_data = data['user']
+            user = employee.user
+            user.first_name = user_data.get('first_name', user.first_name)
+            user.last_name = user_data.get('last_name', user.last_name)
+            user.email = user_data.get('email', user.email)
+            user.save()
+        
+        # Update Employee
+        employee.phone = data.get('phone', employee.phone)
+        employee.department = data.get('department', employee.department)
+        employee.role = data.get('role', employee.role)
+        employee.vacation_days_total = data.get('vacation_days_total', employee.vacation_days_total)
+        employee.save()
+        
+        serializer = self.get_serializer(employee)
+        return Response(serializer.data)
 
 
 class VacationRequestViewSet(viewsets.ModelViewSet):
@@ -138,7 +210,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Filter für aktuellen User"""
-        # return self.queryset.filter(employee=self.request.user.employee)
+        # Später: return self.queryset.filter(employee=self.request.user.employee)
         return self.queryset.all()
 
     @action(detail=False, methods=['post'])
